@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -89,7 +88,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8Lf-9Q-eG5">
                                                     <rect key="frame" x="108" y="5" width="60" height="60"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="60" id="4Wb-5S-uz7"/>
+                                                        <constraint firstAttribute="width" constant="60" id="2Ew-f9-Vyz"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="名古屋" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tIm-j9-RDl">
@@ -112,20 +111,20 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                                     <state key="normal" title="∨"/>
                                                 </button>
-                                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AIO-Xx-3og">
-                                                    <rect key="frame" x="0.0" y="73" width="600" height="118"/>
+                                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AIO-Xx-3og">
+                                                    <rect key="frame" x="0.0" y="73" width="600" height="110"/>
                                                     <subviews>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YnC-dF-pxl" customClass="ForecastView">
-                                                            <rect key="frame" x="27" y="8" width="102" height="102"/>
+                                                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YnC-dF-pxl" customClass="ForecastView">
+                                                            <rect key="frame" x="27" y="8" width="102" height="94"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30 %" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nae-a4-elz">
-                                                                    <rect key="frame" x="30" y="81" width="42" height="21"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="30 %" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nae-a4-elz">
+                                                                    <rect key="frame" x="30" y="73" width="42" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="C6e-s3-Fwx">
-                                                                    <rect key="frame" x="29" y="28" width="45" height="45"/>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C6e-s3-Fwx">
+                                                                    <rect key="frame" x="29" y="28" width="45" height="37"/>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9時〜12時" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GFi-do-Fu2">
                                                                     <rect key="frame" x="8" y="0.0" width="86" height="21"/>
@@ -165,48 +164,27 @@
                                                 </scrollView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="AIO-Xx-3og" firstAttribute="bottom" secondItem="8qh-uc-ogk" secondAttribute="bottomMargin" id="1GC-Rd-mec"/>
-                                                <constraint firstAttribute="bottom" secondItem="AIO-Xx-3og" secondAttribute="bottom" constant="8" id="2tS-Gh-sCL"/>
-                                                <constraint firstItem="Eig-WE-DRd" firstAttribute="top" secondItem="IQt-GD-2jT" secondAttribute="top" id="6AL-VV-O8S"/>
-                                                <constraint firstItem="8Lf-9Q-eG5" firstAttribute="centerY" secondItem="8qh-uc-ogk" secondAttribute="centerY" id="8W0-UT-iV5"/>
-                                                <constraint firstItem="AIO-Xx-3og" firstAttribute="top" secondItem="8Lf-9Q-eG5" secondAttribute="bottom" constant="8" symbolic="YES" id="8dG-dn-8K5"/>
+                                                <constraint firstItem="8Lf-9Q-eG5" firstAttribute="top" secondItem="tIm-j9-RDl" secondAttribute="top" id="9XD-nH-Bp5"/>
                                                 <constraint firstAttribute="trailing" secondItem="AIO-Xx-3og" secondAttribute="trailing" id="ATi-VF-AEu"/>
+                                                <constraint firstItem="tIm-j9-RDl" firstAttribute="leading" secondItem="8Lf-9Q-eG5" secondAttribute="trailing" id="B1b-cp-u9u"/>
+                                                <constraint firstItem="AIO-Xx-3og" firstAttribute="bottom" secondItem="8qh-uc-ogk" secondAttribute="bottomMargin" constant="-8" id="Ccu-RT-Mvh"/>
                                                 <constraint firstItem="Eig-WE-DRd" firstAttribute="centerX" secondItem="8qh-uc-ogk" secondAttribute="centerX" constant="79" id="E7F-6K-tn2"/>
-                                                <constraint firstItem="AIO-Xx-3og" firstAttribute="top" secondItem="tIm-j9-RDl" secondAttribute="bottom" constant="8" symbolic="YES" id="HKO-vp-P8y"/>
-                                                <constraint firstItem="AIO-Xx-3og" firstAttribute="top" secondItem="tIm-j9-RDl" secondAttribute="bottom" constant="8" symbolic="YES" id="LAt-4g-jGp"/>
-                                                <constraint firstItem="Eig-WE-DRd" firstAttribute="firstBaseline" secondItem="tIm-j9-RDl" secondAttribute="firstBaseline" id="LQb-Wf-CcV"/>
+                                                <constraint firstItem="8Lf-9Q-eG5" firstAttribute="bottom" secondItem="IQt-GD-2jT" secondAttribute="bottom" id="HIg-kL-xMe"/>
+                                                <constraint firstItem="8Lf-9Q-eG5" firstAttribute="top" secondItem="8qh-uc-ogk" secondAttribute="topMargin" constant="-3" id="L0L-zb-4E0"/>
+                                                <constraint firstItem="8Lf-9Q-eG5" firstAttribute="bottom" secondItem="tIm-j9-RDl" secondAttribute="bottom" id="Smo-1P-Ehw"/>
                                                 <constraint firstItem="AIO-Xx-3og" firstAttribute="leading" secondItem="8qh-uc-ogk" secondAttribute="leading" id="V67-c9-Qlc"/>
-                                                <constraint firstItem="AIO-Xx-3og" firstAttribute="top" secondItem="IQt-GD-2jT" secondAttribute="bottom" constant="8" id="aUC-zw-Agx"/>
-                                                <constraint firstItem="8Lf-9Q-eG5" firstAttribute="top" secondItem="IQt-GD-2jT" secondAttribute="top" id="brM-Hq-he8"/>
-                                                <constraint firstItem="AIO-Xx-3og" firstAttribute="top" secondItem="tIm-j9-RDl" secondAttribute="bottom" constant="8" symbolic="YES" id="dOr-v1-5l0"/>
-                                                <constraint firstItem="AIO-Xx-3og" firstAttribute="bottom" secondItem="8qh-uc-ogk" secondAttribute="bottomMargin" id="e1b-M3-wmr"/>
+                                                <constraint firstItem="8Lf-9Q-eG5" firstAttribute="top" secondItem="Eig-WE-DRd" secondAttribute="top" id="VyP-Rl-ZEt"/>
                                                 <constraint firstItem="AIO-Xx-3og" firstAttribute="top" secondItem="8qh-uc-ogk" secondAttribute="top" constant="73" id="eEN-de-iPY"/>
-                                                <constraint firstItem="8Lf-9Q-eG5" firstAttribute="top" secondItem="Eig-WE-DRd" secondAttribute="top" id="ezz-ws-6pd"/>
                                                 <constraint firstItem="tIm-j9-RDl" firstAttribute="centerX" secondItem="8qh-uc-ogk" secondAttribute="centerX" constant="-51.5" id="huj-oL-i4Y"/>
                                                 <constraint firstItem="Eig-WE-DRd" firstAttribute="baseline" secondItem="tIm-j9-RDl" secondAttribute="baseline" id="iZ7-7F-zbe"/>
                                                 <constraint firstItem="IQt-GD-2jT" firstAttribute="leading" secondItem="Eig-WE-DRd" secondAttribute="trailing" id="ic4-CR-Xbt"/>
-                                                <constraint firstItem="8Lf-9Q-eG5" firstAttribute="top" secondItem="tIm-j9-RDl" secondAttribute="top" id="lT0-vt-ra4"/>
-                                                <constraint firstItem="AIO-Xx-3og" firstAttribute="bottom" secondItem="8qh-uc-ogk" secondAttribute="bottomMargin" id="mBv-86-eSL"/>
-                                                <constraint firstItem="tIm-j9-RDl" firstAttribute="leading" secondItem="8Lf-9Q-eG5" secondAttribute="trailing" id="ph2-Sl-tuV"/>
-                                                <constraint firstItem="8Lf-9Q-eG5" firstAttribute="top" secondItem="8qh-uc-ogk" secondAttribute="top" constant="5" id="qBI-1y-Dj1"/>
                                                 <constraint firstItem="Eig-WE-DRd" firstAttribute="leading" secondItem="tIm-j9-RDl" secondAttribute="trailing" id="r4q-OO-a54"/>
-                                                <constraint firstItem="8Lf-9Q-eG5" firstAttribute="top" secondItem="8qh-uc-ogk" secondAttribute="topMargin" constant="-3" id="reB-We-NBH"/>
-                                                <constraint firstItem="AIO-Xx-3og" firstAttribute="top" secondItem="IQt-GD-2jT" secondAttribute="bottom" constant="8" symbolic="YES" id="vMK-yN-IiX"/>
-                                                <constraint firstItem="IQt-GD-2jT" firstAttribute="top" secondItem="8qh-uc-ogk" secondAttribute="top" constant="5" id="wij-U3-2fq"/>
+                                                <constraint firstItem="8Lf-9Q-eG5" firstAttribute="top" secondItem="IQt-GD-2jT" secondAttribute="top" id="sC0-iS-JPg"/>
+                                                <constraint firstItem="AIO-Xx-3og" firstAttribute="top" secondItem="8Lf-9Q-eG5" secondAttribute="bottom" constant="8" symbolic="YES" id="yJs-tz-HIS"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="2tS-Gh-sCL"/>
-                                                    <exclude reference="LAt-4g-jGp"/>
-                                                    <exclude reference="aUC-zw-Agx"/>
-                                                    <exclude reference="dOr-v1-5l0"/>
-                                                    <exclude reference="e1b-M3-wmr"/>
-                                                    <exclude reference="mBv-86-eSL"/>
-                                                    <exclude reference="8W0-UT-iV5"/>
-                                                    <exclude reference="qBI-1y-Dj1"/>
-                                                    <exclude reference="6AL-VV-O8S"/>
-                                                    <exclude reference="LQb-Wf-CcV"/>
-                                                    <exclude reference="wij-U3-2fq"/>
+                                                    <exclude reference="Ccu-RT-Mvh"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -222,6 +200,7 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="Ph4-Gr-5RR" firstAttribute="leading" secondItem="mtP-bm-ysc" secondAttribute="leading" id="BDc-4n-CSx"/>
                             <constraint firstAttribute="bottom" secondItem="Ph4-Gr-5RR" secondAttribute="bottom" id="eQs-Yn-mpz"/>
@@ -230,7 +209,6 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="お気に入り" id="ALQ-I5-VET"/>
-                    <navigationItem key="navigationItem" title="お気に入り" id="FqJ-PU-3Ul"/>
                     <connections>
                         <outlet property="tableView" destination="Ph4-Gr-5RR" id="aPs-fP-0ig"/>
                         <segue destination="OIb-cA-Nms" kind="show" identifier="goDetail" id="L6T-qx-oKn"/>
@@ -238,7 +216,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cxn-CA-C6L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="260" y="-291"/>
+            <point key="canvasLocation" x="260" y="-305"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="CaJ-44-8R8">

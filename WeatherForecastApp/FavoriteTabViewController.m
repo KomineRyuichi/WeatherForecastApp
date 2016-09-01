@@ -20,7 +20,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    
+
     self.scrollView.hidden = YES;
 }
 
@@ -50,8 +50,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.navigationItem.title = @"お気に入り";
-    
     _tableView.delegate = self;
     _tableView.dataSource = self;
     
@@ -59,6 +57,14 @@
     self.tableView.estimatedRowHeight = 200.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
 
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationController.visibleViewController.navigationItem.title = @"お気に入り";
+    self.navigationController.visibleViewController.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
 }
 
 // 画面表示直後の処理
@@ -121,6 +127,24 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     //[self.navigationController performSegueWithIdentifier:@"goDetail" sender:self];
 }
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+    
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return self.tableView.editing ? UITableViewCellEditingStyleDelete : UITableViewCellEditingStyleNone;
+}
+
 #pragma mark - Other
 
 // 拡張ボタンアクション
@@ -132,6 +156,12 @@
     
     [self.tableView reloadData];
 
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    [super setEditing:editing animated:animated];
+    
+    self.tableView.editing = editing;
 }
 
 // 押されたボタンの行番号を返す
