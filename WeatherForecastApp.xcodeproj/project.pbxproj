@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8AB16D4F1D77A9E700BCF000 /* FavoriteTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB16D4E1D77A9E700BCF000 /* FavoriteTabViewController.m */; };
 		8ADC2AEC1D742424000EE9B3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC2AEB1D742424000EE9B3 /* main.m */; };
 		8ADC2AEF1D742424000EE9B3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC2AEE1D742424000EE9B3 /* AppDelegate.m */; };
 		8ADC2AF21D742424000EE9B3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC2AF11D742424000EE9B3 /* ViewController.m */; };
@@ -36,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8AB16D4D1D77A9E700BCF000 /* FavoriteTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteTabViewController.h; sourceTree = "<group>"; };
+		8AB16D4E1D77A9E700BCF000 /* FavoriteTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteTabViewController.m; sourceTree = "<group>"; };
 		8ADC2AE71D742424000EE9B3 /* WeatherForecastApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecastApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8ADC2AEB1D742424000EE9B3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8ADC2AED1D742424000EE9B3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -109,6 +112,8 @@
 				8ADC2AF11D742424000EE9B3 /* ViewController.m */,
 				8ADC2AF31D742425000EE9B3 /* Main.storyboard */,
 				8ADC2AF91D742425000EE9B3 /* Assets.xcassets */,
+				8AB16D4D1D77A9E700BCF000 /* FavoriteTabViewController.h */,
+				8AB16D4E1D77A9E700BCF000 /* FavoriteTabViewController.m */,
 				8ADC2AFB1D742425000EE9B3 /* LaunchScreen.storyboard */,
 				8ADC2AFE1D742425000EE9B3 /* Info.plist */,
 				8ADC2AF61D742425000EE9B3 /* WeatherForecastApp.xcdatamodeld */,
@@ -276,6 +281,7 @@
 				8ADC2AF21D742424000EE9B3 /* ViewController.m in Sources */,
 				8ADC2AEF1D742424000EE9B3 /* AppDelegate.m in Sources */,
 				8ADC2AEC1D742424000EE9B3 /* main.m in Sources */,
+				8AB16D4F1D77A9E700BCF000 /* FavoriteTabViewController.m in Sources */,
 				8ADC2AF81D742425000EE9B3 /* WeatherForecastApp.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -502,6 +508,7 @@
 				8ADC2B191D742425000EE9B3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8ADC2B1A1D742425000EE9B3 /* Build configuration list for PBXNativeTarget "WeatherForecastAppTests" */ = {
 			isa = XCConfigurationList;
@@ -510,6 +517,7 @@
 				8ADC2B1C1D742425000EE9B3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8ADC2B1D1D742425000EE9B3 /* Build configuration list for PBXNativeTarget "WeatherForecastAppUITests" */ = {
 			isa = XCConfigurationList;
@@ -518,6 +526,7 @@
 				8ADC2B1F1D742425000EE9B3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
