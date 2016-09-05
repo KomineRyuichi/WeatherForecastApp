@@ -9,6 +9,8 @@
 #import "FavoriteTabViewController.h"
 #import "ThreeHourForecastView.h"
 #import "DetailViewController.h"
+#import "AppDelegate.h"
+#import "FavoritePlaces.h"
 
 @interface WeatherSummaryCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *todayWeatherIconImage;
@@ -37,6 +39,7 @@
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *addPlaceButton;
+@property (strong, nonatomic) NSManagedObjectContext *context;
 
 @end
 
@@ -67,9 +70,14 @@
     weatherData = [NSMutableArray array];
     forecastData = [NSMutableArray array];
     favoritePlaces = [NSMutableArray array];
-    [favoritePlaces addObject:@"さいたま市"];
-    [favoritePlaces addObject:@"tetete"];
-
+//    [favoritePlaces addObject:@"さいたま市"];
+//    [favoritePlaces addObject:@"tetete"];
+//    [favoritePlaces addObject:@"ttetete"];
+//    [favoritePlaces addObject:@"tetetteee"];
+//    [favoritePlaces addObject:@"aadsfsfs"];
+    
+    AppDelegate *appDelegate = [UIApplication.sharedApplication delegate];
+    self.context = [appDelegate managedObjectContext];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -78,10 +86,12 @@
     self.navigationController.visibleViewController.navigationItem.title = @"お気に入り";
     self.navigationController.visibleViewController.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    [self getFavoritePlace];
+    
     if([favoritePlaces count]  == 0) {
         [self.view bringSubviewToFront:_addPlaceButton];
     } else {
-        [_addPlaceButton removeFromSuperview];
+        [self.view sendSubviewToBack:_addPlaceButton];
     }
     
 }
@@ -141,19 +151,27 @@
     if([forecastData count] > 0) {
         // 3時間ごとの天気予報
         //cell.scrollView.hidden = NO;
+        int fromTime = 0.0f;
+        int toTime = 0.0f;
         cell.scrollView.contentSize = CGSizeMake(100.0*6, 95.0);
         for(int i=0; i<6; i++) {
             ThreeHourForecastView *forecastView = [[ThreeHourForecastView alloc] init];
             forecastView.frame = CGRectMake(100.0*i, 10.0, 100.0, 95.0);
             NSDictionary *forecast = [NSDictionary dictionaryWithDictionary:[forecastData objectAtIndex:i]];
-            forecastView.precipitationLabel.text = [NSString stringWithFormat:@"%2.1fmm", [[[forecast objectForKey:@"rain"] objectForKey:@"3h"] doubleValue]];
+            fromTime = [[forecast objectForKey:@"dt"] intValue];
+            fromTime = (fromTime / (60*60)) % 24;
+            toTime = fromTime + 3;
+            forecastView.timeLabel.text = [NSString stringWithFormat:@"%d時〜%d時", fromTime, toTime];
+            forecastView.precipitationLabel.text = [NSString stringWithFormat:@"%2.1f ml", [[[forecast objectForKey:@"rain"] objectForKey:@"3h"] doubleValue]];
+            forecastView.icon.image = [UIImage imageNamed:@"Image"];
             [cell.scrollView addSubview:forecastView];
+            forecastView = nil;
         }
         
     }
     
     cell.placeNameLabel.text = [favoritePlaces objectAtIndex:indexPath.row];
-    cell.todayWeatherIconImage.image = [UIImage imageNamed:@"image"];
+    cell.todayWeatherIconImage.image = [UIImage imageNamed:@"Image"];
     
     //cell.scrollView.hidden = YES;
     
@@ -191,16 +209,27 @@
     NSArray *indexPaths = [NSArray arrayWithObjects:indexPath, nil];
     [favoritePlaces removeObjectAtIndex:indexPath.row];
     
+    [self deleteFavoritePlace:indexPath];
+    
     [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
     
     if([favoritePlaces count] == 0) {
         [self.view bringSubviewToFront:_addPlaceButton];
+    } else {
+        [self.view sendSubviewToBack:_addPlaceButton];
     }
 }
 
 // セルの並び替え
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-    
+-(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+    // 移動項目の保持
+    id item = [favoritePlaces objectAtIndex:sourceIndexPath.row];
+    // 元あった場所から項目の削除
+    [favoritePlaces removeObject:item];
+    // CoreData更新
+    [self updateFavoritePlaceOrder];
+    // 新しい位置に挿入
+    [favoritePlaces insertObject:item atIndex:destinationIndexPath.row];
 }
 
 // 編集スタイル
@@ -217,7 +246,6 @@
     
     cell.scrollView.hidden = !cell.scrollView.hidden;
 
-    
     if(cell.scrollView.hidden) {
         [self.tableView reloadData];
     } else {
@@ -301,5 +329,69 @@
     self.tabBarController.selectedIndex = 1;
 }
 
+#pragma mark - CoreData
+
+- (void)getFavoritePlace{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FavoritePlaces"];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"placeOrder" ascending:NO];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    NSArray *results = [self.context executeFetchRequest:fetchRequest error:nil];
+    
+    for (FavoritePlaces *data in results) {
+        [favoritePlaces addObject:data];
+    }
+    
+    NSError *error = nil;
+    if(![self.context save:&error]) {
+        NSLog(@"Error:%@", error);
+    } else {
+        NSLog(@"Success");
+    }
+}
+
+- (void)deleteFavoritePlace:(NSIndexPath *)indexPath {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FavoritePlaces"];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"placeOrder" ascending:NO];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    NSArray *results = [self.context executeFetchRequest:fetchRequest error:nil];
+    
+    FavoritePlaces *place = [results objectAtIndex:indexPath.row];
+    [self.context deleteObject:place];
+    
+    NSError *error = nil;
+    if(![self.context save:&error]) {
+        NSLog(@"Error:%@", error);
+    } else {
+        NSLog(@"Success");
+    }
+}
+
+- (void)updateFavoritePlaceOrder{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FavoritePlaces"];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"placeOrder" ascending:NO];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    NSArray *results = [self.context executeFetchRequest:fetchRequest error:nil];
+
+    for (int i=0; i<[favoritePlaces count]; i++) {
+        FavoritePlaces *data = [results objectAtIndex:i];
+        NSDictionary *placeData = [NSDictionary dictionaryWithDictionary:[favoritePlaces objectAtIndex:i]];
+        data.placeName = [placeData objectForKey:@"placeName"];
+        data.placeLatitude = [placeData objectForKey:@"placeLatitude"];
+        data.placeLongitude = [placeData objectForKey:@"placeLongitude"];
+    }
+    
+    NSError *error = nil;
+    if(![self.context save:&error]) {
+        NSLog(@"Error:%@", error);
+    } else {
+        NSLog(@"Success");
+    }
+}
 
 @end

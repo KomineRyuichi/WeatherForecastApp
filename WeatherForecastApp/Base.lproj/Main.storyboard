@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="mk2-4W-8JL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="mk2-4W-8JL">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -9,7 +9,6 @@
         <!--Item-->
         <scene sceneID="Ia8-Uu-pbD">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bZg-jN-azm" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="eci-9k-ith" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="LKE-vr-bLM"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="sLz-mJ-iX1">
@@ -20,6 +19,7 @@
                         <segue destination="en2-bX-7N1" kind="relationship" relationship="rootViewController" id="VSO-fg-Urr"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bZg-jN-azm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-480" y="-305"/>
         </scene>
@@ -115,12 +115,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ph4-Gr-5RR">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JEn-No-QpK">
+                                <rect key="frame" x="204" y="280" width="192" height="41"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="お気に入りを追加"/>
+                                <connections>
+                                    <action selector="addFavoritePlaceButton:" destination="en2-bX-7N1" eventType="touchUpInside" id="7i0-i0-8At"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="24" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ph4-Gr-5RR">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="WeatherSummaryCell" rowHeight="200" id="gCB-fG-DVT" customClass="WeatherSummaryCell">
-                                        <rect key="frame" x="0.0" y="92" width="600" height="200"/>
+                                        <rect key="frame" x="0.0" y="24" width="600" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gCB-fG-DVT" id="8qh-uc-ogk">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="199"/>
@@ -128,6 +136,7 @@
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8Lf-9Q-eG5">
                                                     <rect key="frame" x="108" y="5" width="60" height="60"/>
+                                                    <color key="backgroundColor" red="0.78369374430000005" green="1" blue="0.67820829390000004" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="2Ew-f9-Vyz"/>
                                                     </constraints>
@@ -199,15 +208,18 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="JEn-No-QpK" firstAttribute="centerX" secondItem="mtP-bm-ysc" secondAttribute="centerX" id="1D0-Lj-Had"/>
                             <constraint firstItem="Ph4-Gr-5RR" firstAttribute="leading" secondItem="mtP-bm-ysc" secondAttribute="leading" id="BDc-4n-CSx"/>
                             <constraint firstAttribute="bottom" secondItem="Ph4-Gr-5RR" secondAttribute="bottom" id="eQs-Yn-mpz"/>
                             <constraint firstAttribute="trailing" secondItem="Ph4-Gr-5RR" secondAttribute="trailing" id="hcK-wF-MGb"/>
-                            <constraint firstItem="Ph4-Gr-5RR" firstAttribute="top" secondItem="mtP-bm-ysc" secondAttribute="top" id="lZb-Ug-haN"/>
+                            <constraint firstItem="JEn-No-QpK" firstAttribute="centerY" secondItem="mtP-bm-ysc" secondAttribute="centerY" id="j0B-j9-FDg"/>
+                            <constraint firstItem="Ph4-Gr-5RR" firstAttribute="top" secondItem="mtP-bm-ysc" secondAttribute="top" constant="64" id="lZb-Ug-haN"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="お気に入り" id="ALQ-I5-VET"/>
                     <navigationItem key="navigationItem" id="LMF-9D-wSY"/>
                     <connections>
+                        <outlet property="addPlaceButton" destination="JEn-No-QpK" id="T0k-pp-P3N"/>
                         <outlet property="tableView" destination="Ph4-Gr-5RR" id="aPs-fP-0ig"/>
                         <segue destination="OIb-cA-Nms" kind="show" identifier="goDetail" id="rup-tp-gfP"/>
                     </connections>
@@ -238,7 +250,6 @@
         <!--Item-->
         <scene sceneID="HwP-g8-FKd">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Vk8-YG-Qyn" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="RpO-Yk-yfD" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="RPc-bE-QbH"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Dk1-JF-Hk3">
@@ -249,6 +260,7 @@
                         <segue destination="ulF-eT-0q5" kind="relationship" relationship="rootViewController" id="Ctw-Bs-aBB"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vk8-YG-Qyn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-480" y="370"/>
         </scene>
