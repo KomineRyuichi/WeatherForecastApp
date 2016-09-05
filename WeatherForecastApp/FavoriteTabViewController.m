@@ -8,6 +8,7 @@
 
 #import "FavoriteTabViewController.h"
 #import "ThreeHourForecastView.h"
+#import "DetailViewController.h"
 
 @interface WeatherSummaryCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *todayWeatherIconImage;
@@ -32,9 +33,10 @@
     NSMutableArray *weatherData;
     NSMutableArray *forecastData;
     NSArray *forecastViewArray;
-    NSMutableArray *favoritePlaceNames;
+    NSMutableArray *favoritePlaces;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIButton *addPlaceButton;
 
 @end
 
@@ -64,9 +66,9 @@
     
     weatherData = [NSMutableArray array];
     forecastData = [NSMutableArray array];
-    favoritePlaceNames = [NSMutableArray array];
-    [favoritePlaceNames addObject:@"test"];
-    [favoritePlaceNames addObject:@"tetete"];
+    favoritePlaces = [NSMutableArray array];
+    [favoritePlaces addObject:@"さいたま市"];
+    [favoritePlaces addObject:@"tetete"];
 
 }
 
@@ -76,6 +78,12 @@
     self.navigationController.visibleViewController.navigationItem.title = @"お気に入り";
     self.navigationController.visibleViewController.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    if([favoritePlaces count]  == 0) {
+        [self.view bringSubviewToFront:_addPlaceButton];
+    } else {
+        [_addPlaceButton removeFromSuperview];
+    }
+    
 }
 
 // 画面表示直後の処理
@@ -83,7 +91,8 @@
     [super viewDidAppear:animated];
     NSLog(@"Did Appearですよ〜〜〜〜〜〜〜〜");
     
-    for(int i=0; i<[favoritePlaceNames count]; i++) {
+    for(int i=0; i<[favoritePlaces count]; i++) {
+        NSLog(@"communication %d", i+1);
         [self startAPICommunication:@"weather" :0.0 :0.0];
     }
 }
@@ -113,7 +122,7 @@
 
 // 表示行数の設定
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [favoritePlaceNames count];
+    return [favoritePlaces count];
 }
 
 // 表示するセルの生成
@@ -121,13 +130,12 @@
     static NSString *cellIdentifier = @"WeatherSummaryCell";
     
     WeatherSummaryCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if([weatherData count] > 0 && [favoritePlaceNames count] == [weatherData count]) {
+    if([weatherData count] > 0 && [favoritePlaces count] == [weatherData count]) {
         // 天気情報
         NSDictionary *weatherDatum = [NSDictionary dictionaryWithDictionary:[weatherData objectAtIndex:indexPath.row]];
     
         cell.temperatureLabel.text = [NSString stringWithFormat:@"%2.1f℃", [[[weatherDatum objectForKey:@"main"] objectForKey:@"temp"] doubleValue]];
         [cell.cellExpansionButton addTarget:self action:@selector(pushCellExpansionButton:event:) forControlEvents:UIControlEventTouchUpInside];
-
     }
     
     if([forecastData count] > 0) {
@@ -144,7 +152,8 @@
         
     }
     
-    cell.placeNameLabel.text = [favoritePlaceNames objectAtIndex:indexPath.row];
+    cell.placeNameLabel.text = [favoritePlaces objectAtIndex:indexPath.row];
+    cell.todayWeatherIconImage.image = [UIImage imageNamed:@"image"];
     
     //cell.scrollView.hidden = YES;
     
@@ -153,10 +162,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     WeatherSummaryCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    float height = 80.0f;
+    float height = self.tableView.estimatedRowHeight -128;
 
     if(!cell.scrollView.hidden) {
-        height = height + 120;
+        height = height + 128;
     }
     
     return height;
@@ -174,12 +183,19 @@
 
 // 選択せる検知
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //[self.navigationController performSegueWithIdentifier:@"goDetail" sender:self];
+    [self.navigationController.visibleViewController performSegueWithIdentifier:@"goDetail" sender:self];
 }
 
 // セル削除
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSArray *indexPaths = [NSArray arrayWithObjects:indexPath, nil];
+    [favoritePlaces removeObjectAtIndex:indexPath.row];
     
+    [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+    
+    if([favoritePlaces count] == 0) {
+        [self.view bringSubviewToFront:_addPlaceButton];
+    }
 }
 
 // セルの並び替え
@@ -257,6 +273,7 @@
         }
         
         // JSONのパース
+        NSLog(@"Parse");
         NSError *jsonError;
         NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
         
@@ -279,5 +296,10 @@
     // タスクの実行
     [dataTask resume];
 }
+
+- (IBAction)addFavoritePlaceButton:(id)sender {
+    self.tabBarController.selectedIndex = 1;
+}
+
 
 @end
