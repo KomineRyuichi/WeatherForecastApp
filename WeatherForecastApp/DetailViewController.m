@@ -69,6 +69,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.detailTableView.delegate = self;
+    self.detailTableView.dataSource = self;
+    self.forecastTableView.delegate = self;
+    self.forecastTableView.dataSource = self;
+    
+    self.detailTableView.estimatedRowHeight = 68;
+    self.detailTableView.rowHeight = UITableViewAutomaticDimension;
+    self.forecastTableView.estimatedRowHeight = 224;
+    self.forecastTableView.rowHeight = UITableViewAutomaticDimension;
+    
     NSLog(@"test");
 }
 
@@ -94,7 +104,37 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return nil;
+    
+    if(tableView == _detailTableView) {
+        if(indexPath.row == 0) {
+            DetailCell1 *cell = [self.detailTableView dequeueReusableCellWithIdentifier:@"DetailCell1"];
+            
+            cell.placeNameLabel.text = @"さいたま市";
+            cell.icon.image = [UIImage imageNamed:@"Image"];
+            return cell;
+            
+        } else if(indexPath.row == 1) {
+            DetailCell2 *cell = [self.detailTableView dequeueReusableCellWithIdentifier:@"DetailCell2"];
+            
+            cell.humidityIcon.image =  [UIImage imageNamed:@"Image"];
+            cell.humidityLabel.text = @"1029.3 hPa";
+            cell.temperatureIcon.image =  [UIImage imageNamed:@"Image"];
+            cell.temperatureLabel.text = @"30 ℃";
+            cell.temperatureHighLowLabel.text = @"32 / 24 ℃";
+            
+            return cell;
+        } else {
+            DetailCell3 *cell = [self.detailTableView dequeueReusableCellWithIdentifier:@"DetailCell3"];
+            cell.windAngleIcon.image =  [UIImage imageNamed:@"Image"];
+            cell.windAngleLabel.text = @"北東の風";
+            cell.windSpeedIcon.image =  [UIImage imageNamed:@"Image"];
+            cell.windSpeedLabel.text = @"5 m/s";
+            return cell;
+        }
+    } else {
+        ForecastCell *cell = [self.forecastTableView dequeueReusableCellWithIdentifier:@"ForecastCell"];
+        return cell;
+    }
 }
 
 @end

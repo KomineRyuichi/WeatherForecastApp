@@ -91,9 +91,11 @@
                                             <color key="backgroundColor" red="0.78369374430000005" green="1" blue="0.67820829390000004" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstItem="DMP-2w-VeQ" firstAttribute="leading" secondItem="97J-iK-qyW" secondAttribute="leading" constant="194" id="DjG-OA-6wM"/>
+                                                <constraint firstItem="B7M-QK-t9X" firstAttribute="centerX" secondItem="97J-iK-qyW" secondAttribute="centerX" constant="66.5" id="HMJ-uL-r0z"/>
                                                 <constraint firstItem="B7M-QK-t9X" firstAttribute="leading" secondItem="DMP-2w-VeQ" secondAttribute="trailing" constant="46" id="HMl-Qp-1VD"/>
                                                 <constraint firstItem="DMP-2w-VeQ" firstAttribute="centerY" secondItem="B7M-QK-t9X" secondAttribute="centerY" id="HRf-uM-PN5"/>
                                                 <constraint firstItem="B7M-QK-t9X" firstAttribute="top" secondItem="97J-iK-qyW" secondAttribute="topMargin" id="b9y-Z1-UhK"/>
+                                                <constraint firstItem="DMP-2w-VeQ" firstAttribute="centerX" secondItem="97J-iK-qyW" secondAttribute="centerX" constant="-76" id="iah-lC-feM"/>
                                                 <constraint firstItem="B7M-QK-t9X" firstAttribute="bottom" secondItem="97J-iK-qyW" secondAttribute="bottomMargin" id="y9a-vm-g4c"/>
                                                 <constraint firstItem="DMP-2w-VeQ" firstAttribute="top" secondItem="97J-iK-qyW" secondAttribute="topMargin" constant="-4" id="yWt-pt-FVW"/>
                                             </constraints>
