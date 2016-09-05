@@ -70,11 +70,11 @@
     weatherData = [NSMutableArray array];
     forecastData = [NSMutableArray array];
     favoritePlaces = [NSMutableArray array];
-//    [favoritePlaces addObject:@"さいたま市"];
-//    [favoritePlaces addObject:@"tetete"];
-//    [favoritePlaces addObject:@"ttetete"];
-//    [favoritePlaces addObject:@"tetetteee"];
-//    [favoritePlaces addObject:@"aadsfsfs"];
+    [favoritePlaces addObject:@"さいたま市"];
+    [favoritePlaces addObject:@"tetete"];
+    [favoritePlaces addObject:@"ttetete"];
+    [favoritePlaces addObject:@"tetetteee"];
+    [favoritePlaces addObject:@"aadsfsfs"];
     
     AppDelegate *appDelegate = [UIApplication.sharedApplication delegate];
     self.context = [appDelegate managedObjectContext];
