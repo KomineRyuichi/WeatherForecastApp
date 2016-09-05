@@ -11,6 +11,8 @@
 #import "AppDelegate.h"
 
 @interface DetailCell1 : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *icon;
+@property (weak, nonatomic) IBOutlet UILabel *placeNameLabel;
 
 @end
 
@@ -19,6 +21,13 @@
 @end
 
 @interface DetailCell2 : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *temperatureIcon;
+@property (weak, nonatomic) IBOutlet UIImageView *humidityIcon;
+@property (weak, nonatomic) IBOutlet UILabel *temperatureLabel;
+@property (weak, nonatomic) IBOutlet UILabel *humidityLabel;
+@property (weak, nonatomic) IBOutlet UILabel *temperatureHighLowLabel;
+@property (weak, nonatomic) IBOutlet UILabel *pressureLabel;
+
 
 @end
 
@@ -27,6 +36,10 @@
 @end
 
 @interface DetailCell3 : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *windAngleIcon;
+@property (weak, nonatomic) IBOutlet UIImageView *windSpeedIcon;
+@property (weak, nonatomic) IBOutlet UILabel *windAngleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *windSpeedLabel;
 
 @end
 
@@ -35,6 +48,7 @@
 @end
 
 @interface ForecastCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
 

@@ -65,7 +65,7 @@
                                     <constraint firstAttribute="height" constant="335" id="h2L-LG-MKg"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="68" id="ACI-Ru-gee">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DetailCell1" rowHeight="68" id="ACI-Ru-gee" customClass="DetailCell1">
                                         <rect key="frame" x="0.0" y="92" width="600" height="68"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ACI-Ru-gee" id="97J-iK-qyW">
@@ -98,8 +98,12 @@
                                                 <constraint firstItem="DMP-2w-VeQ" firstAttribute="top" secondItem="97J-iK-qyW" secondAttribute="topMargin" constant="-4" id="yWt-pt-FVW"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="icon" destination="DMP-2w-VeQ" id="66T-QM-Up2"/>
+                                            <outlet property="placeNameLabel" destination="B7M-QK-t9X" id="Dnj-0R-FzT"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="107" id="nd3-nQ-nVU">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DetailCell2" rowHeight="107" id="nd3-nQ-nVU" customClass="DetailCell2">
                                         <rect key="frame" x="0.0" y="160" width="600" height="107"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nd3-nQ-nVU" id="LGS-ca-pkx">
@@ -162,8 +166,16 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.91115676830000003" green="1" blue="0.96984860539999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <outlet property="humidityIcon" destination="09F-gh-2PM" id="PKd-Hs-4Vk"/>
+                                            <outlet property="humidityLabel" destination="Gjp-ID-CcH" id="ghb-Zm-VF0"/>
+                                            <outlet property="pressureLabel" destination="SFV-1P-zoG" id="0YV-rD-bAJ"/>
+                                            <outlet property="temperatureHighLowLabel" destination="YcR-wL-ZmN" id="ig5-rU-7sf"/>
+                                            <outlet property="temperatureIcon" destination="WNo-xe-hXM" id="rsy-uJ-gm1"/>
+                                            <outlet property="temperatureLabel" destination="sOm-x2-8uE" id="Dyw-aD-sEJ"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="69" id="LSV-V4-dkf">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DetailCell3" rowHeight="69" id="LSV-V4-dkf" customClass="DetailCell3">
                                         <rect key="frame" x="0.0" y="267" width="600" height="69"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LSV-V4-dkf" id="STq-KG-XPF">
@@ -211,6 +223,12 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <outlet property="windAngleIcon" destination="Eah-MF-dYB" id="Cmh-3o-6DO"/>
+                                            <outlet property="windAngleLabel" destination="fxe-ai-Y8C" id="qyw-2O-wGr"/>
+                                            <outlet property="windSpeedIcon" destination="ckM-on-jkO" id="GpH-d9-YDb"/>
+                                            <outlet property="windSpeedLabel" destination="95g-HL-v3w" id="RE3-G4-s0w"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -218,7 +236,7 @@
                                 <rect key="frame" x="0.0" y="343" width="600" height="251"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="224" id="wi8-j0-udK">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ForecastCell" rowHeight="224" id="wi8-j0-udK" customClass="ForecastCell">
                                         <rect key="frame" x="0.0" y="28" width="600" height="224"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wi8-j0-udK" id="JBs-T3-f0Q">
@@ -237,6 +255,9 @@
                                                 <constraint firstItem="4ds-xv-8ba" firstAttribute="centerY" secondItem="JBs-T3-f0Q" secondAttribute="centerY" id="zmY-Ub-9Gj"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="scrollView" destination="4ds-xv-8ba" id="MHn-k7-pbj"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
