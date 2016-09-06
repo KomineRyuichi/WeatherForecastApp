@@ -85,6 +85,7 @@
     
     self.navigationController.visibleViewController.navigationItem.title = @"お気に入り";
     self.navigationController.visibleViewController.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationController.visibleViewController.tabBarController.tabBar.hidden = NO;
     
     [self getFavoritePlace];
     
@@ -209,7 +210,7 @@
     NSArray *indexPaths = [NSArray arrayWithObjects:indexPath, nil];
     [favoritePlaces removeObjectAtIndex:indexPath.row];
     
-    [self deleteFavoritePlace:indexPath];
+    //[self deleteFavoritePlace:indexPath];
     
     [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
     
@@ -227,7 +228,7 @@
     // 元あった場所から項目の削除
     [favoritePlaces removeObject:item];
     // CoreData更新
-    [self updateFavoritePlaceOrder];
+    //[self updateFavoritePlaceOrder];
     // 新しい位置に挿入
     [favoritePlaces insertObject:item atIndex:destinationIndexPath.row];
 }
