@@ -23,10 +23,10 @@
             </objects>
             <point key="canvasLocation" x="-480" y="-305"/>
         </scene>
-        <!--Item 2-->
+        <!--地図-->
         <scene sceneID="2Bp-lE-gt1">
             <objects>
-                <viewController id="ulF-eT-0q5" sceneMemberID="viewController">
+                <viewController id="ulF-eT-0q5" customClass="MapViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="klx-Oh-6av"/>
                         <viewControllerLayoutGuide type="bottom" id="aRo-2r-e4g"/>
@@ -34,11 +34,35 @@
                     <view key="view" contentMode="scaleToFill" id="ssD-G8-x7B">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="0bl-QX-zXz">
+                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="ulF-eT-0q5" id="J6K-mi-zfI"/>
+                                </connections>
+                            </searchBar>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RZ0-1e-m9D">
+                                <rect key="frame" x="0.0" y="108" width="600" height="443"/>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="0bl-QX-zXz" secondAttribute="trailing" id="0UQ-52-ykX"/>
+                            <constraint firstItem="RZ0-1e-m9D" firstAttribute="leading" secondItem="ssD-G8-x7B" secondAttribute="leading" id="419-zR-rxd"/>
+                            <constraint firstItem="aRo-2r-e4g" firstAttribute="top" secondItem="RZ0-1e-m9D" secondAttribute="bottom" id="TkS-cH-pbz"/>
+                            <constraint firstItem="0bl-QX-zXz" firstAttribute="leading" secondItem="ssD-G8-x7B" secondAttribute="leading" id="kov-Rz-6K4"/>
+                            <constraint firstItem="0bl-QX-zXz" firstAttribute="top" secondItem="klx-Oh-6av" secondAttribute="bottom" id="onF-Vo-RVF"/>
+                            <constraint firstItem="RZ0-1e-m9D" firstAttribute="top" secondItem="0bl-QX-zXz" secondAttribute="bottom" id="pQT-Jk-kIU"/>
+                            <constraint firstAttribute="trailing" secondItem="RZ0-1e-m9D" secondAttribute="trailing" id="s4I-QF-VYp"/>
+                            <constraint firstItem="RZ0-1e-m9D" firstAttribute="top" secondItem="0bl-QX-zXz" secondAttribute="bottom" id="zmg-m0-gl3"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 2" id="Cqh-jF-FO1"/>
+                    <tabBarItem key="tabBarItem" title="地図" id="Cqh-jF-FO1"/>
                     <navigationItem key="navigationItem" id="Xet-E1-yeB"/>
                     <connections>
+                        <outlet property="mapView" destination="RZ0-1e-m9D" id="4xY-hG-CJi"/>
+                        <outlet property="searchBar" destination="0bl-QX-zXz" id="LaI-5e-dlU"/>
                         <segue destination="OIb-cA-Nms" kind="show" identifier="goDetail" id="iaV-cM-cGU"/>
                     </connections>
                 </viewController>
@@ -427,6 +451,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="rup-tp-gfP"/>
+        <segue reference="iaV-cM-cGU"/>
     </inferredMetricsTieBreakers>
 </document>

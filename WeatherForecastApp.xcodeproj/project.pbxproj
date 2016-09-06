@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8A008B341D7E3EF400F4E6EF /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A008B331D7E3EF400F4E6EF /* MapViewController.m */; };
+		8A008B371D7E408C00F4E6EF /* CustomAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A008B361D7E408C00F4E6EF /* CustomAnnotation.m */; };
+		8A008B391D7E7CC900F4E6EF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A008B381D7E7CC900F4E6EF /* MapKit.framework */; };
 		8A5633561D7949D500206C8A /* ThreeHourForecastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A5633551D7949D500206C8A /* ThreeHourForecastView.xib */; };
 		8A56335C1D7950EA00206C8A /* ThreeHourForecastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A56335B1D7950EA00206C8A /* ThreeHourForecastView.m */; };
 		8A7AB77F1D7CEE8A00B5A640 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A7AB77E1D7CEE8A00B5A640 /* DetailViewController.m */; };
@@ -42,6 +45,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8A008B321D7E3EF400F4E6EF /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		8A008B331D7E3EF400F4E6EF /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		8A008B351D7E408C00F4E6EF /* CustomAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotation.h; sourceTree = "<group>"; };
+		8A008B361D7E408C00F4E6EF /* CustomAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnnotation.m; sourceTree = "<group>"; };
+		8A008B381D7E7CC900F4E6EF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		8A5633551D7949D500206C8A /* ThreeHourForecastView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThreeHourForecastView.xib; sourceTree = "<group>"; };
 		8A56335A1D7950EA00206C8A /* ThreeHourForecastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeHourForecastView.h; sourceTree = "<group>"; };
 		8A56335B1D7950EA00206C8A /* ThreeHourForecastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeHourForecastView.m; sourceTree = "<group>"; };
@@ -77,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A008B391D7E7CC900F4E6EF /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +109,7 @@
 		8ADC2ADE1D742424000EE9B3 = {
 			isa = PBXGroup;
 			children = (
+				8A008B381D7E7CC900F4E6EF /* MapKit.framework */,
 				8ADC2AE91D742424000EE9B3 /* WeatherForecastApp */,
 				8ADC2B061D742425000EE9B3 /* WeatherForecastAppTests */,
 				8ADC2B111D742425000EE9B3 /* WeatherForecastAppUITests */,
@@ -140,6 +150,10 @@
 				8A7AB7811D7CFC6C00B5A640 /* FavoritePlaces+CoreDataProperties.m */,
 				8A7AB7821D7CFC6C00B5A640 /* FavoritePlaces.h */,
 				8A7AB7831D7CFC6C00B5A640 /* FavoritePlaces.m */,
+				8A008B321D7E3EF400F4E6EF /* MapViewController.h */,
+				8A008B331D7E3EF400F4E6EF /* MapViewController.m */,
+				8A008B351D7E408C00F4E6EF /* CustomAnnotation.h */,
+				8A008B361D7E408C00F4E6EF /* CustomAnnotation.m */,
 				8ADC2AEA1D742424000EE9B3 /* Supporting Files */,
 			);
 			path = WeatherForecastApp;
@@ -307,8 +321,10 @@
 				8ADC2AF21D742424000EE9B3 /* ViewController.m in Sources */,
 				8ADC2AEF1D742424000EE9B3 /* AppDelegate.m in Sources */,
 				8ADC2AEC1D742424000EE9B3 /* main.m in Sources */,
+				8A008B371D7E408C00F4E6EF /* CustomAnnotation.m in Sources */,
 				8AB16D4F1D77A9E700BCF000 /* FavoriteTabViewController.m in Sources */,
 				8ADC2AF81D742425000EE9B3 /* WeatherForecastApp.xcdatamodeld in Sources */,
+				8A008B341D7E3EF400F4E6EF /* MapViewController.m in Sources */,
 				8A7AB77F1D7CEE8A00B5A640 /* DetailViewController.m in Sources */,
 				8A7AB7851D7CFC6C00B5A640 /* FavoritePlaces.m in Sources */,
 			);
