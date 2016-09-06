@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface DetailViewController : UIViewController
+@property (nonatomic) double detailLatitude;
+@property (nonatomic) double detailLongitude;
+@property (nonatomic) NSString *placeName;
 
 @end
