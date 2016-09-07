@@ -114,7 +114,7 @@
     // 気温、湿度、気圧情報(レスポンスのKey:mainに入っている)
     NSDictionary *main = [NSDictionary dictionaryWithDictionary:[detailData objectForKey:@"main"]];
     // 気温アイコン
-    self.temperatureIcon.image = [UIImage imageNamed:@"Image"];
+    self.temperatureIcon.image = [UIImage imageNamed:@"temperature"];
     // 平均気温
     self.averageTemperatureLabel.text = [NSString stringWithFormat:@"%2.1f℃", [[main objectForKey:@"temp"] doubleValue]];
     // 最高気温
@@ -123,7 +123,7 @@
     self.lowTemperatureLabel.text = [NSString stringWithFormat:@"%2.0f", [[main objectForKey:@"temp_min"] doubleValue]];
     
     // 湿度アイコン
-    self.humidityIcon.image = [UIImage imageNamed:@"Image"];
+    self.humidityIcon.image = [UIImage imageNamed:@"humidity"];
     // 湿度
     self.humidityLabel.text = [NSString stringWithFormat:@"%2.0f%%", [[main objectForKey:@"humidity"] doubleValue]];
     
@@ -133,12 +133,12 @@
     // 風向き、風速情報(レスポンスのKey:windに入っている)
     NSDictionary *wind = [NSDictionary dictionaryWithDictionary:[detailData objectForKey:@"wind"]];
     // 風向きアイコン
-    self.windAngleIcon.image = [UIImage imageNamed:@"Image"];
+    self.windAngleIcon.image = [UIImage imageNamed:@"wind"];
     // 風向き
     self.windAngleLabel.text = [self windDecision:[[wind objectForKey:@"deg"] intValue]];
     
     // 風速アイコン
-    self.windSpeedIcon.image = [UIImage imageNamed:@"Image"];
+    self.windSpeedIcon.image = [UIImage imageNamed:@"wind speed"];
     // 風速
     self.windSpeedLabel.text = [NSString stringWithFormat:@"%1.0fm/s", [[wind objectForKey:@"speed"] doubleValue]];
 }
@@ -168,12 +168,18 @@
         // 気温
         temperature = [[[weatherData objectForKey:@"main"] objectForKey:@"temp"] doubleValue];
         forecastView.temperatureLabel.text = [NSString stringWithFormat:@"%2.1f℃", temperature];
+        // 気温アイコン
+        forecastView.temperatureIcon.image = [UIImage imageNamed:@"temperature"];
         // 降水量
         precipitation = [[[weatherData objectForKey:@"rain"] objectForKey:@"3h" ] doubleValue];
         forecastView.precipitationLabel.text = [NSString stringWithFormat:@"%1.0fml", precipitation];
+        // 降水量アイコン
+        forecastView.precipitationIcon.image = [UIImage imageNamed:@"precipitation"];
         // 湿度
         humidity = [[[weatherData objectForKey:@"main"] objectForKey:@"humidity"] doubleValue];
         forecastView.humidityLabel.text = [NSString stringWithFormat:@"%2.1f%%", humidity];
+        // 湿度アイコン
+        forecastView.humidityIcon.image = [UIImage imageNamed:@"humidity"];
         // スクロールビューに追加
         [self.dailyForecasts addSubview:forecastView];
         // 参照破棄

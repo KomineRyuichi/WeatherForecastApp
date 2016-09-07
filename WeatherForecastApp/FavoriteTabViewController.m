@@ -364,25 +364,25 @@
     // 一度に読み込むサイズを指定します。
     [fetchRequest setFetchLimit:20];
     
+    // 検索結果をplaceOrderの昇順にする。
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"placeOrder" ascending:YES selector:@selector(caseInsensitiveCompare:)];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     [fetchRequest setSortDescriptors:sortDescriptors];
     
-    // NSFetchedResultsControllerを作成します。
-    // 上記までで作成したFetchRequestを指定します。
+    // NSFetchedResultsController(結果を持ってくるクラス)の生成
     NSFetchedResultsController *fetchedResultsController
     = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                           managedObjectContext:self.context
                                             sectionNameKeyPath:nil
                                                      cacheName:nil];
     
-    // データ検索を行います。
-    // 失敗した場合には、メソッドはfalseを返し、引数errorに値を詰めてくれます。
+    // データ検索
     NSError *error = nil;
     if (![fetchedResultsController performFetch:&error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
     
+    // データ取得、配列に追加
     NSArray *results = [NSArray arrayWithArray:[fetchedResultsController fetchedObjects]];
     for (FavoritePlaces *data in results) {
         NSString *name = data.placeName;

@@ -105,7 +105,6 @@
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g3b-FO-zod">
                                                 <rect key="frame" x="182" y="2" width="75" height="75"/>
-                                                <color key="backgroundColor" red="0.98788469219999997" green="1" blue="0.98740922040000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="75" id="3TQ-ac-7Ab"/>
                                                 </constraints>
@@ -131,11 +130,9 @@
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BhF-2Q-PdL">
                                                 <rect key="frame" x="160" y="8" width="45" height="45"/>
-                                                <color key="backgroundColor" red="0.98788469219999997" green="1" blue="0.98740922040000001" alpha="1" colorSpace="calibratedRGB"/>
                                             </imageView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="erJ-mt-ay4">
                                                 <rect key="frame" x="160" y="77" width="45" height="45"/>
-                                                <color key="backgroundColor" red="0.98788469219999997" green="1" blue="0.98740922040000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="45" id="J6c-Jn-n3B"/>
                                                 </constraints>
@@ -203,11 +200,9 @@
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RVO-UR-hAK">
                                                 <rect key="frame" x="162" y="8" width="45" height="45"/>
-                                                <color key="backgroundColor" red="0.98788469219999997" green="1" blue="0.98740922040000001" alpha="1" colorSpace="calibratedRGB"/>
                                             </imageView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4ki-7o-Ypa">
                                                 <rect key="frame" x="319" y="8" width="45" height="45"/>
-                                                <color key="backgroundColor" red="0.98788469219999997" green="1" blue="0.98740922040000001" alpha="1" colorSpace="calibratedRGB"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="北西の風" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ICa-aW-hST">
                                                 <rect key="frame" x="215" y="19" width="80" height="24"/>
@@ -345,7 +340,6 @@
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8Lf-9Q-eG5">
                                                     <rect key="frame" x="108" y="5" width="60" height="60"/>
-                                                    <color key="backgroundColor" red="0.78369374430000005" green="1" blue="0.67820829390000004" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="2Ew-f9-Vyz"/>
                                                     </constraints>
@@ -479,6 +473,6 @@
         <image name="NonFavorite" width="33" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="iaV-cM-cGU"/>
+        <segue reference="rup-tp-gfP"/>
     </inferredMetricsTieBreakers>
 </document>
