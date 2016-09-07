@@ -82,6 +82,7 @@
     apiAlertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"API規制です。" preferredStyle:UIAlertControllerStyleAlert];
     
     [networkAlertController addAction:action];
+    [apiAlertController addAction:action];
     
 }
 
@@ -428,6 +429,7 @@
         data.placeName = [placeData objectForKey:@"placeName"];
         data.placeLatitude = [placeData objectForKey:@"placeLatitude"];
         data.placeLongitude = [placeData objectForKey:@"placeLongitude"];
+        data.placeOrder = [NSNumber numberWithInt:i];
     }
     
     NSError *error = nil;
