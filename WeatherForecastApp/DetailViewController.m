@@ -104,7 +104,7 @@
 // 詳細情報を画面に配置
 - (void)setDetailData:(NSDictionary *)detailData {
     // 天気アイコン
-    self.weatherIcon.image = [UIImage imageNamed:@"Image"];
+    self.weatherIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", [[[detailData objectForKey:@"weather"] objectAtIndex:0] objectForKey:@"icon" ]]];
     
     // 地名
     self.placeNameLabel.text = _placeName;
@@ -162,7 +162,7 @@
         NSString *forecastDate = [[weatherData objectForKey:@"dt_txt"] substringWithRange:NSMakeRange(5, 5)];
         forecastView.dateLabel.text = [forecastDate stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
         // 天気アイコン
-        forecastView.weatherIcon.image = [UIImage imageNamed:@"Image"];
+        forecastView.weatherIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", [[[weatherData objectForKey:@"weather"] objectAtIndex:0] objectForKey:@"icon" ]]];
         // 気温
         temperature = [[[weatherData objectForKey:@"main"] objectForKey:@"temp"] doubleValue];
         forecastView.temperatureLabel.text = [NSString stringWithFormat:@"%2.1f℃", temperature];

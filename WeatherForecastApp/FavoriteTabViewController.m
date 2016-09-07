@@ -103,7 +103,9 @@
     
     for(int i=0; i<[favoritePlaces count]; i++) {
         if(!networkOfflineFlag) {
-            [self startAPICommunication:@"weather" :0.0 :0.0];
+            double latitude = [[[favoritePlaces objectAtIndex:i] objectForKey:@"placeLatitude"] doubleValue];
+            double longitude = [[[favoritePlaces objectAtIndex:i] objectForKey:@"placeLongitude"]doubleValue];
+            [self startAPICommunication:@"weather" :latitude :longitude];
         }
     }
 }
@@ -147,7 +149,8 @@
     if([weatherData count] > 0 && [favoritePlaces count] == [weatherData count]) {
         // 天気情報
         NSDictionary *weatherDatum = [NSDictionary dictionaryWithDictionary:[weatherData objectAtIndex:indexPath.row]];
-    
+        
+        cell.todayWeatherIconImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", [[[weatherDatum objectForKey:@"weather"] objectAtIndex:0] objectForKey:@"icon" ]]];
         cell.temperatureLabel.text = [NSString stringWithFormat:@"%2.1f℃", [[[weatherDatum objectForKey:@"main"] objectForKey:@"temp"] doubleValue]];
         [cell.cellExpansionButton addTarget:self action:@selector(pushCellExpansionButton:event:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -167,7 +170,7 @@
             toTime = fromTime + 3;
             forecastView.timeLabel.text = [NSString stringWithFormat:@"%d時〜%d時", fromTime, toTime];
             forecastView.precipitationLabel.text = [NSString stringWithFormat:@"%2.1f ml", [[[forecast objectForKey:@"rain"] objectForKey:@"3h"] doubleValue]];
-            forecastView.icon.image = [UIImage imageNamed:@"Image"];
+            forecastView.icon.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", [[[forecast objectForKey:@"weather"] objectAtIndex:0] objectForKey:@"icon" ]]];
             [cell.scrollView addSubview:forecastView];
             forecastView = nil;
         }
@@ -175,7 +178,6 @@
     }
     
     cell.placeNameLabel.text = [[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeName"];
-    cell.todayWeatherIconImage.image = [UIImage imageNamed:@"Image"];
     
     //cell.scrollView.hidden = YES;
     
@@ -259,7 +261,9 @@
         [self.tableView reloadData];
     } else {
         if(!networkOfflineFlag) {
-            [self startAPICommunication:@"forecast" :0.0 :0.0];
+            double latitude = [[[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeLatitude"] doubleValue];
+            double longitude = [[[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeLongitude"]doubleValue];
+            [self startAPICommunication:@"forecast" :latitude :longitude];
         }
     }
 
