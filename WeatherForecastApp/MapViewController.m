@@ -117,7 +117,10 @@
     //destinationViewControllerで詳細画面を指定
     DetailViewController *detailViewController = segue.destinationViewController;
     //詳細画面に緯度・経度を渡す
-    
+    detailViewController.placeName = detailPlaceName;
+    detailViewController.detailLatitude = detailLatitude;
+    detailViewController.detailLongitude = detailLongitude;
+
 }
 
 
@@ -249,7 +252,7 @@
     longitude = [NSString stringWithFormat:@"%@",[array[count] objectForKey:@"lon"]];
     double resultlat = [latitude doubleValue];
     double resultlon = [longitude doubleValue];
-    NSString *origin = [NSString stringWithFormat:@"http://iwakamiy:0828sYs1129@api.openweathermap.org/data/2.5/weather?lat=%@&lon=%@&appid=43d013783f31afed676d9233f3caf08e",latitude,longitude];
+    NSString *origin = [NSString stringWithFormat:@"http://iwakamiy:0828sYs1129@api.openweathermap.org/data/2.5/weather?lat=%@&lon=%@&appid=a9a8461295cb8b16af35deb36ec27445",latitude,longitude];
     NSLog(@"テストicon4：origin = %@",origin);
     NSURL* url = [NSURL URLWithString:origin];
     

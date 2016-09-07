@@ -16,6 +16,15 @@
 		8A7AB7851D7CFC6C00B5A640 /* FavoritePlaces.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A7AB7831D7CFC6C00B5A640 /* FavoritePlaces.m */; };
 		8A9270C41D7FE98D00CC462E /* CustomAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9270C31D7FE98D00CC462E /* CustomAnnotation.m */; };
 		8A9270C71D7FE99700CC462E /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9270C61D7FE99700CC462E /* MapViewController.m */; };
+		8A9270D51D7FEA5B00CC462E /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9270CA1D7FEA5B00CC462E /* FMDatabase.m */; };
+		8A9270D61D7FEA5B00CC462E /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9270CC1D7FEA5B00CC462E /* FMDatabaseAdditions.m */; };
+		8A9270D71D7FEA5B00CC462E /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9270CE1D7FEA5B00CC462E /* FMDatabasePool.m */; };
+		8A9270D81D7FEA5B00CC462E /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9270D01D7FEA5B00CC462E /* FMDatabaseQueue.m */; };
+		8A9270D91D7FEA5B00CC462E /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9270D31D7FEA5B00CC462E /* FMResultSet.m */; };
+		8A9270DA1D7FEA5B00CC462E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8A9270D41D7FEA5B00CC462E /* Info.plist */; };
+		8A9270DC1D7FEA8600CC462E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9270DB1D7FEA8600CC462E /* MapKit.framework */; };
+		8A9270DE1D7FEA9E00CC462E /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9270DD1D7FEA9E00CC462E /* libsqlite3.0.tbd */; };
+		8A9270E01D7FEAC800CC462E /* Location.db in Resources */ = {isa = PBXBuildFile; fileRef = 8A9270DF1D7FEAC800CC462E /* Location.db */; };
 		8AB16D4F1D77A9E700BCF000 /* FavoriteTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB16D4E1D77A9E700BCF000 /* FavoriteTabViewController.m */; };
 		8ADC2AEC1D742424000EE9B3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC2AEB1D742424000EE9B3 /* main.m */; };
 		8ADC2AEF1D742424000EE9B3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC2AEE1D742424000EE9B3 /* AppDelegate.m */; };
@@ -62,6 +71,21 @@
 		8A9270C31D7FE98D00CC462E /* CustomAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnnotation.m; sourceTree = "<group>"; };
 		8A9270C51D7FE99700CC462E /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		8A9270C61D7FE99700CC462E /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		8A9270C91D7FEA5B00CC462E /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		8A9270CA1D7FEA5B00CC462E /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		8A9270CB1D7FEA5B00CC462E /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		8A9270CC1D7FEA5B00CC462E /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		8A9270CD1D7FEA5B00CC462E /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		8A9270CE1D7FEA5B00CC462E /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		8A9270CF1D7FEA5B00CC462E /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		8A9270D01D7FEA5B00CC462E /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		8A9270D11D7FEA5B00CC462E /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
+		8A9270D21D7FEA5B00CC462E /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		8A9270D31D7FEA5B00CC462E /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		8A9270D41D7FEA5B00CC462E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8A9270DB1D7FEA8600CC462E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		8A9270DD1D7FEA9E00CC462E /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		8A9270DF1D7FEAC800CC462E /* Location.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = Location.db; path = ../../Location.db; sourceTree = "<group>"; };
 		8AB16D4D1D77A9E700BCF000 /* FavoriteTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteTabViewController.h; sourceTree = "<group>"; };
 		8AB16D4E1D77A9E700BCF000 /* FavoriteTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteTabViewController.m; sourceTree = "<group>"; };
 		8ADC2AE71D742424000EE9B3 /* WeatherForecastApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecastApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +112,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A9270DE1D7FEA9E00CC462E /* libsqlite3.0.tbd in Frameworks */,
+				8A9270DC1D7FEA8600CC462E /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,9 +134,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8A9270C81D7FEA5B00CC462E /* fmdb */ = {
+			isa = PBXGroup;
+			children = (
+				8A9270DD1D7FEA9E00CC462E /* libsqlite3.0.tbd */,
+				8A9270C91D7FEA5B00CC462E /* FMDatabase.h */,
+				8A9270CA1D7FEA5B00CC462E /* FMDatabase.m */,
+				8A9270CB1D7FEA5B00CC462E /* FMDatabaseAdditions.h */,
+				8A9270CC1D7FEA5B00CC462E /* FMDatabaseAdditions.m */,
+				8A9270CD1D7FEA5B00CC462E /* FMDatabasePool.h */,
+				8A9270CE1D7FEA5B00CC462E /* FMDatabasePool.m */,
+				8A9270CF1D7FEA5B00CC462E /* FMDatabaseQueue.h */,
+				8A9270D01D7FEA5B00CC462E /* FMDatabaseQueue.m */,
+				8A9270D11D7FEA5B00CC462E /* FMDB.h */,
+				8A9270D21D7FEA5B00CC462E /* FMResultSet.h */,
+				8A9270D31D7FEA5B00CC462E /* FMResultSet.m */,
+				8A9270D41D7FEA5B00CC462E /* Info.plist */,
+			);
+			name = fmdb;
+			path = "../../Desktop/fmdb-master/src/fmdb";
+			sourceTree = "<group>";
+		};
 		8ADC2ADE1D742424000EE9B3 = {
 			isa = PBXGroup;
 			children = (
+				8A9270DB1D7FEA8600CC462E /* MapKit.framework */,
 				8ADC2AE91D742424000EE9B3 /* WeatherForecastApp */,
 				8ADC2B061D742425000EE9B3 /* WeatherForecastAppTests */,
 				8ADC2B111D742425000EE9B3 /* WeatherForecastAppUITests */,
@@ -131,6 +179,8 @@
 		8ADC2AE91D742424000EE9B3 /* WeatherForecastApp */ = {
 			isa = PBXGroup;
 			children = (
+				8A9270DF1D7FEAC800CC462E /* Location.db */,
+				8A9270C81D7FEA5B00CC462E /* fmdb */,
 				8ADC2AED1D742424000EE9B3 /* AppDelegate.h */,
 				8ADC2AEE1D742424000EE9B3 /* AppDelegate.m */,
 				8ADC2AF01D742424000EE9B3 /* ViewController.h */,
@@ -294,7 +344,9 @@
 			files = (
 				8A5633561D7949D500206C8A /* ThreeHourForecastView.xib in Resources */,
 				8ADC2AFD1D742425000EE9B3 /* LaunchScreen.storyboard in Resources */,
+				8A9270DA1D7FEA5B00CC462E /* Info.plist in Resources */,
 				8ADC2AFA1D742425000EE9B3 /* Assets.xcassets in Resources */,
+				8A9270E01D7FEAC800CC462E /* Location.db in Resources */,
 				8ADC2AF51D742425000EE9B3 /* Main.storyboard in Resources */,
 				8A2587261D7E7E3600530776 /* DailyForecastView.xib in Resources */,
 			);
@@ -323,13 +375,18 @@
 			files = (
 				8A56335C1D7950EA00206C8A /* ThreeHourForecastView.m in Sources */,
 				8A7AB7841D7CFC6C00B5A640 /* FavoritePlaces+CoreDataProperties.m in Sources */,
+				8A9270D51D7FEA5B00CC462E /* FMDatabase.m in Sources */,
 				8ADC2AF21D742424000EE9B3 /* ViewController.m in Sources */,
 				8A9270C71D7FE99700CC462E /* MapViewController.m in Sources */,
+				8A9270D61D7FEA5B00CC462E /* FMDatabaseAdditions.m in Sources */,
 				8ADC2AEF1D742424000EE9B3 /* AppDelegate.m in Sources */,
+				8A9270D71D7FEA5B00CC462E /* FMDatabasePool.m in Sources */,
 				8ADC2AEC1D742424000EE9B3 /* main.m in Sources */,
+				8A9270D81D7FEA5B00CC462E /* FMDatabaseQueue.m in Sources */,
 				8A9270C41D7FE98D00CC462E /* CustomAnnotation.m in Sources */,
 				8A2587291D7E7E5A00530776 /* DailyForecastView.m in Sources */,
 				8AB16D4F1D77A9E700BCF000 /* FavoriteTabViewController.m in Sources */,
+				8A9270D91D7FEA5B00CC462E /* FMResultSet.m in Sources */,
 				8ADC2AF81D742425000EE9B3 /* WeatherForecastApp.xcdatamodeld in Sources */,
 				8A7AB77F1D7CEE8A00B5A640 /* DetailViewController.m in Sources */,
 				8A7AB7851D7CFC6C00B5A640 /* FavoritePlaces.m in Sources */,

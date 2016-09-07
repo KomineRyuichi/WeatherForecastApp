@@ -141,7 +141,7 @@
     self.windSpeedLabel.text = [NSString stringWithFormat:@"%1.0fm/s", [[wind objectForKey:@"speed"] doubleValue]];
 }
 
-// 5日間の予報を画面に配置
+// 4日間の予報を画面に配置
 - (void)setForecasts:(NSDictionary *)forecastData {
     // Scrol Viewの設定
     // コンテンツサイズの設定(横スクロールのため、Width * ページ数:4)
@@ -183,7 +183,7 @@
 - (void)startAPICommunication:(NSString *)resource :(double)latitude :(double)longitude{
     // URLの設定
     NSString *urlString = @"http://kominer:enimokR0150@api.openweathermap.org/data/2.5/";
-    NSString *apiKey = @"43d013783f31afed676d9233f3caf08e";
+    NSString *apiKey = @"54d51f13da00bdabafdee82cdee866ea";
     NSString *param = [NSString stringWithFormat:@"lat=%3.6lf&lon=%3.6lf&units=metric&appid=%@", latitude, longitude, apiKey];
     NSString *test = [NSString stringWithFormat:@"%@%@?%@", urlString, resource, param];
     NSURL *url = [NSURL URLWithString:[test stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
