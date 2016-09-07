@@ -188,7 +188,7 @@
 //条件を満たすデータをFMDBから読み込む。条件を満たすデータがあれば直前の動作に応じてdoCommunicationかdeleteIconを呼ぶ。
 -(void)readDBnwCoord:(CLLocationCoordinate2D)nwCoord seCoord:(CLLocationCoordinate2D)seCoord{
     NSLog(@"テストicon3：readDB");
-    
+    NSLog(@"テストicon3：latitudeDelta = %f",zoomRegion.span.latitudeDelta);
     //** DBtest **//
     // (1)
     NSString *dbfile = @"Location.db";
@@ -219,7 +219,12 @@
     FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
     // (4)
     //データベース内のテーブルから表示したいカラムを選ぶ
-    NSString *selectSql = [NSString stringWithFormat:@"SELECT MAP_JAPANESE_NAME,MAP_LATITUDE,MAP_LONGITUDE FROM location WHERE MAP_DISPLAY_PERMISSION_RANGE >= 500"];
+    NSString *selectSql;
+    if( zoomRegion.span.latitudeDelta < 5.66 ){
+        selectSql = [NSString stringWithFormat:@"SELECT MAP_JAPANESE_NAME,MAP_LATITUDE,MAP_LONGITUDE FROM location WHERE MAP_DISPLAY_PERMISSION_RANGE = 100"];
+    }else{
+        selectSql = [NSString stringWithFormat:@"SELECT MAP_JAPANESE_NAME,MAP_LATITUDE,MAP_LONGITUDE FROM location WHERE MAP_DISPLAY_PERMISSION_RANGE = 500"];
+    }
     //DBからの読み込み処理
     [db open];
     FMResultSet *result = [db executeQuery:selectSql];
@@ -272,6 +277,7 @@
     [session dataTaskWithURL:url
            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                if(error) {
+                   // オフライン時アラート処理(未実装)
                    NSLog(@"Session Error:%@", error);
                    return;
                }else{
@@ -374,10 +380,10 @@
 -(void)pushResetScaleButton{
     NSLog(@"テストbutton1-1：pushResetScaleButton");
     gesture = @"resetScale";
-    [self deleteIcon];
+//    [self deleteIcon];
     [self.mapView setCenterCoordinate:location animated:YES];
     [self.mapView setRegion:region animated:YES];
-    [self getScaleAndLocation];
+//    [self getScaleAndLocation];
     gesture = nil;
 }
 //「拡大」ボタン
@@ -410,6 +416,8 @@
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
     NSLog(@"*****************************************************");
     NSLog(@"テストregionDidChange：mapView:regionDidChangeAnimated:");
+    // 天気アイコン全消し
+    [self deleteIcon];
     [self getScaleAndLocation];
 }
 

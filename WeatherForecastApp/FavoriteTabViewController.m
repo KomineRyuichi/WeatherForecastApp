@@ -317,9 +317,10 @@
         // エラー処理
         if(error) {
             NSLog(@"Session Error:%@", error);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self presentViewController:networkAlertController animated:YES completion:nil];
-            });
+            // オフライン時アラート処理(エラー未解決)
+            //dispatch_async(dispatch_get_main_queue(), ^{
+                //[self presentViewController:networkAlertController animated:YES completion:nil];
+            //});
             return;
         }
         
@@ -329,9 +330,10 @@
         NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
         
         if([jsonData objectForKey:@"cod"] == [NSNumber numberWithInteger:401]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self presentViewController:apiAlertController animated:YES completion:nil];
-            });
+            // API規制時アラート処理(エラー未解決)
+            //dispatch_async(dispatch_get_main_queue(), ^{
+                //[self presentViewController:apiAlertController animated:YES completion:nil];
+            //});
         } else {
             if ([resource isEqualToString:@"weather"]) {
                 // 天気情報を配列に追加
