@@ -57,6 +57,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.navigationController.visibleViewController.tabBarItem.image = [UIImage imageNamed:@"FavoriteTab"];
+    self.navigationController.visibleViewController.tabBarItem.title = @"Favorite";
+    
     _tableView.delegate = self;
     _tableView.dataSource = self;
     

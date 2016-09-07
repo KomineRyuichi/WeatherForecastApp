@@ -6,11 +6,11 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Item-->
+        <!--Favorite-->
         <scene sceneID="Ia8-Uu-pbD">
             <objects>
                 <navigationController id="eci-9k-ith" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="LKE-vr-bLM"/>
+                    <tabBarItem key="tabBarItem" title="Favorite" image="FavoriteTab" id="LKE-vr-bLM"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="sLz-mJ-iX1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -400,7 +400,7 @@
                             <constraint firstItem="Ph4-Gr-5RR" firstAttribute="top" secondItem="mtP-bm-ysc" secondAttribute="top" constant="64" id="lZb-Ug-haN"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="お気に入り" id="ALQ-I5-VET"/>
+                    <tabBarItem key="tabBarItem" title="お気に入り" selectedImage="FavoriteTab" id="ALQ-I5-VET"/>
                     <navigationItem key="navigationItem" id="LMF-9D-wSY"/>
                     <connections>
                         <outlet property="addPlaceButton" destination="JEn-No-QpK" id="T0k-pp-P3N"/>
@@ -431,11 +431,11 @@
             </objects>
             <point key="canvasLocation" x="-1288" y="64"/>
         </scene>
-        <!--Item-->
+        <!--Map-->
         <scene sceneID="HwP-g8-FKd">
             <objects>
                 <navigationController id="RpO-Yk-yfD" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="RPc-bE-QbH"/>
+                    <tabBarItem key="tabBarItem" title="Map" image="MapTab" id="RPc-bE-QbH"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Dk1-JF-Hk3">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -449,7 +449,11 @@
             <point key="canvasLocation" x="-480" y="370"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="FavoriteTab" width="30" height="30"/>
+        <image name="MapTab" width="30" height="30"/>
+    </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rup-tp-gfP"/>
+        <segue reference="iaV-cM-cGU"/>
     </inferredMetricsTieBreakers>
 </document>
