@@ -51,14 +51,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    ThreeHourForecastView *forecastView1 = [[ThreeHourForecastView alloc] init];
-    ThreeHourForecastView *forecastView2 = [[ThreeHourForecastView alloc] init];
-    ThreeHourForecastView *forecastView3 = [[ThreeHourForecastView alloc] init];
-    ThreeHourForecastView *forecastView4 = [[ThreeHourForecastView alloc] init];
-    ThreeHourForecastView *forecastView5 = [[ThreeHourForecastView alloc] init];
-    ThreeHourForecastView *forecastView6 = [[ThreeHourForecastView alloc] init];
-    
-    forecastViewArray = [NSArray arrayWithObjects:forecastView1, forecastView2, forecastView3, forecastView4, forecastView5, forecastView6, nil];
     
     _tableView.delegate = self;
     _tableView.dataSource = self;

@@ -31,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *windSpeedIcon;
 @property (weak, nonatomic) IBOutlet UILabel *windSpeedLabel;
 @property (weak, nonatomic) IBOutlet UIScrollView *dailyForecasts;
+@property (strong, nonatomic) NSManagedObjectContext *context;
 
 @end
 
@@ -44,6 +45,9 @@
     
     formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"yyyy/MM/dd";
+    
+    AppDelegate *appDelegate = [UIApplication.sharedApplication delegate];
+    self.context = [appDelegate managedObjectContext];
     
     
 }
@@ -225,7 +229,36 @@
     } else {
         return @"北風";
     }
+    
 }
 
+- (void)registerPlaceToCoreData {
+    FavoritePlaces *newPlace = [NSEntityDescription insertNewObjectForEntityForName:@"FavoritePlaces" inManagedObjectContext:self.context];
+    
+    newPlace.placeName = _placeName;
+    newPlace.placeLatitude = [NSNumber numberWithDouble:_detailLatitude];
+    newPlace.placeLongitude = [NSNumber numberWithDouble:_detailLongitude];
+    newPlace.placeOrder = [NSNumber numberWithInteger:0];
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FavoritePlaces"];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"placeOrder" ascending:NO];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    NSArray *results = [self.context executeFetchRequest:fetchRequest error:nil];
+    
+    for (FavoritePlaces *place in results) {
+        NSInteger beforeOrder = [place.placeOrder integerValue];
+        place.placeOrder = [NSNumber numberWithInteger:beforeOrder + 1];
+    }
+    
+    NSError *error = nil;
+    if(![self.context save:&error]) {
+        NSLog(@"Error:%@", error);
+    } else {
+        NSLog(@"Success");
+    }
+    
+}
 
 @end
