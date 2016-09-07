@@ -39,8 +39,9 @@
     NSString *selectedPlaceName;
     double selectedPlaceLatitude;
     double selectedPlaceLongitude;
-    UIAlertController *alertController;
-    BOOL networkOfflineFlag;
+    UIAlertController *networkAlertController;
+    UIAlertController *apiAlertController;
+    BOOL communicationDisableFlag;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *addPlaceButton;
@@ -74,11 +75,14 @@
     AppDelegate *appDelegate = [UIApplication.sharedApplication delegate];
     self.context = [appDelegate managedObjectContext];
     
-    alertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"オフラインです。" preferredStyle:UIAlertControllerStyleAlert];
+    networkAlertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"オフラインです。" preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) { networkOfflineFlag = YES;}];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) { communicationDisableFlag = YES;}];
     
-    [alertController addAction:action];
+    apiAlertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"API規制です。" preferredStyle:UIAlertControllerStyleAlert];
+    
+    [networkAlertController addAction:action];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -105,7 +109,7 @@
     
     
     for(int i=0; i<[favoritePlaces count]; i++) {
-        if(!networkOfflineFlag) {
+        if(!communicationDisableFlag) {
             double latitude = [[[favoritePlaces objectAtIndex:i] objectForKey:@"placeLatitude"] doubleValue];
             double longitude = [[[favoritePlaces objectAtIndex:i] objectForKey:@"placeLongitude"]doubleValue];
             [self startAPICommunication:@"weather" :latitude :longitude];
@@ -263,7 +267,7 @@
     if(cell.scrollView.hidden) {
         [self.tableView reloadData];
     } else {
-        if(!networkOfflineFlag) {
+        if(!communicationDisableFlag) {
             double latitude = [[[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeLatitude"] doubleValue];
             double longitude = [[[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeLongitude"]doubleValue];
             [self startAPICommunication:@"forecast" :latitude :longitude];
@@ -289,9 +293,6 @@
 
 // API通信開始
 - (void)startAPICommunication:(NSString *)resource :(double)latitude :(double)longitude{
-    // 緯度・経度サンプル(北海道)
-    latitude = 43.06451;
-    longitude = 141.346603;
     
     // URLの設定
     NSString *urlString = @"http://kominer:enimokR0150@api.openweathermap.org/data/2.5/";
@@ -316,7 +317,7 @@
         if(error) {
             NSLog(@"Session Error:%@", error);
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self presentViewController:alertController animated:YES completion:nil];
+                [self presentViewController:networkAlertController animated:YES completion:nil];
             });
             return;
         }
@@ -326,14 +327,19 @@
         NSError *jsonError;
         NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
         
-        if ([resource isEqualToString:@"weather"]) {
-            // 天気情報を配列に追加
-            [weatherData addObject:jsonData];
-            
-        } else if([resource isEqualToString:@"forecast"]) {
-            // 3時間ごとの天気予報を取得
-            for(int i=0; i<6; i++) {
-                [forecastData addObject:[[jsonData objectForKey:@"list"] objectAtIndex:i]];
+        if([[jsonData objectForKey:@"cod"] isEqualToString:@"401"]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentViewController:apiAlertController animated:YES completion:nil];
+            });
+        } else {
+            if ([resource isEqualToString:@"weather"]) {
+                // 天気情報を配列に追加
+                [weatherData addObject:jsonData];
+            } else if([resource isEqualToString:@"forecast"]) {
+                // 3時間ごとの天気予報を取得
+                for(int i=0; i<6; i++) {
+                    [forecastData addObject:[[jsonData objectForKey:@"list"] objectAtIndex:i]];
+                }
             }
         }
         
