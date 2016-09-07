@@ -14,6 +14,8 @@
 @interface DetailViewController () {
     NSDateFormatter *formatter;
     NSDate *date;
+    BOOL networkOfflineFlag;
+    UIAlertController *alertController;
 }
 
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
@@ -49,7 +51,11 @@
     AppDelegate *appDelegate = [UIApplication.sharedApplication delegate];
     self.context = [appDelegate managedObjectContext];
     
+    alertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"オフラインです。" preferredStyle:UIAlertControllerStyleAlert];
     
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) { networkOfflineFlag = YES;}];
+    
+    [alertController addAction:action];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -60,15 +66,16 @@
     date = [NSDate date];
     NSLog(@"%@", date);
     
+    // 今日の日付表示
     self.dateLabel.text = [formatter stringFromDate:date];
-    
-    self.placeName = @"北海道";
 
     // 天気の詳細データを取得
     [self startAPICommunication:@"weather" :_detailLatitude :_detailLongitude];
     
-    // 4日間の予報を取得
-    [self startAPICommunication:@"forecast" :_detailLatitude :_detailLongitude];
+    if(!networkOfflineFlag) {
+        // 4日間の予報を取得
+        [self startAPICommunication:@"forecast" :_detailLatitude :_detailLongitude];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -78,7 +85,19 @@
 
 #pragma mark - Other
 
-- (IBAction)addFavoritePlace:(UIBarButtonItem *)sender {
+- (IBAction)addFavoritePlace:(UIButton *)sender {
+    
+    sender.selected = !sender.selected;
+    
+    if(sender.selected) {
+        sender.imageView.image = [UIImage imageNamed:@"Fav"];
+        sender.backgroundColor = [UIColor clearColor];
+        [self registerPlaceToCoreData];
+    } else {
+        sender.imageView.image = nil;
+        sender.titleLabel.text = @"☆";
+        [self deleteFavoritePlace];
+    }
     
 }
 
@@ -162,10 +181,6 @@
 
 // API通信開始
 - (void)startAPICommunication:(NSString *)resource :(double)latitude :(double)longitude{
-    // 緯度・経度サンプル(北海道)
-    latitude = 43.06451;
-    longitude = 141.346603;
-    
     // URLの設定
     NSString *urlString = @"http://kominer:enimokR0150@api.openweathermap.org/data/2.5/";
     NSString *apiKey = @"43d013783f31afed676d9233f3caf08e";
@@ -185,6 +200,9 @@
         
         // エラー処理
         if(error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentViewController:alertController animated:YES completion:nil];
+            });
             NSLog(@"Session Error:%@", error);
             return;
         }
@@ -232,6 +250,8 @@
     
 }
 
+#pragma mark - CoreData
+
 - (void)registerPlaceToCoreData {
     FavoritePlaces *newPlace = [NSEntityDescription insertNewObjectForEntityForName:@"FavoritePlaces" inManagedObjectContext:self.context];
     
@@ -247,7 +267,8 @@
     
     NSArray *results = [self.context executeFetchRequest:fetchRequest error:nil];
     
-    for (FavoritePlaces *place in results) {
+    for (int i=0; i<[results count] -1; i++) {
+        FavoritePlaces *place = [results objectAtIndex:i];
         NSInteger beforeOrder = [place.placeOrder integerValue];
         place.placeOrder = [NSNumber numberWithInteger:beforeOrder + 1];
     }
@@ -258,7 +279,24 @@
     } else {
         NSLog(@"Success");
     }
+}
+
+- (void)deleteFavoritePlace {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FavoritePlaces"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"placeName=%@", _placeName];
+    [fetchRequest setPredicate:predicate];
     
+    NSArray *results = [self.context executeFetchRequest:fetchRequest error:nil];
+    
+    FavoritePlaces *place = [results objectAtIndex:0];
+    [self.context deleteObject:place];
+    
+    NSError *error = nil;
+    if(![self.context save:&error]) {
+        NSLog(@"Error:%@", error);
+    } else {
+        NSLog(@"Success");
+    }
 }
 
 @end

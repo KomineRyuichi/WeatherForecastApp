@@ -254,10 +254,15 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="詳細" id="hpc-Qa-l05">
-                        <barButtonItem key="rightBarButtonItem" title="☆" style="done" id="7wu-Ha-yFU">
-                            <connections>
-                                <action selector="addFavoritePlace:" destination="OIb-cA-Nms" id="TTt-RW-ay4"/>
-                            </connections>
+                        <barButtonItem key="rightBarButtonItem" title="Item" style="done" id="aZB-bd-uPr">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lEX-UB-DoJ">
+                                <rect key="frame" x="550" y="7" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="☆"/>
+                                <connections>
+                                    <action selector="addFavoritePlace:" destination="OIb-cA-Nms" eventType="touchUpInside" id="caQ-J8-BFQ"/>
+                                </connections>
+                            </button>
                         </barButtonItem>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>

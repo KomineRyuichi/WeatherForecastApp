@@ -36,6 +36,11 @@
     NSMutableArray *forecastData;
     NSArray *forecastViewArray;
     NSMutableArray *favoritePlaces;
+    NSString *selectedPlaceName;
+    double selectedPlaceLatitude;
+    double selectedPlaceLongitude;
+    UIAlertController *alertController;
+    BOOL networkOfflineFlag;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *addPlaceButton;
@@ -62,14 +67,15 @@
     weatherData = [NSMutableArray array];
     forecastData = [NSMutableArray array];
     favoritePlaces = [NSMutableArray array];
-    [favoritePlaces addObject:@"さいたま市"];
-    [favoritePlaces addObject:@"tetete"];
-    [favoritePlaces addObject:@"ttetete"];
-    [favoritePlaces addObject:@"tetetteee"];
-    [favoritePlaces addObject:@"aadsfsfs"];
     
     AppDelegate *appDelegate = [UIApplication.sharedApplication delegate];
     self.context = [appDelegate managedObjectContext];
+    
+    alertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"オフラインです。" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) { networkOfflineFlag = YES;}];
+    
+    [alertController addAction:action];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -94,9 +100,11 @@
     [super viewDidAppear:animated];
     NSLog(@"Did Appearですよ〜〜〜〜〜〜〜〜");
     
+    
     for(int i=0; i<[favoritePlaces count]; i++) {
-        NSLog(@"communication %d", i+1);
-        [self startAPICommunication:@"weather" :0.0 :0.0];
+        if(!networkOfflineFlag) {
+            [self startAPICommunication:@"weather" :0.0 :0.0];
+        }
     }
 }
 
@@ -118,7 +126,10 @@
 
 // 遷移直前の処理
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
+    DetailViewController *viewController = segue.destinationViewController;
+    viewController.placeName = selectedPlaceName;
+    viewController.detailLatitude = selectedPlaceLatitude;
+    viewController.detailLongitude = selectedPlaceLongitude;
 }
 
 #pragma mark - TableView
@@ -163,7 +174,7 @@
         
     }
     
-    cell.placeNameLabel.text = [favoritePlaces objectAtIndex:indexPath.row];
+    cell.placeNameLabel.text = [[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeName"];
     cell.todayWeatherIconImage.image = [UIImage imageNamed:@"Image"];
     
     //cell.scrollView.hidden = YES;
@@ -192,8 +203,13 @@
     return YES;
 }
 
-// 選択せる検知
+// セル選択
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *selectedPlace = [NSDictionary dictionaryWithDictionary:[favoritePlaces objectAtIndex:indexPath.row]];
+    selectedPlaceName = [selectedPlace objectForKey:@"placeName"];
+    selectedPlaceLongitude = [[selectedPlace objectForKey:@"placeLongitude"] doubleValue];
+    selectedPlaceLongitude = [[selectedPlace objectForKey:@"placeLatitude"] doubleValue];
+    [favoritePlaces removeAllObjects];
     [self.navigationController.visibleViewController performSegueWithIdentifier:@"goDetail" sender:self];
 }
 
@@ -202,7 +218,7 @@
     NSArray *indexPaths = [NSArray arrayWithObjects:indexPath, nil];
     [favoritePlaces removeObjectAtIndex:indexPath.row];
     
-    //[self deleteFavoritePlace:indexPath];
+    [self deleteFavoritePlace:indexPath];
     
     [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
     
@@ -220,7 +236,7 @@
     // 元あった場所から項目の削除
     [favoritePlaces removeObject:item];
     // CoreData更新
-    //[self updateFavoritePlaceOrder];
+    [self updateFavoritePlaceOrder];
     // 新しい位置に挿入
     [favoritePlaces insertObject:item atIndex:destinationIndexPath.row];
 }
@@ -242,7 +258,9 @@
     if(cell.scrollView.hidden) {
         [self.tableView reloadData];
     } else {
-        [self startAPICommunication:@"forecast" :0.0 :0.0];
+        if(!networkOfflineFlag) {
+            [self startAPICommunication:@"forecast" :0.0 :0.0];
+        }
     }
 
 }
@@ -290,6 +308,9 @@
         // エラー処理
         if(error) {
             NSLog(@"Session Error:%@", error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentViewController:alertController animated:YES completion:nil];
+            });
             return;
         }
         
@@ -326,22 +347,39 @@
 
 - (void)getFavoritePlace{
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FavoritePlaces"];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"placeOrder" ascending:NO];
-    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    
+    // 一度に読み込むサイズを指定します。
+    [fetchRequest setFetchLimit:20];
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"placeOrder" ascending:YES selector:@selector(caseInsensitiveCompare:)];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     [fetchRequest setSortDescriptors:sortDescriptors];
     
-    NSArray *results = [self.context executeFetchRequest:fetchRequest error:nil];
+    // NSFetchedResultsControllerを作成します。
+    // 上記までで作成したFetchRequestを指定します。
+    NSFetchedResultsController *fetchedResultsController
+    = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                          managedObjectContext:self.context
+                                            sectionNameKeyPath:nil
+                                                     cacheName:nil];
     
-    for (FavoritePlaces *data in results) {
-        [favoritePlaces addObject:data];
-    }
-    
+    // データ検索を行います。
+    // 失敗した場合には、メソッドはfalseを返し、引数errorに値を詰めてくれます。
     NSError *error = nil;
-    if(![self.context save:&error]) {
-        NSLog(@"Error:%@", error);
-    } else {
-        NSLog(@"Success");
+    if (![fetchedResultsController performFetch:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
+    
+    NSArray *results = [NSArray arrayWithArray:[fetchedResultsController fetchedObjects]];
+    for (FavoritePlaces *data in results) {
+        NSString *name = data.placeName;
+        double latitude = [data.placeLatitude doubleValue];
+        double longitude = [data.placeLongitude doubleValue];
+        NSDictionary *place = [NSDictionary dictionaryWithObjectsAndKeys:name, @"placeName", latitude, @"placeLatitude", longitude, @"placeLongitude", nil];
+        [favoritePlaces addObject:place];
+        place = nil;
+    }
+
 }
 
 - (void)deleteFavoritePlace:(NSIndexPath *)indexPath {
