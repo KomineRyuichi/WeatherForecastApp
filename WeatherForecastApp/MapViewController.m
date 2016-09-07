@@ -101,56 +101,6 @@
     [self.view addSubview:zoomOutButton];
     
     countGesture = 1;
-    
-    
-    
-    //** DBtest **//
-//    // (1)
-//    NSString *dbfile = @"Location.db";
-//    // データベースファイルを格納するために文書フォルダを取得
-//    NSArray  *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
-//    NSString *documentsDirectory = [paths objectAtIndex:0];
-//    NSString *dbPath = [documentsDirectory stringByAppendingPathComponent:dbfile];
-//    NSLog(@"db path = %@", dbPath);
-//    // (2)
-//    BOOL checkDb;
-//    NSError *error;
-//    NSFileManager *fileManager = [NSFileManager defaultManager];
-//    checkDb = [fileManager fileExistsAtPath:dbPath];// データベースファイルを確認
-//    
-//    if(!checkDb){
-//        // ファイルが無い場合はコピー
-//        NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:dbfile];
-//        checkDb = [fileManager copyItemAtPath:defaultDBPath toPath:dbPath error:&error];
-//        if(!checkDb){
-//            // Erroの場合
-//            NSLog(@"Copy error = %@", defaultDBPath);
-//        }
-//    } else {
-//        NSLog(@"DB file OK");
-//    }
-//    // (3)
-//    //データベースのパス
-//    db = [FMDatabase databaseWithPath:dbPath];
-//    // (4)
-//    //データベース内のテーブルから表示したいカラムを選ぶ
-//    NSString *selectSql = [NSString stringWithFormat:@"SELECT MAP_NUMBER,MAP_JAPANESE_NAME,MAP_LATITUDE,MAP_LONGITUDE,MAP_DISPLAY_PERMISSION_RANGE FROM location"];
-//    [db open];
-//    // (5)
-//    FMResultSet *result = [db executeQuery:selectSql];
-//    while ([result next]) {
-//        MAP_NUMBER = [result intForColumn:@"MAP_NUMBER"];
-//        MAP_JAPANESE_NAME = [result stringForColumn:@"MAP_JAPANESE_NAME"];
-//        MAP_LATITUDE = [result doubleForColumn:@"MAP_LATITUDE"];
-//        MAP_LONGITUDE = [result doubleForColumn:@"MAP_LONGITUDE"];
-//        MAP_DISPLAY_PERMISSION_RANGE = [result intForColumn:@"MAP_DISPLAY_PERMISSION_RANGE"];
-//        
-//        NSLog(@"%d,%@,%f,%f,%d", MAP_NUMBER, MAP_JAPANESE_NAME, MAP_LATITUDE, MAP_LONGITUDE, MAP_DISPLAY_PERMISSION_RANGE);
-//    }
-//    [db close];
-    //** DBtest **//
-    
-    
     NSLog(@"テストviewDidLoad：finish");
     [self getScaleAndLocation];
 }
@@ -284,20 +234,7 @@
 //    NSLog(@"テストicon3(northWest longitude) : %f",nwCoord.longitude);
 //    NSLog(@"テストicon3(southEast latitude) : %f",seCoord.latitude);
 //    NSLog(@"テストicon3(southEast longitude) : %f",seCoord.longitude);
-//    //**test**//
-//    
-//    //FMDBからの結果取得シミュレーション
-//    NSArray *testKeyArray = [[NSArray alloc] initWithObjects:@"place",@"lat",@"lon", nil];
-//    NSArray *geoArray1 = [[NSArray alloc] initWithObjects:@"(´・ω・`)",[NSNumber numberWithDouble:35],[NSNumber numberWithDouble:139], nil];
-//    NSArray *geoArray2 = [[NSArray alloc] initWithObjects:@"彡(゜)(゜)",[NSNumber numberWithDouble:35.6553335],[NSNumber numberWithDouble:139.748611], nil];
-//    NSArray *geoArray3 = [[NSArray alloc] initWithObjects:@"くぁwせdrftgyふじこlp",[NSNumber numberWithDouble:32.655333],[NSNumber numberWithDouble:135.748611], nil];
-//    NSDictionary *resultDic1 = [[NSDictionary alloc] initWithObjects:geoArray1 forKeys:testKeyArray];
-//    NSDictionary *resultDic2 = [[NSDictionary alloc] initWithObjects:geoArray2 forKeys:testKeyArray];
-//    NSDictionary *resultDic3 = [[NSDictionary alloc] initWithObjects:geoArray3 forKeys:testKeyArray];
-//    NSArray *resultArray = [[NSArray alloc] initWithObjects:resultDic1,resultDic2,resultDic3, nil];
-//    //直前の操作によって読み込んだデータを通信か削除のどちらに用いるかを切り替える
-//    NSLog(@"テスト：履歴＝%f",historyLatitudeDelta);
-//    NSLog(@"テスト：現在＝%f",(nwCoord.latitude - seCoord.latitude));
+    
     
     [resultArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL* stop) {
         [self doCommunication:resultArray count:idx];
@@ -327,8 +264,14 @@
     NSURLSessionDataTask* task =
     [session dataTaskWithURL:url
            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-               [self doParseData:data Place:placeName Lat:resultlat Lon:resultlon];
+               if(error) {
+                   NSLog(@"Session Error:%@", error);
+                   return;
+               }else{
+                   [self doParseData:data Place:placeName Lat:resultlat Lon:resultlon];
+               }
            }];
+    
     [task resume];
 }
 //JSON形式のレスポンスをパース、iconキーの値を取得
