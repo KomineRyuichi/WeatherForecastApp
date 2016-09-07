@@ -214,7 +214,7 @@
         NSError *jsonError;
         NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
         
-        if([[jsonData objectForKey:@"cod"] isEqualToString:@"401"]) {
+        if([jsonData objectForKey:@"cod"] == [NSNumber numberWithInteger:401]) {
             [self presentViewController:apiAlertController animated:YES completion:nil];
         } else {
             if ([resource isEqualToString:@"weather"]) {

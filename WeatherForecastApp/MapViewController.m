@@ -105,6 +105,10 @@
     [self getScaleAndLocation];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.visibleViewController.tabBarController.tabBar.hidden = NO;
+}
 
 
 #pragma mark - 	screen transition
@@ -215,7 +219,7 @@
     FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
     // (4)
     //データベース内のテーブルから表示したいカラムを選ぶ
-    NSString *selectSql = [NSString stringWithFormat:@"SELECT MAP_JAPANESE_NAME,MAP_LATITUDE,MAP_LONGITUDE,MAP_DISPLAY_PERMISSION_RANGE FROM location"];
+    NSString *selectSql = [NSString stringWithFormat:@"SELECT MAP_JAPANESE_NAME,MAP_LATITUDE,MAP_LONGITUDE FROM location WHERE MAP_DISPLAY_PERMISSION_RANGE >= 500"];
     //DBからの読み込み処理
     [db open];
     FMResultSet *result = [db executeQuery:selectSql];

@@ -327,7 +327,7 @@
         NSError *jsonError;
         NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
         
-        if([[jsonData objectForKey:@"cod"] isEqualToString:@"401"]) {
+        if([jsonData objectForKey:@"cod"] == [NSNumber numberWithInteger:401]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self presentViewController:apiAlertController animated:YES completion:nil];
             });
