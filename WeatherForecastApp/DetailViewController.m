@@ -14,8 +14,9 @@
 @interface DetailViewController () {
     NSDateFormatter *formatter;
     NSDate *date;
-    BOOL networkOfflineFlag;
-    UIAlertController *alertController;
+    BOOL communicationDisableFlag;
+    UIAlertController *networkAlertController;
+    UIAlertController *apiAlertController;
 }
 
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
@@ -51,11 +52,14 @@
     AppDelegate *appDelegate = [UIApplication.sharedApplication delegate];
     self.context = [appDelegate managedObjectContext];
     
-    alertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"オフラインです。" preferredStyle:UIAlertControllerStyleAlert];
+    networkAlertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"オフラインです。" preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) { networkOfflineFlag = YES;}];
+    apiAlertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"API規制です。" preferredStyle:UIAlertControllerStyleAlert];
     
-    [alertController addAction:action];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) { communicationDisableFlag = YES;}];
+    
+    [networkAlertController addAction:action];
+    [apiAlertController addAction:action];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -72,7 +76,7 @@
     // 天気の詳細データを取得
     [self startAPICommunication:@"weather" :_detailLatitude :_detailLongitude];
     
-    if(!networkOfflineFlag) {
+    if(!communicationDisableFlag) {
         // 4日間の予報を取得
         [self startAPICommunication:@"forecast" :_detailLatitude :_detailLongitude];
     }
@@ -90,12 +94,10 @@
     sender.selected = !sender.selected;
     
     if(sender.selected) {
-        sender.imageView.image = [UIImage imageNamed:@"Fav"];
-        sender.backgroundColor = [UIColor clearColor];
+        sender.imageView.image = [UIImage imageNamed:@"AddFavorite"];
         [self registerPlaceToCoreData];
     } else {
-        sender.imageView.image = nil;
-        sender.titleLabel.text = @"☆";
+        sender.imageView.image = [UIImage imageNamed:@"NonFavorite"];
         [self deleteFavoritePlace];
     }
     
@@ -201,7 +203,7 @@
         // エラー処理
         if(error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self presentViewController:alertController animated:YES completion:nil];
+                [self presentViewController:networkAlertController animated:YES completion:nil];
             });
             NSLog(@"Session Error:%@", error);
             return;
@@ -212,13 +214,17 @@
         NSError *jsonError;
         NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
         
-        if ([resource isEqualToString:@"weather"]) {
-            // 天気の詳細データをUIに配置
-            [self setDetailData:jsonData];
+        if([[jsonData objectForKey:@"cod"] isEqualToString:@"401"]) {
+            [self presentViewController:apiAlertController animated:YES completion:nil];
+        } else {
+            if ([resource isEqualToString:@"weather"]) {
+                // 天気の詳細データをUIに配置
+                [self setDetailData:jsonData];
             
-        } else if([resource isEqualToString:@"forecast"]) {
-            // 4日間の予報データをUIに配置
-            [self setForecasts:jsonData];
+            } else if([resource isEqualToString:@"forecast"]) {
+                // 4日間の予報データをUIに配置
+                [self setForecasts:jsonData];
+            }
         }
     }];
     

@@ -279,10 +279,10 @@
                     </view>
                     <navigationItem key="navigationItem" title="詳細" id="hpc-Qa-l05">
                         <barButtonItem key="rightBarButtonItem" title="Item" style="done" id="aZB-bd-uPr">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lEX-UB-DoJ">
-                                <rect key="frame" x="550" y="7" width="30" height="30"/>
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lEX-UB-DoJ">
+                                <rect key="frame" x="529" y="7" width="51" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="☆"/>
+                                <state key="normal" image="NonFavorite"/>
                                 <connections>
                                     <action selector="addFavoritePlace:" destination="OIb-cA-Nms" eventType="touchUpInside" id="caQ-J8-BFQ"/>
                                 </connections>
@@ -476,6 +476,7 @@
     <resources>
         <image name="FavoriteTab" width="30" height="30"/>
         <image name="MapTab" width="30" height="30"/>
+        <image name="NonFavorite" width="33" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="iaV-cM-cGU"/>
