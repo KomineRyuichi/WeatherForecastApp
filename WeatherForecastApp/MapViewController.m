@@ -34,10 +34,6 @@
     NSString *range;
     //viewWillAppear:の初回判定に使用
     BOOL first;
-    
-    //**test**//
-    //mapView:regionDidChangeAnimated:が動いた回数
-    int countGesture;
 }
 @end
 
@@ -45,7 +41,6 @@
 
 #pragma mark - 	ViewController
 - (void)viewDidLoad {
-    NSLog(@"テストviewDidLoad：start");
     [super viewDidLoad];
     self.navigationItem.title = @"お天気マップ";
     _searchBar.delegate = self;
@@ -90,8 +85,6 @@
     [zoomOutButton addTarget:self action:@selector(pushZoomOutButton) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:zoomOutButton];
     
-    countGesture = 1;
-    NSLog(@"テストviewDidLoad：finish");
     [self getScaleAndLocation];
 }
 - (void)viewWillAppear:(BOOL)animated {
@@ -111,7 +104,6 @@
 #pragma mark - 	screen transition
 //遷移直前に呼ばれる
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    NSLog(@"テストprepareForSegue：詳細画面に遷移");
     //destinationViewControllerで詳細画面を指定
     DetailViewController *detailViewController = segue.destinationViewController;
     //詳細画面に緯度・経度を渡す
@@ -125,8 +117,6 @@
 #pragma mark - icon
 //検索を行う(キーボードの検索ボタンタップ時に呼ばれる)
 -(void)searchBarSearchButtonClicked:(UISearchBar*)searchBar{
-    NSLog(@"テストicon1：searchBarSearchButtonClicked:");
-    NSLog(@"【%@】",_searchBar.text);
     MKLocalSearchRequest *request = [[MKLocalSearchRequest alloc] init];
     request.naturalLanguageQuery = _searchBar.text;
     request.region = _mapView.region;
@@ -145,7 +135,6 @@
          }else{
              //検索結果の1件目の地点を拡大
              MKMapItem *item = [response.mapItems objectAtIndex:0];
-             NSLog(@"テストicon1：(lat,lon)=(%f,%f)",item.placemark.coordinate.latitude,item.placemark.coordinate.longitude);
              CLLocationCoordinate2D searchLocation;
              MKCoordinateRegion searchRegion;
              // 検索結果の緯度・軽度を画面の中心に設定
@@ -163,7 +152,6 @@
 }
 //縮尺と画面左上・右下の緯度・経度を取得する
 -(void)getScaleAndLocation{
-    NSLog(@"テストicon2：getScaleAndLocation");
     //縮尺を取得
     //画面左上の緯度・経度を取得
     CGPoint northWest = CGPointMake(_mapView.bounds.origin.x,_mapView.bounds.origin.y);
@@ -183,9 +171,7 @@
 }
 //条件を満たすデータをFMDBから読み込む。条件を満たすデータがあれば直前の動作に応じてdoCommunicationかdeleteIconを呼ぶ。
 -(void)readDBnwCoord:(CLLocationCoordinate2D)nwCoord seCoord:(CLLocationCoordinate2D)seCoord{
-    NSLog(@"テストicon3：readDB");
     zoomRegion.span.latitudeDelta = (nwCoord.latitude - seCoord.latitude);
-    NSLog(@"テストicon3：latitudeDelta = %f",zoomRegion.span.latitudeDelta);
     
     //** DB **//
     NSString *dbfile = @"Location.db";
@@ -193,12 +179,10 @@
     NSArray  *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *dbPath = [documentsDirectory stringByAppendingPathComponent:dbfile];
-    NSLog(@"db path = %@", dbPath);
     BOOL checkDb;
     NSError *error;
     NSFileManager *fileManager = [NSFileManager defaultManager];
     checkDb = [fileManager fileExistsAtPath:dbPath];// データベースファイルを確認
-    
     if(!checkDb){
         // ファイルが無い場合はコピー
         NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:dbfile];
@@ -207,8 +191,6 @@
             // Erroの場合
             NSLog(@"Copy error = %@", defaultDBPath);
         }
-    } else {
-        NSLog(@"DB file OK");
     }
     //データベースのパス
     FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
@@ -218,10 +200,8 @@
     selectSql = [NSString stringWithFormat:@"SELECT MAP_JAPANESE_NAME,MAP_LATITUDE,MAP_LONGITUDE FROM location WHERE MAP_DISPLAY_PERMISSION_RANGE = %@ AND (MAP_LATITUDE BETWEEN %f AND %f) AND (MAP_LONGITUDE BETWEEN %f AND %f)",range,seCoord.latitude,nwCoord.latitude,nwCoord.longitude,seCoord.longitude];
     //デルタ値で県を読み込むか市を読み込むかを判断
     if(zoomRegion.span.latitudeDelta < 5.66){
-        NSLog(@"テスト：100を読み込み");
         range = @"100";
     }else{
-        NSLog(@"テスト：500を読み込み");
         range = @"500";
     }
     
@@ -243,14 +223,12 @@
 }
 //DBから取得したデータをパラメータとして、APIにリクエストを投げる
 -(void)doCommunication:(NSArray *)array count:(NSUInteger)count{
-    NSLog(@"テストicon4：doCommunication");
     NSString *placeName = [array[count] objectForKey:@"place"];
     latitude = [NSString stringWithFormat:@"%@",[array[count] objectForKey:@"lat"]];
     longitude = [NSString stringWithFormat:@"%@",[array[count] objectForKey:@"lon"]];
     double resultlat = [latitude doubleValue];
     double resultlon = [longitude doubleValue];
     NSString *origin = [NSString stringWithFormat:@"http://iwakamiy:0828sYs1129@api.openweathermap.org/data/2.5/weather?lat=%@&lon=%@&appid=a9a8461295cb8b16af35deb36ec27445",latitude,longitude];
-    NSLog(@"テストicon4：origin = %@",origin);
     NSURL* url = [NSURL URLWithString:origin];
     
     //**　dataTaskWithRequest:requestだとJSONじゃなくてHTMLが取得される
@@ -270,7 +248,6 @@
                    [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                    }]];
                    [self presentViewController:alertController animated:YES completion:nil];
-                   NSLog(@"Session Error:%@", error);
                    return;
                }else{
                    [self doParseData:data Place:placeName Lat:resultlat Lon:resultlon];
@@ -281,7 +258,6 @@
 }
 //JSON形式のレスポンスをパース、iconキーの値を取得
 -(void)doParseData:(NSData*)data Place:(NSString*)place Lat:(double)lat Lon:(double)lon{
-    NSLog(@"テストicon5：doParse");
     // JSONをパース
     NSError *error;
     NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
@@ -292,8 +268,6 @@
     NSArray *weather = [jsonData objectForKey:@"weather"];
     NSDictionary *icon = [weather objectAtIndex:0];
     iconNameString = [icon objectForKey:@"icon"];
-    NSLog(@"アイコン:%@", iconNameString);
-    //    NSLog(@"アイコン:%@", [weather valueForKeyPath:@"icon"]);
     NSString *placeName = place;
     double resultlat = lat;
     double resultlon = lon;
@@ -301,9 +275,7 @@
 }
 //ピンをセット
 -(void)setWeatherIconPlace:(NSString*)place Lat:(double)lat Lon:(double)lon{
-    NSLog(@"テストicon6：setWeatherIconLat:Lon:");
     CustomAnnotation* weatherIconAnnotation = [[CustomAnnotation alloc] init];
-    NSLog(@"テストicon6：(lat,lon)=(%f,%f)",lat,lon);
     weatherIconAnnotation.coordinate = CLLocationCoordinate2DMake(lat, lon);
     weatherIconAnnotation.title = place;
     weatherIconAnnotation.subtitle = @"詳細画面へ";
@@ -311,9 +283,7 @@
 }
 //ピンを削除（縮小した時に呼ばれる）
 -(void)deleteIcon{
-    NSLog(@"テストicon7：deleteIcon");
     [self.mapView removeAnnotations:self.mapView.annotations];
-    NSLog(@"テストicon7：FINISH deleteIcon");
 }
 
 
@@ -321,7 +291,6 @@
 #pragma mark - Annotation
 //addAnnotationの後に呼ばれる
 -(MKAnnotationView*)mapView:(MKMapView*)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-    NSLog(@"テストAnnotation1：mapView:viewForAnnotation:");
     MKAnnotationView *weatherIconView;
     // 再利用可能なannotationがあるかどうかを判断するための識別子を定義
     NSString* identifier = @"Pin";
@@ -332,9 +301,6 @@
         weatherIconView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
     }
     // 画像セット
-    NSLog(@"テストAnnotation1：iconNameString = 「%@」",iconNameString);
-    //    NSLog(@"テストAnnotation1：icon = 「%@」",icon);
-    //iconNameString = @"11d";
     weatherIconView.image = [UIImage imageNamed:iconNameString];
     // バルーン表示許可
     weatherIconView.canShowCallout = YES;
@@ -344,20 +310,8 @@
     weatherIconView.annotation = annotation;
     return weatherIconView;
 }
-//mapView:viewForAnnotation:の後に呼ばれる
-- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
-    NSLog(@"テストAnnotation2：mapView:didAddAnnotationViews");
-    NSLog(@"************************ count = %d *****************************\n\n\n\n",
-          countGesture);
-    countGesture ++;
-    [views enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL* stop) {
-        //enumerateObjectsUsingBlock:について
-        //http://qiita.com/exilias/items/f8ebd0dfed493bb0e25a
-    }];
-}
 //追加したボタンが押されたときに呼ばれる
 -(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
-    NSLog(@"テストAnnotation3：rightCalloutAccessoryViewのボタンが押されました！");
     //詳細画面に送る用の変数に地名、緯度・経度をセット
     detailPlaceName = view.annotation.title;
     detailLatitude = view.annotation.coordinate.latitude;
@@ -370,17 +324,13 @@
 #pragma mark - button
 //「縮尺を戻す」ボタン
 -(void)pushResetScaleButton{
-    NSLog(@"テストbutton1-1：pushResetScaleButton");
     gesture = @"resetScale";
-    //    [self deleteIcon];
     [self.mapView setCenterCoordinate:location animated:YES];
     [self.mapView setRegion:region animated:YES];
-    //    [self getScaleAndLocation];
     gesture = nil;
 }
 //「拡大」ボタン
 -(void)pushZoomButton{
-    NSLog(@"テストbutton2：pushZoomButton");
     gesture = @"pushButton";
     [self getScaleAndLocation];
     //取得したデルタ値を縮めることで地図を拡大
@@ -405,8 +355,6 @@
 #pragma mark - regionDidChange
 //地図の表示領域が変更された時に呼ばれる
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
-    NSLog(@"*****************************************************");
-    NSLog(@"テストregionDidChange：mapView:regionDidChangeAnimated:");
     // 天気アイコン全消し
     [self deleteIcon];
     [self getScaleAndLocation];
