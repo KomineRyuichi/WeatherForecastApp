@@ -11,6 +11,6 @@
 
 @interface CustomAnnotation : NSObject <MKAnnotation>
 @property (readwrite, nonatomic) CLLocationCoordinate2D coordinate;
-@property (readwrite, nonatomic, strong) NSString* title;
-@property (readwrite, nonatomic, strong) NSString* subtitle;
+@property (readwrite, nonatomic, copy) NSString* title;
+@property (readwrite, nonatomic, copy) NSString* subtitle;
 @end
