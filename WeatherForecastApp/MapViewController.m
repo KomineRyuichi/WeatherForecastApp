@@ -109,7 +109,7 @@
     detailViewController.placeName = detailPlaceName;
     detailViewController.detailLatitude = detailLatitude;
     detailViewController.detailLongitude = detailLongitude;
-
+    
 }
 
 
@@ -178,15 +178,14 @@
     NSLog(@"テストicon3：readDB");
     zoomRegion.span.latitudeDelta = (nwCoord.latitude - seCoord.latitude);
     NSLog(@"テストicon3：latitudeDelta = %f",zoomRegion.span.latitudeDelta);
-    //** DBtest **//
-    // (1)
+    
+    //** DB **//
     NSString *dbfile = @"Location.db";
     // データベースファイルを格納するために文書フォルダを取得
     NSArray  *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *dbPath = [documentsDirectory stringByAppendingPathComponent:dbfile];
     NSLog(@"db path = %@", dbPath);
-    // (2)
     BOOL checkDb;
     NSError *error;
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -203,12 +202,13 @@
     } else {
         NSLog(@"DB file OK");
     }
-    // (3)
     //データベースのパス
     FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
-    // (4)
     //データベース内のテーブルから表示したいカラムを選ぶ
     NSString *selectSql;
+    //rangeを満たし、画面内に入っている地点を呼び出すsql文
+    selectSql = [NSString stringWithFormat:@"SELECT MAP_JAPANESE_NAME,MAP_LATITUDE,MAP_LONGITUDE FROM location WHERE MAP_DISPLAY_PERMISSION_RANGE = %@ AND (MAP_LATITUDE BETWEEN %f AND %f) AND (MAP_LONGITUDE BETWEEN %f AND %f)",range,seCoord.latitude,nwCoord.latitude,nwCoord.longitude,seCoord.longitude];
+    //デルタ値で県を読み込むか市を読み込むかを判断
     if(zoomRegion.span.latitudeDelta < 5.66){
         NSLog(@"テスト：100を読み込み");
         range = @"100";
@@ -216,8 +216,7 @@
         NSLog(@"テスト：500を読み込み");
         range = @"500";
     }
-    selectSql = [NSString stringWithFormat:@"SELECT MAP_JAPANESE_NAME,MAP_LATITUDE,MAP_LONGITUDE FROM location WHERE MAP_DISPLAY_PERMISSION_RANGE = %@ AND (MAP_LATITUDE BETWEEN %f AND %f) AND (MAP_LONGITUDE BETWEEN %f AND %f)",range,seCoord.latitude,nwCoord.latitude,nwCoord.longitude,seCoord.longitude];
-    NSLog(@"SELECT MAP_JAPANESE_NAME,MAP_LATITUDE,MAP_LONGITUDE FROM location WHERE MAP_DISPLAY_PERMISSION_RANGE = %@ AND %f < MAP_LATITUDE < %f AND %f < MAP_LONGITUDE < %f",range,seCoord.latitude,nwCoord.latitude,nwCoord.longitude,seCoord.longitude);
+    
     //DBからの読み込み処理
     [db open];
     FMResultSet *result = [db executeQuery:selectSql];
@@ -287,7 +286,7 @@
     NSDictionary *icon = [weather objectAtIndex:0];
     iconNameString = [icon objectForKey:@"icon"];
     NSLog(@"アイコン:%@", iconNameString);
-//    NSLog(@"アイコン:%@", [weather valueForKeyPath:@"icon"]);
+    //    NSLog(@"アイコン:%@", [weather valueForKeyPath:@"icon"]);
     NSString *placeName = place;
     double resultlat = lat;
     double resultlon = lon;
@@ -327,7 +326,7 @@
     }
     // 画像セット
     NSLog(@"テストAnnotation1：iconNameString = 「%@」",iconNameString);
-//    NSLog(@"テストAnnotation1：icon = 「%@」",icon);
+    //    NSLog(@"テストAnnotation1：icon = 「%@」",icon);
     //iconNameString = @"11d";
     weatherIconView.image = [UIImage imageNamed:iconNameString];
     // バルーン表示許可
@@ -366,10 +365,10 @@
 -(void)pushResetScaleButton{
     NSLog(@"テストbutton1-1：pushResetScaleButton");
     gesture = @"resetScale";
-//    [self deleteIcon];
+    //    [self deleteIcon];
     [self.mapView setCenterCoordinate:location animated:YES];
     [self.mapView setRegion:region animated:YES];
-//    [self getScaleAndLocation];
+    //    [self getScaleAndLocation];
     gesture = nil;
 }
 //「拡大」ボタン
