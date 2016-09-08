@@ -124,7 +124,6 @@
 // 画面表示直後の処理
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    NSLog(@"Did Appearですよ〜〜〜〜〜〜〜〜");
     
     [self.indicator startAnimating];
     [self.view addSubview:loadingView];
@@ -145,7 +144,6 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    NSLog(@"Did Disappearですぞ〜〜〜〜〜〜〜〜〜");
     
     [weatherData removeAllObjects];
     [forecastData removeAllObjects];
@@ -299,6 +297,9 @@
     cell.cellExpansionButton.selected = !cell.cellExpansionButton.selected;
     
     if(cell.scrollView.hidden) {
+        for (UIView *subview in cell.scrollView.subviews) {
+            [subview removeFromSuperview];
+        }
         [self.tableView reloadData];
     } else {
             double latitude = [[[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeLatitude"] doubleValue];
@@ -333,7 +334,7 @@
     NSString *apiKey = @"165932781f9394ab99e2dfc1ab4e38cc";
     NSString *param = [NSString stringWithFormat:@"lat=%3.6lf&lon=%3.6lf&units=metric&appid=%@", latitude, longitude, apiKey];
     NSString *test = [NSString stringWithFormat:@"%@%@?%@", urlString, resource, param];
-    NSURL *url = [NSURL URLWithString:[test stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]; //[NSURL URLWithString:urlString];
+    NSURL *url = [NSURL URLWithString:[test stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]; 
     
     // Requestの設定
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -414,7 +415,6 @@
     // データ検索
     NSError *error = nil;
     if (![fetchedResultsController performFetch:&error]) {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
     
     // データ取得、配列に追加
@@ -444,8 +444,6 @@
     NSError *error = nil;
     if(![self.context save:&error]) {
         NSLog(@"Error:%@", error);
-    } else {
-        NSLog(@"Delete Success");
     }
 }
 
@@ -469,8 +467,6 @@
     NSError *error = nil;
     if(![self.context save:&error]) {
         NSLog(@"Error:%@", error);
-    } else {
-        NSLog(@"Update Success");
     }
 }
 
