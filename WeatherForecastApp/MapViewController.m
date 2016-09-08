@@ -36,6 +36,8 @@
     double detailLongitude;
     //readDBで拡大と縮小のどちらかを判断するためにデルタ値を格納する(緯度経度のどちら片方で判別可能)
     double historyLatitudeDelta;
+    //オフライン時にenumerateObjectsUsingBlockを中断する
+    BOOL communicationFlag;
     
     //** DBtest **//
     //データベースのパス
@@ -104,11 +106,11 @@
     NSLog(@"テストviewDidLoad：finish");
     [self getScaleAndLocation];
 }
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.visibleViewController.tabBarController.tabBar.hidden = NO;
 }
+
 
 
 #pragma mark - 	screen transition
@@ -234,7 +236,6 @@
         NSArray *geoArray = [[NSArray alloc] initWithObjects:[result stringForColumn:@"MAP_JAPANESE_NAME"],[NSNumber numberWithDouble:[result doubleForColumn:@"MAP_LATITUDE"]],[NSNumber numberWithDouble:[result doubleForColumn:@"MAP_LONGITUDE"]], nil];
         NSDictionary *resultDic = [[NSDictionary alloc] initWithObjects:geoArray forKeys:keyArray];
         [resultArray addObject:resultDic];
-        //[result stringForColumn:@"MAP_JAPANESE_NAME"]
     }
     [db close];
     
@@ -247,8 +248,9 @@
 //    NSLog(@"テストicon3(southEast latitude) : %f",seCoord.latitude);
 //    NSLog(@"テストicon3(southEast longitude) : %f",seCoord.longitude);
     
-    
+    communicationFlag = NO;
     [resultArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL* stop) {
+        *stop = communicationFlag;
         [self doCommunication:resultArray count:idx];
     }];
     
@@ -278,6 +280,11 @@
            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                if(error) {
                    // オフライン時アラート処理(未実装)
+                   communicationFlag = YES;
+                   UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"⚠︎" message:@"ネットワークに接続されていません" preferredStyle:UIAlertControllerStyleAlert];
+                   [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                   }]];
+                   [self presentViewController:alertController animated:YES completion:nil];
                    NSLog(@"Session Error:%@", error);
                    return;
                }else{
