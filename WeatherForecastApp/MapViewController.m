@@ -11,7 +11,7 @@
 #import "DetailViewController.h"
 #import "FMDatabase.h"
 
-@interface MapViewController ()<MKMapViewDelegate>
+@interface MapViewController ()<MKMapViewDelegate,UISearchBarDelegate>
 {
     //緯度・経度の初期値を設定
     CLLocationCoordinate2D location;
