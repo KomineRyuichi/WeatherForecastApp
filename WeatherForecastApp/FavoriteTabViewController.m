@@ -25,7 +25,6 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.temperatureLabel.text = @"　℃";
-
     self.scrollView.hidden = YES;
 }
 
@@ -42,6 +41,8 @@
     UIAlertController *networkAlertController;
     UIAlertController *apiAlertController;
     BOOL communicationDisableFlag;
+    BOOL communicateAPIDisableFlag;
+    NSInteger pageCount;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *addPlaceButton;
@@ -57,6 +58,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    pageCount = 8;
     
     self.navigationController.visibleViewController.tabBarItem.image = [UIImage imageNamed:@"FavoriteTab"];
     self.navigationController.visibleViewController.tabBarItem.title = @"Favorite";
@@ -77,14 +79,15 @@
     
     networkAlertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"オフラインです。" preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) { communicationDisableFlag = YES;}];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {}];
     
     apiAlertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"API規制です。" preferredStyle:UIAlertControllerStyleAlert];
     
     [networkAlertController addAction:action];
     [apiAlertController addAction:action];
     
-    [self presentViewController:networkAlertController animated:YES completion:nil];
+    communicationDisableFlag = NO;
+    communicateAPIDisableFlag = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -109,13 +112,16 @@
     [super viewDidAppear:animated];
     NSLog(@"Did Appearですよ〜〜〜〜〜〜〜〜");
     
-    
     for(int i=0; i<[favoritePlaces count]; i++) {
-        if(!communicationDisableFlag) {
             double latitude = [[[favoritePlaces objectAtIndex:i] objectForKey:@"placeLatitude"] doubleValue];
             double longitude = [[[favoritePlaces objectAtIndex:i] objectForKey:@"placeLongitude"]doubleValue];
             [self startAPICommunication:@"weather" :latitude :longitude];
-        }
+    }
+    
+    if(communicationDisableFlag) {
+        [self alertNetworkError];
+    } else if (communicateAPIDisableFlag) {
+        [self alertAPIError];
     }
 }
 
@@ -169,14 +175,20 @@
         //cell.scrollView.hidden = NO;
         int fromTime = 0.0f;
         int toTime = 0.0f;
-        cell.scrollView.contentSize = CGSizeMake(100.0*6, 95.0);
-        for(int i=0; i<6; i++) {
+        cell.scrollView.contentSize = CGSizeMake(100.0*pageCount, 95.0);
+        for(int i=0; i<pageCount; i++) {
             ThreeHourForecastView *forecastView = [[ThreeHourForecastView alloc] init];
             forecastView.frame = CGRectMake(100.0*i, 10.0, 100.0, 95.0);
             NSDictionary *forecast = [NSDictionary dictionaryWithDictionary:[forecastData objectAtIndex:i]];
             fromTime = [[forecast objectForKey:@"dt"] intValue];
-            fromTime = (fromTime / (60*60)) % 24;
+            fromTime = ((fromTime / (60*60)) % 24) + 9;
+            if(fromTime >=24) {
+                fromTime = fromTime -24;
+            }
             toTime = fromTime + 3;
+            if(toTime >=24) {
+                toTime = toTime -24;
+            }
             forecastView.timeLabel.text = [NSString stringWithFormat:@"%d時〜%d時", fromTime, toTime];
             forecastView.precipitationLabel.text = [NSString stringWithFormat:@"%2.1f ml", [[[forecast objectForKey:@"rain"] objectForKey:@"3h"] doubleValue]];
             forecastView.icon.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", [[[forecast objectForKey:@"weather"] objectAtIndex:0] objectForKey:@"icon" ]]];
@@ -219,7 +231,7 @@
     NSDictionary *selectedPlace = [NSDictionary dictionaryWithDictionary:[favoritePlaces objectAtIndex:indexPath.row]];
     selectedPlaceName = [selectedPlace objectForKey:@"placeName"];
     selectedPlaceLongitude = [[selectedPlace objectForKey:@"placeLongitude"] doubleValue];
-    selectedPlaceLongitude = [[selectedPlace objectForKey:@"placeLatitude"] doubleValue];
+    selectedPlaceLatitude = [[selectedPlace objectForKey:@"placeLatitude"] doubleValue];
     [favoritePlaces removeAllObjects];
     [self.navigationController.visibleViewController performSegueWithIdentifier:@"goDetail" sender:self];
 }
@@ -318,8 +330,10 @@
         // エラー処理
         if(error) {
             NSLog(@"Session Error:%@", error);
-            [self alertNetworkError];
+             communicationDisableFlag = YES;
             return;
+        } else {
+            communicationDisableFlag = NO;
         }
         
         // JSONのパース
@@ -328,14 +342,15 @@
         NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
         
         if([jsonData objectForKey:@"cod"] == [NSNumber numberWithInteger:401]) {
-            [self alertAPIError];
+            communicateAPIDisableFlag = YES;
         } else {
+            communicateAPIDisableFlag = NO;
             if ([resource isEqualToString:@"weather"]) {
                 // 天気情報を配列に追加
                 [weatherData addObject:jsonData];
             } else if([resource isEqualToString:@"forecast"]) {
                 // 3時間ごとの天気予報を取得
-                for(int i=0; i<6; i++) {
+                for(int i=0; i<pageCount; i++) {
                     [forecastData addObject:[[jsonData objectForKey:@"list"] objectAtIndex:i]];
                 }
             }
@@ -384,9 +399,9 @@
     NSArray *results = [NSArray arrayWithArray:[fetchedResultsController fetchedObjects]];
     for (FavoritePlaces *data in results) {
         NSString *name = data.placeName;
-        double latitude = [data.placeLatitude doubleValue];
-        double longitude = [data.placeLongitude doubleValue];
-        NSDictionary *place = [NSDictionary dictionaryWithObjectsAndKeys:name, @"placeName", latitude, @"placeLatitude", longitude, @"placeLongitude", nil];
+//        double latitude = [data.placeLatitude doubleValue];
+//        double longitude = [data.placeLongitude doubleValue];
+        NSDictionary *place = [NSDictionary dictionaryWithObjectsAndKeys:name, @"placeName", data.placeLatitude, @"placeLatitude", data.placeLongitude, @"placeLongitude", nil];
         [favoritePlaces addObject:place];
         place = nil;
     }

@@ -15,6 +15,7 @@
     NSDateFormatter *formatter;
     NSDate *date;
     BOOL communicationDisableFlag;
+    BOOL communicateAPIDisableFlag;
     UIAlertController *networkAlertController;
     UIAlertController *apiAlertController;
 }
@@ -56,10 +57,13 @@
     
     apiAlertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"API規制です。" preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) { communicationDisableFlag = YES;}];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {}];
     
     [networkAlertController addAction:action];
     [apiAlertController addAction:action];
+    
+    communicationDisableFlag = NO;
+    communicateAPIDisableFlag = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -76,9 +80,13 @@
     // 天気の詳細データを取得
     [self startAPICommunication:@"weather" :_detailLatitude :_detailLongitude];
     
-    if(!communicationDisableFlag) {
-        // 4日間の予報を取得
-        [self startAPICommunication:@"forecast" :_detailLatitude :_detailLongitude];
+    // 4日間の予報を取得
+    [self startAPICommunication:@"forecast" :_detailLatitude :_detailLongitude];
+    
+    if(communicationDisableFlag) {
+        [self alertNetworkError];
+    } else if (communicateAPIDisableFlag) {
+        [self alertAPIError];
     }
 }
 
@@ -116,7 +124,7 @@
     // 気温アイコン
     self.temperatureIcon.image = [UIImage imageNamed:@"temperature"];
     // 平均気温
-    self.averageTemperatureLabel.text = [NSString stringWithFormat:@"%2.1f℃", [[main objectForKey:@"temp"] doubleValue]];
+    self.averageTemperatureLabel.text = [NSString stringWithFormat:@"%2.0f℃", [[main objectForKey:@"temp"] doubleValue]];
     // 最高気温
     self.highTemperatureLabel.text = [NSString stringWithFormat:@"%2.0f", [[main objectForKey:@"temp_max"] doubleValue]];
     // 最低気温
@@ -153,14 +161,13 @@
     double precipitation;
     
     // ページ数分ループ
-    for(int i=0, j=8; i<4; i++, j=j+8) {
+    for(int i=0, j=10; i<4; i++, j=j+8) {
         NSArray *list = [NSArray arrayWithArray:[forecastData objectForKey:@"list"]];
         NSDictionary *weatherData = [NSDictionary dictionaryWithDictionary:[list objectAtIndex:j]];
         DailyForecastView *forecastView = [[DailyForecastView alloc] init];
         // フレームサイズ
         forecastView.frame = CGRectMake(170*i, 0.0, 170, 245);
         // 日付
-        forecastView.dateLabel.text = @"09/05";
         NSString *forecastDate = [[weatherData objectForKey:@"dt_txt"] substringWithRange:NSMakeRange(5, 5)];
         forecastView.dateLabel.text = [forecastDate stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
         // 天気アイコン
@@ -208,9 +215,11 @@
         
         // エラー処理
         if(error) {
-            [self alertNetworkError];
+            communicationDisableFlag = YES;
             NSLog(@"Session Error:%@", error);
             return;
+        } else {
+            communicationDisableFlag = NO;
         }
         
         // JSONのパース
@@ -219,8 +228,9 @@
         NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
         
         if([jsonData objectForKey:@"cod"] == [NSNumber numberWithInteger:401]) {
-            [self alertAPIError];
+            communicateAPIDisableFlag = YES;
         } else {
+            communicateAPIDisableFlag = NO;
             if ([resource isEqualToString:@"weather"]) {
                 // 天気の詳細データをUIに配置
                 [self setDetailData:jsonData];
