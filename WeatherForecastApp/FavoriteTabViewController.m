@@ -26,6 +26,8 @@
     [super awakeFromNib];
     self.temperatureLabel.text = @"　℃";
     self.scrollView.hidden = YES;
+    [self.cellExpansionButton setImage:[UIImage imageNamed:@"open"] forState:UIControlStateNormal];
+    [self.cellExpansionButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateSelected];
 }
 
 @end
@@ -43,10 +45,12 @@
     BOOL communicationDisableFlag;
     BOOL communicateAPIDisableFlag;
     NSInteger pageCount;
+    UIView *loadingView;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *addPlaceButton;
 @property (strong, nonatomic) NSManagedObjectContext *context;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *indicator;
 
 @end
 
@@ -87,6 +91,10 @@
     
     communicationDisableFlag = NO;
     communicateAPIDisableFlag = NO;
+    
+    loadingView = [[UIView alloc] initWithFrame:self.view.bounds];
+    loadingView.backgroundColor = [UIColor blackColor];
+    loadingView.alpha = 0.5f;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -117,6 +125,10 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     NSLog(@"Did Appearですよ〜〜〜〜〜〜〜〜");
+    
+    [self.indicator startAnimating];
+    [self.view addSubview:loadingView];
+    [self.view bringSubviewToFront:_indicator];
     
     for(int i=0; i<[favoritePlaces count]; i++) {
         double latitude = [[[favoritePlaces objectAtIndex:i] objectForKey:@"placeLatitude"] doubleValue];
@@ -284,17 +296,18 @@
     WeatherSummaryCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     
     cell.scrollView.hidden = !cell.scrollView.hidden;
-
+    cell.cellExpansionButton.selected = !cell.cellExpansionButton.selected;
+    
     if(cell.scrollView.hidden) {
         [self.tableView reloadData];
     } else {
-        if(!communicationDisableFlag) {
             double latitude = [[[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeLatitude"] doubleValue];
             double longitude = [[[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeLongitude"]doubleValue];
-            [self startAPICommunication:@"forecast" :latitude :longitude :0];
-        }
+        [self.indicator startAnimating];
+        [self.view addSubview:loadingView];
+        [self.view bringSubviewToFront:_indicator];
+        [self startAPICommunication:@"forecast" :latitude :longitude :0];
     }
-
 }
 
 // 編集モード切り替え
@@ -325,8 +338,7 @@
     // Requestの設定
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
-    //[request setHTTPBody:[param dataUsingEncoding:NSUTF8StringEncoding]];
-    //NSLog(@"%@", [param dataUsingEncoding:NSUTF8StringEncoding]);
+
     // Session, SessionConfigの生成
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
@@ -362,7 +374,11 @@
             }
         }
         
+        
+        
         dispatch_async(dispatch_get_main_queue(), ^{
+            [self.indicator stopAnimating];
+            [loadingView removeFromSuperview];
             [self.tableView reloadData];
         });
     }];

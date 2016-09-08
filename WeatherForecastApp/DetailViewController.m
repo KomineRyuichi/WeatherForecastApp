@@ -18,6 +18,7 @@
     BOOL communicateAPIDisableFlag;
     UIAlertController *networkAlertController;
     UIAlertController *apiAlertController;
+    UIView *loadingView;
 }
 
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
@@ -36,6 +37,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *windSpeedLabel;
 @property (weak, nonatomic) IBOutlet UIScrollView *dailyForecasts;
 @property (strong, nonatomic) NSManagedObjectContext *context;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *indicator;
+@property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
 
 @end
 
@@ -64,6 +67,16 @@
     
     communicationDisableFlag = NO;
     communicateAPIDisableFlag = NO;
+    
+    // OFFの画像設定
+    [self.favoriteButton setImage:[UIImage imageNamed:@"NonFavorite"] forState:UIControlStateNormal];
+    
+    // ONの画像設定
+    [self.favoriteButton setImage:[UIImage imageNamed:@"AddFavorite"] forState:UIControlStateSelected];
+    
+    loadingView = [[UIView alloc] initWithFrame:self.view.bounds];
+    loadingView.backgroundColor = [UIColor blackColor];
+    loadingView.alpha = 0.5f;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -76,7 +89,13 @@
     
     // 今日の日付表示
     self.dateLabel.text = [formatter stringFromDate:date];
+    
+    [self searchFavoritePlace:_placeName];
 
+    [self.indicator startAnimating];
+    [self.view addSubview:loadingView];
+    [self.view bringSubviewToFront:_indicator];
+    
     // 天気の詳細データを取得
     [self startAPICommunication:@"weather" :_detailLatitude :_detailLongitude];
     
@@ -102,10 +121,8 @@
     sender.selected = !sender.selected;
     
     if(sender.selected) {
-        sender.imageView.image = [UIImage imageNamed:@"AddFavorite"];
         [self registerPlaceToCoreData];
     } else {
-        sender.imageView.image = [UIImage imageNamed:@"NonFavorite"];
         [self deleteFavoritePlace];
     }
     
@@ -192,6 +209,9 @@
         // 参照破棄
         forecastView = nil;
     }
+    
+    [self.indicator stopAnimating];
+    [loadingView removeFromSuperview];
 }
 
 // API通信開始
@@ -335,5 +355,36 @@
     [baseView presentViewController:apiAlertController animated:YES completion:nil];
 }
 
+- (void)searchFavoritePlace:(NSString *)placeName {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FavoritePlaces"];
+    
+    // 一度に読み込むサイズを指定します。
+    [fetchRequest setFetchLimit:20];
+    
+    // 検索結果をplaceOrderの昇順にする。
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"placeOrder" ascending:YES selector:@selector(caseInsensitiveCompare:)];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"placeName = %@", placeName];
+    [fetchRequest setPredicate:predicate];
+    
+    // NSFetchedResultsController(結果を持ってくるクラス)の生成
+    NSFetchedResultsController *fetchedResultsController
+    = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                          managedObjectContext:self.context
+                                            sectionNameKeyPath:nil
+                                                     cacheName:nil];
+    
+    // データ検索
+    NSError *error = nil;
+    if (![fetchedResultsController performFetch:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
+    
+    if([[fetchedResultsController fetchedObjects] count] > 0) {
+        self.favoriteButton.selected = YES;
+    }
+}
 
 @end
