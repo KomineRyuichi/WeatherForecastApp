@@ -38,6 +38,8 @@
     double historyLatitudeDelta;
     //オフライン時にenumerateObjectsUsingBlockを中断する
     BOOL communicationFlag;
+    //sql文に反映するレンジ
+    NSString *range;
     
     //** DBtest **//
     //データベースのパス
@@ -190,6 +192,7 @@
 //条件を満たすデータをFMDBから読み込む。条件を満たすデータがあれば直前の動作に応じてdoCommunicationかdeleteIconを呼ぶ。
 -(void)readDBnwCoord:(CLLocationCoordinate2D)nwCoord seCoord:(CLLocationCoordinate2D)seCoord{
     NSLog(@"テストicon3：readDB");
+    zoomRegion.span.latitudeDelta = (nwCoord.latitude - seCoord.latitude);
     NSLog(@"テストicon3：latitudeDelta = %f",zoomRegion.span.latitudeDelta);
     //** DBtest **//
     // (1)
@@ -222,11 +225,15 @@
     // (4)
     //データベース内のテーブルから表示したいカラムを選ぶ
     NSString *selectSql;
-    if( zoomRegion.span.latitudeDelta < 5.66 ){
-        selectSql = [NSString stringWithFormat:@"SELECT MAP_JAPANESE_NAME,MAP_LATITUDE,MAP_LONGITUDE FROM location WHERE MAP_DISPLAY_PERMISSION_RANGE = 100"];
+    if(zoomRegion.span.latitudeDelta < 5.66){
+        NSLog(@"テスト：100を読み込み");
+        range = @"100";
     }else{
-        selectSql = [NSString stringWithFormat:@"SELECT MAP_JAPANESE_NAME,MAP_LATITUDE,MAP_LONGITUDE FROM location WHERE MAP_DISPLAY_PERMISSION_RANGE = 500"];
+        NSLog(@"テスト：500を読み込み");
+        range = @"500";
     }
+    selectSql = [NSString stringWithFormat:@"SELECT MAP_JAPANESE_NAME,MAP_LATITUDE,MAP_LONGITUDE FROM location WHERE MAP_DISPLAY_PERMISSION_RANGE = %@ AND (MAP_LATITUDE BETWEEN %f AND %f) AND (MAP_LONGITUDE BETWEEN %f AND %f)",range,seCoord.latitude,nwCoord.latitude,nwCoord.longitude,seCoord.longitude];
+    NSLog(@"SELECT MAP_JAPANESE_NAME,MAP_LATITUDE,MAP_LONGITUDE FROM location WHERE MAP_DISPLAY_PERMISSION_RANGE = %@ AND %f < MAP_LATITUDE < %f AND %f < MAP_LONGITUDE < %f",range,seCoord.latitude,nwCoord.latitude,nwCoord.longitude,seCoord.longitude);
     //DBからの読み込み処理
     [db open];
     FMResultSet *result = [db executeQuery:selectSql];
