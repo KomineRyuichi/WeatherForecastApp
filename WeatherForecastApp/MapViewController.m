@@ -19,10 +19,6 @@
     MKCoordinateRegion region;
     //拡大・縮小ボタンを押した時のデルタ値を格納
     MKCoordinateRegion zoomRegion;
-    
-    //**test**//
-    //mapView:regionDidChangeAnimated:が動いた回数
-    int countGesture;
     //URLに突っ込む緯度経度
     NSString *latitude;
     NSString *longitude;
@@ -36,6 +32,12 @@
     double detailLongitude;
     //sql文に反映するレンジ
     NSString *range;
+    //viewWillAppear:の初回判定に使用
+    BOOL first;
+    
+    //**test**//
+    //mapView:regionDidChangeAnimated:が動いた回数
+    int countGesture;
 }
 @end
 
@@ -95,6 +97,13 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.visibleViewController.tabBarController.tabBar.hidden = NO;
+    //一度オフラインで呼ばれた後、オンライン状態で再び呼ばれた場合にもアイコンを表示するために通信
+    //初回起動時は実行しない（viewDidLoadでもgetScaleAndLocationを呼ぶのでアラートが2回出ちゃうから）
+    if(!first){
+        [self deleteIcon];
+        [self getScaleAndLocation];
+    }
+    first = NO;
 }
 
 
@@ -109,7 +118,6 @@
     detailViewController.placeName = detailPlaceName;
     detailViewController.detailLatitude = detailLatitude;
     detailViewController.detailLongitude = detailLongitude;
-    
 }
 
 
@@ -232,7 +240,6 @@
     [resultArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL* stop) {
         [self doCommunication:resultArray count:idx];
     }];
-    
 }
 //DBから取得したデータをパラメータとして、APIにリクエストを投げる
 -(void)doCommunication:(NSArray *)array count:(NSUInteger)count{
@@ -397,7 +404,6 @@
 
 #pragma mark - regionDidChange
 //地図の表示領域が変更された時に呼ばれる
-//http://developer.yahoo.co.jp/webapi/map/openlocalplatform/v1/iphonesdk/reference/YMKMapViewDelegate.html#mapviewregionwillchangeanimated
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
     NSLog(@"*****************************************************");
     NSLog(@"テストregionDidChange：mapView:regionDidChangeAnimated:");
