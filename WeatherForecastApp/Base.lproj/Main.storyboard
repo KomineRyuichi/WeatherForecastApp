@@ -363,10 +363,6 @@
                                     <action selector="addFavoritePlaceButton:" destination="en2-bX-7N1" eventType="touchUpInside" id="7i0-i0-8At"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Gax-d5-xLc">
-                                <rect key="frame" x="282" y="282" width="37" height="37"/>
-                                <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="24" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ph4-Gr-5RR">
                                 <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -452,8 +448,6 @@
                         <constraints>
                             <constraint firstItem="JEn-No-QpK" firstAttribute="centerX" secondItem="mtP-bm-ysc" secondAttribute="centerX" id="1D0-Lj-Had"/>
                             <constraint firstItem="Ph4-Gr-5RR" firstAttribute="leading" secondItem="mtP-bm-ysc" secondAttribute="leading" id="BDc-4n-CSx"/>
-                            <constraint firstItem="Gax-d5-xLc" firstAttribute="centerY" secondItem="mtP-bm-ysc" secondAttribute="centerY" id="HG2-1E-FlB"/>
-                            <constraint firstItem="Gax-d5-xLc" firstAttribute="centerX" secondItem="mtP-bm-ysc" secondAttribute="centerX" id="e01-qK-7uj"/>
                             <constraint firstAttribute="bottom" secondItem="Ph4-Gr-5RR" secondAttribute="bottom" constant="49" id="eQs-Yn-mpz"/>
                             <constraint firstAttribute="trailing" secondItem="Ph4-Gr-5RR" secondAttribute="trailing" id="hcK-wF-MGb"/>
                             <constraint firstItem="JEn-No-QpK" firstAttribute="centerY" secondItem="mtP-bm-ysc" secondAttribute="centerY" id="j0B-j9-FDg"/>
@@ -464,7 +458,6 @@
                     <navigationItem key="navigationItem" id="LMF-9D-wSY"/>
                     <connections>
                         <outlet property="addPlaceButton" destination="JEn-No-QpK" id="T0k-pp-P3N"/>
-                        <outlet property="indicator" destination="Gax-d5-xLc" id="q98-rz-7Ur"/>
                         <outlet property="tableView" destination="Ph4-Gr-5RR" id="aPs-fP-0ig"/>
                         <segue destination="OIb-cA-Nms" kind="show" identifier="goDetail" id="rup-tp-gfP"/>
                     </connections>
