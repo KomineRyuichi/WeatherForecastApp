@@ -278,6 +278,7 @@
            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                if(error) {
                    // オフライン時アラート処理(未実装)
+                   NSLog(@"テストテストテストテスト");
                    NSLog(@"Session Error:%@", error);
                    return;
                }else{
