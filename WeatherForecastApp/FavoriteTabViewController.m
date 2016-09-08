@@ -70,7 +70,6 @@
     self.tableView.estimatedRowHeight = 200.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
-    weatherData = [NSMutableArray array];
     forecastData = [NSMutableArray array];
     favoritePlaces = [NSMutableArray array];
     
@@ -99,6 +98,13 @@
     
     [self getFavoritePlace];
     
+    weatherData = [[NSMutableArray alloc] init];
+    
+    for (int i = 0; i < [favoritePlaces count]; i++)
+    {
+        [weatherData addObject:[NSDictionary dictionary]];
+    }
+
     if([favoritePlaces count]  == 0) {
         [self.view bringSubviewToFront:_addPlaceButton];
     } else {
@@ -113,9 +119,9 @@
     NSLog(@"Did Appearですよ〜〜〜〜〜〜〜〜");
     
     for(int i=0; i<[favoritePlaces count]; i++) {
-            double latitude = [[[favoritePlaces objectAtIndex:i] objectForKey:@"placeLatitude"] doubleValue];
-            double longitude = [[[favoritePlaces objectAtIndex:i] objectForKey:@"placeLongitude"]doubleValue];
-            [self startAPICommunication:@"weather" :latitude :longitude];
+        double latitude = [[[favoritePlaces objectAtIndex:i] objectForKey:@"placeLatitude"] doubleValue];
+        double longitude = [[[favoritePlaces objectAtIndex:i] objectForKey:@"placeLongitude"]doubleValue];
+        [self startAPICommunication:@"weather" :latitude :longitude :i];
     }
     
     if(communicationDisableFlag) {
@@ -131,6 +137,7 @@
     
     [weatherData removeAllObjects];
     [forecastData removeAllObjects];
+    [favoritePlaces removeAllObjects];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -258,10 +265,10 @@
     id item = [favoritePlaces objectAtIndex:sourceIndexPath.row];
     // 元あった場所から項目の削除
     [favoritePlaces removeObject:item];
-    // CoreData更新
-    [self updateFavoritePlaceOrder];
     // 新しい位置に挿入
     [favoritePlaces insertObject:item atIndex:destinationIndexPath.row];
+    // CoreData更新
+    [self updateFavoritePlaceOrder];
 }
 
 // 編集スタイル
@@ -284,7 +291,7 @@
         if(!communicationDisableFlag) {
             double latitude = [[[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeLatitude"] doubleValue];
             double longitude = [[[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeLongitude"]doubleValue];
-            [self startAPICommunication:@"forecast" :latitude :longitude];
+            [self startAPICommunication:@"forecast" :latitude :longitude :0];
         }
     }
 
@@ -306,7 +313,7 @@
 }
 
 // API通信開始
-- (void)startAPICommunication:(NSString *)resource :(double)latitude :(double)longitude{
+- (void)startAPICommunication:(NSString *)resource :(double)latitude :(double)longitude :(int)indexNumber{
     
     // URLの設定
     NSString *urlString = @"http://kominer:enimokR0150@api.openweathermap.org/data/2.5/";
@@ -337,7 +344,6 @@
         }
         
         // JSONのパース
-        NSLog(@"Parse");
         NSError *jsonError;
         NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
         
@@ -347,7 +353,7 @@
             communicateAPIDisableFlag = NO;
             if ([resource isEqualToString:@"weather"]) {
                 // 天気情報を配列に追加
-                [weatherData addObject:jsonData];
+                [weatherData replaceObjectAtIndex:indexNumber withObject:jsonData];
             } else if([resource isEqualToString:@"forecast"]) {
                 // 3時間ごとの天気予報を取得
                 for(int i=0; i<pageCount; i++) {
@@ -423,7 +429,7 @@
     if(![self.context save:&error]) {
         NSLog(@"Error:%@", error);
     } else {
-        NSLog(@"Success");
+        NSLog(@"Delete Success");
     }
 }
 
@@ -435,7 +441,7 @@
     
     NSArray *results = [self.context executeFetchRequest:fetchRequest error:nil];
 
-    for (int i=0; i<[favoritePlaces count]; i++) {
+    for (int i=0; i<[results count]; i++) {
         FavoritePlaces *data = [results objectAtIndex:i];
         NSDictionary *placeData = [NSDictionary dictionaryWithDictionary:[favoritePlaces objectAtIndex:i]];
         data.placeName = [placeData objectForKey:@"placeName"];
@@ -448,9 +454,11 @@
     if(![self.context save:&error]) {
         NSLog(@"Error:%@", error);
     } else {
-        NSLog(@"Success");
+        NSLog(@"Update Success");
     }
 }
+
+#pragma mark - Alert
 
 - (void)alertNetworkError {
     UIViewController *baseView = [UIApplication sharedApplication].keyWindow.rootViewController;
