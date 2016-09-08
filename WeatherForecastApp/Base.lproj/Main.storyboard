@@ -530,7 +530,7 @@
         <image name="MapTab" width="30" height="30"/>
         <image name="NonFavorite" width="33" height="30"/>
         <image name="humidity" width="45" height="45"/>
-        <image name="open" width="45" height="45"/>
+        <image name="open" width="30" height="30"/>
         <image name="temperature" width="45" height="45"/>
     </resources>
     <inferredMetricsTieBreakers>
