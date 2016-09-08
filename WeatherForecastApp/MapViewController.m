@@ -102,7 +102,7 @@
     
     countGesture = 1;
     NSLog(@"テストviewDidLoad：finish");
-    [self getScaleAndLocation];
+    //[self getScaleAndLocation];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -220,9 +220,11 @@
     // (4)
     //データベース内のテーブルから表示したいカラムを選ぶ
     NSString *selectSql;
-    if( zoomRegion.span.latitudeDelta < 5.66 ){
+    if( zoomRegion.span.latitudeDelta != 0.000000 && zoomRegion.span.latitudeDelta < 5.66 ){
+        NSLog(@" テスト：RANGE = 100を読み込み");
         selectSql = [NSString stringWithFormat:@"SELECT MAP_JAPANESE_NAME,MAP_LATITUDE,MAP_LONGITUDE FROM location WHERE MAP_DISPLAY_PERMISSION_RANGE = 100"];
     }else{
+        NSLog(@" テスト：RANGE = 500を読み込み");
         selectSql = [NSString stringWithFormat:@"SELECT MAP_JAPANESE_NAME,MAP_LATITUDE,MAP_LONGITUDE FROM location WHERE MAP_DISPLAY_PERMISSION_RANGE = 500"];
     }
     //DBからの読み込み処理
@@ -277,9 +279,12 @@
     [session dataTaskWithURL:url
            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                if(error) {
-                   // オフライン時アラート処理(未実装)
-                   NSLog(@"テストテストテストテスト");
-                   NSLog(@"Session Error:%@", error);
+                   // オフライン時はアラート表示
+                   UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"⚠︎" message:@"ネットワークに接続されていません" preferredStyle:UIAlertControllerStyleAlert];
+                   [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                   }]];
+                   [self presentViewController:alertController animated:YES completion:nil];
+                   //NSLog(@"Session Error:%@", error);
                    return;
                }else{
                    [self doParseData:data Place:placeName Lat:resultlat Lon:resultlon];
