@@ -34,21 +34,8 @@
     NSString *detailPlaceName;
     double detailLatitude;
     double detailLongitude;
-    //readDBで拡大と縮小のどちらかを判断するためにデルタ値を格納する(緯度経度のどちら片方で判別可能)
-    double historyLatitudeDelta;
-    //オフライン時にenumerateObjectsUsingBlockを中断する
-    BOOL communicationFlag;
     //sql文に反映するレンジ
     NSString *range;
-    
-    //** DBtest **//
-    //データベースのパス
-    int MAP_NUMBER;
-    NSString *MAP_JAPANESE_NAME;
-    double MAP_LATITUDE;
-    double MAP_LONGITUDE;
-    int MAP_DISPLAY_PERMISSION_RANGE;
-    //** DBtest **//
 }
 @end
 
@@ -78,9 +65,6 @@
     [self.mapView setRegion:region animated:YES];
     // viewに追加
     [self.view addSubview:self.mapView];
-    
-    //初期値に合わせてhistoryLatitudeDeltaも初期化
-    historyLatitudeDelta = 15;
     
     //「縮尺を戻す」ボタン
     UIButton *resetScaleButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -119,9 +103,6 @@
 //遷移直前に呼ばれる
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     NSLog(@"テストprepareForSegue：詳細画面に遷移");
-    NSLog(@"テストprepareForSegue：地名 = %@",detailPlaceName);
-    NSLog(@"テストprepareForSegue：緯度 = %f",detailLatitude);
-    NSLog(@"テストprepareForSegue：経度 = %f",detailLongitude);
     //destinationViewControllerで詳細画面を指定
     DetailViewController *detailViewController = segue.destinationViewController;
     //詳細画面に緯度・経度を渡す
@@ -145,28 +126,31 @@
     [search startWithCompletionHandler:
      ^(MKLocalSearchResponse *response, NSError *error)
      {
-         //検索結果の1件目の地点を拡大
-         MKMapItem *item = [response.mapItems objectAtIndex:0];
-         NSLog(@"テストicon1：(lat,lon)=(%f,%f)",item.placemark.coordinate.latitude,item.placemark.coordinate.longitude);
-         CLLocationCoordinate2D searchLocation;
-         MKCoordinateRegion searchRegion;
-         // 表示する画面の中心として検索結果の緯度・軽度を設定
-         searchLocation.latitude = item.placemark.coordinate.latitude;
-         searchLocation.longitude = item.placemark.coordinate.longitude;
-         
-         //**test**//
-         searchLocation.latitude = 38;
-         searchLocation.longitude = 145;
-         //**test**//
-         
-         [self.mapView setCenterCoordinate:searchLocation animated:YES];
-         // 縮尺を設定
-         searchRegion = self.mapView.region;
-         searchRegion.center = searchLocation;
-         // 検索結果を中心とし、どのくらい拡大するか設定
-         searchRegion.span.latitudeDelta = 2;
-         searchRegion.span.longitudeDelta = 2;
-         [self.mapView setRegion:searchRegion animated:YES];
+         if(error) {
+             // 検索失敗時アラート処理
+             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"" message:@"検索結果が見つかりません" preferredStyle:UIAlertControllerStyleAlert];
+             [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+             }]];
+             [self presentViewController:alertController animated:YES completion:nil];
+             NSLog(@"Search Error:%@", error);
+             return;
+         }else{
+             //検索結果の1件目の地点を拡大
+             MKMapItem *item = [response.mapItems objectAtIndex:0];
+             NSLog(@"テストicon1：(lat,lon)=(%f,%f)",item.placemark.coordinate.latitude,item.placemark.coordinate.longitude);
+             CLLocationCoordinate2D searchLocation;
+             MKCoordinateRegion searchRegion;
+             // 検索結果の緯度・軽度を画面の中心に設定
+             searchLocation.latitude = item.placemark.coordinate.latitude;
+             searchLocation.longitude = item.placemark.coordinate.longitude;[self.mapView setCenterCoordinate:searchLocation animated:YES];
+             // 縮尺を設定
+             searchRegion = self.mapView.region;
+             searchRegion.center = searchLocation;
+             // 検索結果を中心とし、どのくらい拡大するか設定
+             searchRegion.span.latitudeDelta = 2;
+             searchRegion.span.longitudeDelta = 2;
+             [self.mapView setRegion:searchRegion animated:YES];
+         }
      }];
 }
 //縮尺と画面左上・右下の緯度・経度を取得する
@@ -246,18 +230,7 @@
     }
     [db close];
     
-    
-//    //縮尺・緯度・経度で絞り込む（https://akira-watson.com/iphone/sqlite.html）
-//    //絞り込みの際にデータと比較する緯度・経度は下のようにnwCoordとseCoordから取得
-//    //**test**//
-//    NSLog(@"テストicon3(northWest latitude) : %f",nwCoord.latitude);
-//    NSLog(@"テストicon3(northWest longitude) : %f",nwCoord.longitude);
-//    NSLog(@"テストicon3(southEast latitude) : %f",seCoord.latitude);
-//    NSLog(@"テストicon3(southEast longitude) : %f",seCoord.longitude);
-    
-    communicationFlag = NO;
     [resultArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL* stop) {
-        *stop = communicationFlag;
         [self doCommunication:resultArray count:idx];
     }];
     
@@ -286,8 +259,7 @@
     [session dataTaskWithURL:url
            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                if(error) {
-                   // オフライン時アラート処理(未実装)
-                   communicationFlag = YES;
+                   // オフライン時アラート処理
                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"⚠︎" message:@"ネットワークに接続されていません" preferredStyle:UIAlertControllerStyleAlert];
                    [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                    }]];

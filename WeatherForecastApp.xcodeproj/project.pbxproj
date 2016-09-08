@@ -17,7 +17,6 @@
 		8A9270C41D7FE98D00CC462E /* CustomAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9270C31D7FE98D00CC462E /* CustomAnnotation.m */; };
 		8A9270C71D7FE99700CC462E /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9270C61D7FE99700CC462E /* MapViewController.m */; };
 		8A9270DC1D7FEA8600CC462E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9270DB1D7FEA8600CC462E /* MapKit.framework */; };
-		8A962E7D1D80E4590007913D /* fmdb in Resources */ = {isa = PBXBuildFile; fileRef = 8A962E7C1D80E4590007913D /* fmdb */; };
 		8A962E7F1D80E4610007913D /* Location.db in Resources */ = {isa = PBXBuildFile; fileRef = 8A962E7E1D80E4610007913D /* Location.db */; };
 		8A962EBA1D80E6870007913D /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A962EAF1D80E6870007913D /* FMDatabase.m */; };
 		8A962EBB1D80E6870007913D /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A962EB11D80E6870007913D /* FMDatabaseAdditions.m */; };
@@ -73,7 +72,6 @@
 		8A9270C51D7FE99700CC462E /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		8A9270C61D7FE99700CC462E /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		8A9270DB1D7FEA8600CC462E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		8A962E7C1D80E4590007913D /* fmdb */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fmdb; path = "/Users/systena/Desktop/共同開発アプリ/WeatherForecastApp/WeatherForecastApp/fmdb"; sourceTree = "<absolute>"; };
 		8A962E7E1D80E4610007913D /* Location.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = Location.db; sourceTree = "<group>"; };
 		8A962EAE1D80E6870007913D /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		8A962EAF1D80E6870007913D /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
@@ -344,7 +342,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A5633561D7949D500206C8A /* ThreeHourForecastView.xib in Resources */,
-				8A962E7D1D80E4590007913D /* fmdb in Resources */,
 				8ADC2AFD1D742425000EE9B3 /* LaunchScreen.storyboard in Resources */,
 				8A962EBF1D80E6870007913D /* Info.plist.xml in Resources */,
 				8ADC2AFA1D742425000EE9B3 /* Assets.xcassets in Resources */,
