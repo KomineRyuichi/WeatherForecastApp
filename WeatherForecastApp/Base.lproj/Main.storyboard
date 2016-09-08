@@ -156,9 +156,9 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="erK-KX-Zfk">
-                                                <rect key="frame" x="361" y="21" width="24" height="24"/>
+                                                <rect key="frame" x="361" y="21" width="27" height="24"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="24" id="qH0-lV-81L"/>
+                                                    <constraint firstAttribute="width" constant="27" id="qH0-lV-81L"/>
                                                     <constraint firstAttribute="height" constant="24" id="thf-Px-Wcn"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -171,9 +171,9 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9F9-4Y-f4p">
-                                                <rect key="frame" x="218" y="88" width="39" height="24"/>
+                                                <rect key="frame" x="218" y="88" width="55" height="24"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="39" id="2ck-2i-1zz"/>
+                                                    <constraint firstAttribute="width" constant="55" id="2ck-2i-1zz"/>
                                                     <constraint firstAttribute="height" constant="24" id="IMe-re-6ar"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -212,9 +212,9 @@
                                             <constraint firstItem="BhF-2Q-PdL" firstAttribute="centerY" secondItem="WGK-dw-lut" secondAttribute="centerY" constant="-34.5" id="S0i-Ev-6om"/>
                                             <constraint firstItem="5sh-Xw-p2I" firstAttribute="centerX" secondItem="WGK-dw-lut" secondAttribute="centerX" constant="65.5" id="avn-zn-Xyh"/>
                                             <constraint firstItem="BhF-2Q-PdL" firstAttribute="centerX" secondItem="WGK-dw-lut" secondAttribute="centerX" constant="-117.5" id="baq-H3-Svj"/>
-                                            <constraint firstItem="erK-KX-Zfk" firstAttribute="centerX" secondItem="WGK-dw-lut" secondAttribute="centerX" constant="73" id="d2O-7n-jtw"/>
+                                            <constraint firstItem="erK-KX-Zfk" firstAttribute="centerX" secondItem="WGK-dw-lut" secondAttribute="centerX" constant="74.5" id="d2O-7n-jtw"/>
                                             <constraint firstItem="edT-NC-tCI" firstAttribute="centerX" secondItem="WGK-dw-lut" secondAttribute="centerX" constant="-49.5" id="e6m-Xo-aif"/>
-                                            <constraint firstItem="9F9-4Y-f4p" firstAttribute="centerX" secondItem="WGK-dw-lut" secondAttribute="centerX" constant="-62.5" id="ee8-Ag-8dq"/>
+                                            <constraint firstItem="9F9-4Y-f4p" firstAttribute="centerX" secondItem="WGK-dw-lut" secondAttribute="centerX" constant="-54.5" id="ee8-Ag-8dq"/>
                                             <constraint firstItem="erJ-mt-ay4" firstAttribute="leading" secondItem="BhF-2Q-PdL" secondAttribute="leading" id="fR1-0l-p6k"/>
                                             <constraint firstItem="erJ-mt-ay4" firstAttribute="bottom" secondItem="WGK-dw-lut" secondAttribute="bottomMargin" id="g4G-I4-13K"/>
                                             <constraint firstItem="erJ-mt-ay4" firstAttribute="top" secondItem="BhF-2Q-PdL" secondAttribute="bottom" constant="24" id="jqN-pa-dPz"/>
