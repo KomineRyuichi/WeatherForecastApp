@@ -208,10 +208,7 @@
         
         // エラー処理
         if(error) {
-            // オフライン時アラート処理(エラー未解決)
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self presentViewController:networkAlertController animated:YES completion:nil];
-//            });
+            [self alertNetworkError];
             NSLog(@"Session Error:%@", error);
             return;
         }
@@ -222,8 +219,7 @@
         NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
         
         if([jsonData objectForKey:@"cod"] == [NSNumber numberWithInteger:401]) {
-            // API規制時アラート処理(エラー未解決)
-            //[self presentViewController:apiAlertController animated:YES completion:nil];
+            [self alertAPIError];
         } else {
             if ([resource isEqualToString:@"weather"]) {
                 // 天気の詳細データをUIに配置
@@ -312,5 +308,22 @@
         NSLog(@"Success");
     }
 }
+
+- (void)alertNetworkError {
+    UIViewController *baseView = [UIApplication sharedApplication].keyWindow.rootViewController;
+    while (baseView.presentedViewController != nil && !baseView.presentedViewController.isBeingDismissed) {
+        baseView = baseView.presentedViewController;
+    }
+    [baseView presentViewController:networkAlertController animated:YES completion:nil];
+}
+
+- (void)alertAPIError {
+    UIViewController *baseView = [UIApplication sharedApplication].keyWindow.rootViewController;
+    while (baseView.presentedViewController != nil && !baseView.presentedViewController.isBeingDismissed) {
+        baseView = baseView.presentedViewController;
+    }
+    [baseView presentViewController:apiAlertController animated:YES completion:nil];
+}
+
 
 @end

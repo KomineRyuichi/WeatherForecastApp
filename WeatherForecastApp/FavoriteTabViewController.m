@@ -84,6 +84,7 @@
     [networkAlertController addAction:action];
     [apiAlertController addAction:action];
     
+    [self presentViewController:networkAlertController animated:YES completion:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -317,10 +318,7 @@
         // エラー処理
         if(error) {
             NSLog(@"Session Error:%@", error);
-            // オフライン時アラート処理(エラー未解決)
-            //dispatch_async(dispatch_get_main_queue(), ^{
-                //[self presentViewController:networkAlertController animated:YES completion:nil];
-            //});
+            [self alertNetworkError];
             return;
         }
         
@@ -330,10 +328,7 @@
         NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
         
         if([jsonData objectForKey:@"cod"] == [NSNumber numberWithInteger:401]) {
-            // API規制時アラート処理(エラー未解決)
-            //dispatch_async(dispatch_get_main_queue(), ^{
-                //[self presentViewController:apiAlertController animated:YES completion:nil];
-            //});
+            [self alertAPIError];
         } else {
             if ([resource isEqualToString:@"weather"]) {
                 // 天気情報を配列に追加
@@ -440,6 +435,22 @@
     } else {
         NSLog(@"Success");
     }
+}
+
+- (void)alertNetworkError {
+    UIViewController *baseView = [UIApplication sharedApplication].keyWindow.rootViewController;
+    while (baseView.presentedViewController != nil && !baseView.presentedViewController.isBeingDismissed) {
+        baseView = baseView.presentedViewController;
+    }
+    [baseView presentViewController:networkAlertController animated:YES completion:nil];
+}
+
+- (void)alertAPIError {
+    UIViewController *baseView = [UIApplication sharedApplication].keyWindow.rootViewController;
+    while (baseView.presentedViewController != nil && !baseView.presentedViewController.isBeingDismissed) {
+        baseView = baseView.presentedViewController;
+    }
+    [baseView presentViewController:apiAlertController animated:YES completion:nil];
 }
 
 @end
