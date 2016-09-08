@@ -421,18 +421,15 @@
     NSArray *results = [NSArray arrayWithArray:[fetchedResultsController fetchedObjects]];
     for (FavoritePlaces *data in results) {
         NSString *name = data.placeName;
-//        double latitude = [data.placeLatitude doubleValue];
-//        double longitude = [data.placeLongitude doubleValue];
         NSDictionary *place = [NSDictionary dictionaryWithObjectsAndKeys:name, @"placeName", data.placeLatitude, @"placeLatitude", data.placeLongitude, @"placeLongitude", nil];
         [favoritePlaces addObject:place];
         place = nil;
     }
-
 }
 
 - (void)deleteFavoritePlace:(NSIndexPath *)indexPath {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FavoritePlaces"];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"placeOrder" ascending:NO];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"placeOrder" ascending:YES];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
     [fetchRequest setSortDescriptors:sortDescriptors];
     
