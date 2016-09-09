@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "DailyForecastView.h"
 #import "CurrentWeatherData.h"
+#import "APICommunication.h"
 
 @interface DetailViewController () {
     NSDateFormatter *formatter;
@@ -21,6 +22,7 @@
     UIAlertController *apiAlertController;
     UIView *loadingView;
     CurrentWeatherData *currentWeatherData;
+    APICommunication *apiCommunication;
 }
 
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
@@ -83,6 +85,16 @@
     
     currentWeatherData = [CurrentWeatherData getInstance];
     
+    // 各ラベル初期設定
+    // 平均気温
+    self.averageTemperatureLabel.text = @"℃";
+    // 湿度
+    self.humidityLabel.text = @"%";
+    // 気圧
+    self.pressureLabel.text = @"hPa";
+    // 風速
+    self.windSpeedLabel.text = @"m/s";
+    
     // 天気アイコン以外の各アイコンの設定
     // 気温アイコン
     self.temperatureIcon.image = [UIImage imageNamed:@"temperature"];
@@ -92,6 +104,8 @@
     self.windAngleIcon.image = [UIImage imageNamed:@"wind"];
     // 風速アイコン
     self.windSpeedIcon.image = [UIImage imageNamed:@"wind speed"];
+    
+    apiCommunication = [[APICommunication alloc] init];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -105,23 +119,41 @@
     // 今日の日付表示
     self.dateLabel.text = [formatter stringFromDate:date];
     
+    // 地名
+    self.placeNameLabel.text = _placeName;
+    
     [self searchFavoritePlace:_placeName];
 
     [self.indicator startAnimating];
     [self.view addSubview:loadingView];
     [self.view bringSubviewToFront:_indicator];
     
-    // 天気の詳細データを取得
-    [self startAPICommunication:@"weather" :_detailLatitude :_detailLongitude];
-    
-    // 4日間の予報を取得
-    [self startAPICommunication:@"forecast" :_detailLatitude :_detailLongitude];
-    
-    if(communicationDisableFlag) {
-        [self alertNetworkError];
-    } else if (communicateAPIDisableFlag) {
-        [self alertAPIError];
-    }
+    [apiCommunication startAPICommunication:@"weather" :_detailLatitude :_detailLongitude :^(NSDictionary *result, BOOL networkOfflineFlag, BOOL apiRegulationFlag) {
+        
+        if(networkOfflineFlag || apiRegulationFlag) {
+            [self stopIndicator];
+            if(networkOfflineFlag) {
+                [self alertNetworkError];
+            } else if (apiRegulationFlag) {
+                [self alertAPIError];
+            }
+        } else {
+            [currentWeatherData setJsonData:result];
+            [self setDetailData];
+            [apiCommunication startAPICommunication:@"forecast" :_detailLatitude :_detailLongitude :^(NSDictionary *result, BOOL networkOfflineFlag, BOOL apiRegulationFlag) {
+                if(networkOfflineFlag || apiRegulationFlag) {
+                    if(networkOfflineFlag) {
+                        [self alertNetworkError];
+                    } else if (apiRegulationFlag) {
+                        [self alertAPIError];
+                    }
+                } else {
+                    [self setForecasts:result];
+                }
+            }];
+            [self stopIndicator];
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -130,6 +162,11 @@
 }
 
 #pragma mark - Other
+
+- (void) stopIndicator {
+    [self.indicator stopAnimating];
+    [loadingView removeFromSuperview];
+}
 
 - (IBAction)addFavoritePlace:(UIButton *)sender {
     
@@ -147,9 +184,6 @@
 - (void)setDetailData {
     // 天気アイコン
     self.weatherIcon.image = [UIImage imageNamed:currentWeatherData.iconName];
-    
-    // 地名
-    self.placeNameLabel.text = _placeName;
     
     // 平均気温
     self.averageTemperatureLabel.text = [NSString stringWithFormat:@"%2.0f℃", currentWeatherData.averageTemperature];
@@ -212,62 +246,59 @@
         // 参照破棄
         forecastView = nil;
     }
-    
-    [self.indicator stopAnimating];
-    [loadingView removeFromSuperview];
 }
 
-// API通信開始
-- (void)startAPICommunication:(NSString *)resource :(double)latitude :(double)longitude{
-    // URLの設定
-    NSString *urlString = @"http://kominer:enimokR0150@api.openweathermap.org/data/2.5/";
-    NSString *apiKey = @"54d51f13da00bdabafdee82cdee866ea";
-    NSString *param = [NSString stringWithFormat:@"lat=%3.6lf&lon=%3.6lf&units=metric&appid=%@", latitude, longitude, apiKey];
-    NSString *test = [NSString stringWithFormat:@"%@%@?%@", urlString, resource, param];
-    NSURL *url = [NSURL URLWithString:[test stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
-    
-    // Requestの設定
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"POST"];
-    
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-    
-    // DataTaskの生成
-    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
-        
-        // エラー処理
-        if(error) {
-            communicationDisableFlag = YES;
-            return;
-        } else {
-            communicationDisableFlag = NO;
-        }
-        
-        // JSONのパース
-        NSLog(@"Parse");
-        NSError *jsonError;
-        NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
-        
-        if([jsonData objectForKey:@"cod"] == [NSNumber numberWithInteger:401]) {
-            communicateAPIDisableFlag = YES;
-        } else {
-            communicateAPIDisableFlag = NO;
-            if ([resource isEqualToString:@"weather"]) {
-                // 天気の詳細データをUIに配置
-                [currentWeatherData setJsonData:jsonData];
-                [self setDetailData];
-            
-            } else if([resource isEqualToString:@"forecast"]) {
-                // 4日間の予報データをUIに配置
-                [self setForecasts:jsonData];
-            }
-        }
-    }];
-    
-    // タスクの実行
-    [dataTask resume];
-}
+//// API通信開始
+//- (void)startAPICommunication:(NSString *)resource :(double)latitude :(double)longitude{
+//    // URLの設定
+//    NSString *urlString = @"http://kominer:enimokR0150@api.openweathermap.org/data/2.5/";
+//    NSString *apiKey = @"54d51f13da00bdabafdee82cdee866ea";
+//    NSString *param = [NSString stringWithFormat:@"lat=%3.6lf&lon=%3.6lf&units=metric&appid=%@", latitude, longitude, apiKey];
+//    NSString *test = [NSString stringWithFormat:@"%@%@?%@", urlString, resource, param];
+//    NSURL *url = [NSURL URLWithString:[test stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+//    
+//    // Requestの設定
+//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+//    [request setHTTPMethod:@"POST"];
+//    
+//    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+//    NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+//    
+//    // DataTaskの生成
+//    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+//        
+//        // エラー処理
+//        if(error) {
+//            communicationDisableFlag = YES;
+//            return;
+//        } else {
+//            communicationDisableFlag = NO;
+//        }
+//        
+//        // JSONのパース
+//        NSLog(@"Parse");
+//        NSError *jsonError;
+//        NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
+//        
+//        if([jsonData objectForKey:@"cod"] == [NSNumber numberWithInteger:401]) {
+//            communicateAPIDisableFlag = YES;
+//        } else {
+//            communicateAPIDisableFlag = NO;
+//            if ([resource isEqualToString:@"weather"]) {
+//                // 天気の詳細データをUIに配置
+//                [currentWeatherData setJsonData:jsonData];
+//                [self setDetailData];
+//            
+//            } else if([resource isEqualToString:@"forecast"]) {
+//                // 4日間の予報データをUIに配置
+//                [self setForecasts:jsonData];
+//            }
+//        }
+//    }];
+//    
+//    // タスクの実行
+//    [dataTask resume];
+//}
 
 - (NSString *)windDecision:(int)angle {
     

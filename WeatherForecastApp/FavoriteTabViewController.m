@@ -393,9 +393,8 @@
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.indicator stopAnimating];
-            [loadingView removeFromSuperview];
             [self.tableView reloadData];
+            [self stopIndicator];
         });
     }];
  
@@ -407,6 +406,12 @@
 - (IBAction)addFavoritePlaceButton:(id)sender {
     // タブ切り替え 0:お気に入り画面、1:地図画面
     self.tabBarController.selectedIndex = 1;
+}
+
+// インジケータ止める
+- (void)stopIndicator {
+    [self.indicator stopAnimating];
+    [loadingView removeFromSuperview];
 }
 
 #pragma mark - CoreData

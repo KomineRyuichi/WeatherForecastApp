@@ -10,6 +10,7 @@
 		8A2587261D7E7E3600530776 /* DailyForecastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A2587251D7E7E3600530776 /* DailyForecastView.xib */; };
 		8A2587291D7E7E5A00530776 /* DailyForecastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A2587281D7E7E5A00530776 /* DailyForecastView.m */; };
 		8A3E2B371D823FA100D72A2F /* CurrentWeatherData.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A3E2B361D823FA100D72A2F /* CurrentWeatherData.m */; };
+		8A3E2B3E1D82694E00D72A2F /* APICommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A3E2B3D1D82694E00D72A2F /* APICommunication.m */; };
 		8A5633561D7949D500206C8A /* ThreeHourForecastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A5633551D7949D500206C8A /* ThreeHourForecastView.xib */; };
 		8A56335C1D7950EA00206C8A /* ThreeHourForecastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A56335B1D7950EA00206C8A /* ThreeHourForecastView.m */; };
 		8A7AB77F1D7CEE8A00B5A640 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A7AB77E1D7CEE8A00B5A640 /* DetailViewController.m */; };
@@ -60,6 +61,8 @@
 		8A2587281D7E7E5A00530776 /* DailyForecastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DailyForecastView.m; sourceTree = "<group>"; };
 		8A3E2B351D823FA100D72A2F /* CurrentWeatherData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentWeatherData.h; sourceTree = "<group>"; };
 		8A3E2B361D823FA100D72A2F /* CurrentWeatherData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentWeatherData.m; sourceTree = "<group>"; };
+		8A3E2B3C1D82694E00D72A2F /* APICommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APICommunication.h; sourceTree = "<group>"; };
+		8A3E2B3D1D82694E00D72A2F /* APICommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APICommunication.m; sourceTree = "<group>"; };
 		8A5633551D7949D500206C8A /* ThreeHourForecastView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThreeHourForecastView.xib; sourceTree = "<group>"; };
 		8A56335A1D7950EA00206C8A /* ThreeHourForecastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeHourForecastView.h; sourceTree = "<group>"; };
 		8A56335B1D7950EA00206C8A /* ThreeHourForecastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeHourForecastView.m; sourceTree = "<group>"; };
@@ -233,6 +236,8 @@
 				8ADC2AF31D742425000EE9B3 /* Main.storyboard */,
 				8ADC2AFB1D742425000EE9B3 /* LaunchScreen.storyboard */,
 				8ADC2AFE1D742425000EE9B3 /* Info.plist */,
+				8A3E2B3C1D82694E00D72A2F /* APICommunication.h */,
+				8A3E2B3D1D82694E00D72A2F /* APICommunication.m */,
 				8A3E2B3A1D82555D00D72A2F /* MapView */,
 				8A3E2B391D82554900D72A2F /* FavoriteView */,
 				8A3E2B381D82552200D72A2F /* DetailView */,
@@ -419,6 +424,7 @@
 				8AB16D4F1D77A9E700BCF000 /* FavoriteTabViewController.m in Sources */,
 				8A962EBE1D80E6870007913D /* FMResultSet.m in Sources */,
 				8ADC2AF81D742425000EE9B3 /* WeatherForecastApp.xcdatamodeld in Sources */,
+				8A3E2B3E1D82694E00D72A2F /* APICommunication.m in Sources */,
 				8A7AB77F1D7CEE8A00B5A640 /* DetailViewController.m in Sources */,
 				8A7AB7851D7CFC6C00B5A640 /* FavoritePlaces.m in Sources */,
 			);

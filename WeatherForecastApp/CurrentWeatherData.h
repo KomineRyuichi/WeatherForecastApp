@@ -18,6 +18,7 @@
 @property double pressure;
 @property int windAngle;
 @property double windSpeed;
+@property BOOL apiRegulationsFlag;
 
 + (nonnull CurrentWeatherData *)getInstance;
 
