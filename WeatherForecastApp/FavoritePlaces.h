@@ -13,7 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FavoritePlaces : NSManagedObject
 
-// Insert code here to declare functionality of your managed object subclass
+@property (nullable, nonatomic, retain) NSString *placeName;
+@property (nullable, nonatomic, retain) NSNumber *placeLatitude;
+@property (nullable, nonatomic, retain) NSNumber *placeLongitude;
+@property (nullable, nonatomic, retain) NSNumber *placeOrder;
 
 @end
 

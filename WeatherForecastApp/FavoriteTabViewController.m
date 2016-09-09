@@ -407,6 +407,9 @@
     // データ検索
     NSError *error = nil;
     if (![fetchedResultsController performFetch:&error]) {
+#if DEBUG
+        NSLog(@"Error:%@", error);
+#endif
     }
     
     // データ取得、配列に追加
@@ -440,7 +443,9 @@
     // 操作を保存
     NSError *error = nil;
     if(![self.context save:&error]) {
+#if DEBUG
         NSLog(@"Error:%@", error);
+#endif
     }
 }
 
@@ -469,7 +474,9 @@
     // 操作を保存
     NSError *error = nil;
     if(![self.context save:&error]) {
+#if DEBUG
         NSLog(@"Error:%@", error);
+#endif
     }
 }
 

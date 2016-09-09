@@ -10,6 +10,9 @@
 
 @implementation FavoritePlaces
 
-// Insert code here to add functionality to your managed object subclass
+@dynamic placeName;
+@dynamic placeLatitude;
+@dynamic placeLongitude;
+@dynamic placeOrder;
 
 @end

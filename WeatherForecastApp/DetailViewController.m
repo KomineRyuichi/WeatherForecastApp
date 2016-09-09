@@ -50,7 +50,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    NSLog(@"test");
     
     formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"yyyy/MM/dd";
@@ -109,7 +108,6 @@
     self.navigationController.visibleViewController.tabBarController.tabBar.hidden = YES;
     
     date = [NSDate date];
-    NSLog(@"%@", date);
     
     // 今日の日付表示
     self.dateLabel.text = [formatter stringFromDate:date];
@@ -294,7 +292,9 @@
     
     NSError *error = nil;
     if(![self.context save:&error]) {
+#if DEBUG
         NSLog(@"Error:%@", error);
+#endif
     }
 }
 
@@ -310,7 +310,9 @@
     
     NSError *error = nil;
     if(![self.context save:&error]) {
+#if DEBUG
         NSLog(@"Error:%@", error);
+#endif
     }
 }
 
@@ -354,7 +356,9 @@
     // データ検索
     NSError *error = nil;
     if (![fetchedResultsController performFetch:&error]) {
+#if DEBUG
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#endif
     }
     
     if([[fetchedResultsController fetchedObjects] count] > 0) {

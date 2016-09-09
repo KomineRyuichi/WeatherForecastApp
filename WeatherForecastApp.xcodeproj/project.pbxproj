@@ -14,7 +14,6 @@
 		8A5633561D7949D500206C8A /* ThreeHourForecastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A5633551D7949D500206C8A /* ThreeHourForecastView.xib */; };
 		8A56335C1D7950EA00206C8A /* ThreeHourForecastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A56335B1D7950EA00206C8A /* ThreeHourForecastView.m */; };
 		8A7AB77F1D7CEE8A00B5A640 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A7AB77E1D7CEE8A00B5A640 /* DetailViewController.m */; };
-		8A7AB7841D7CFC6C00B5A640 /* FavoritePlaces+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A7AB7811D7CFC6C00B5A640 /* FavoritePlaces+CoreDataProperties.m */; };
 		8A7AB7851D7CFC6C00B5A640 /* FavoritePlaces.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A7AB7831D7CFC6C00B5A640 /* FavoritePlaces.m */; };
 		8A9270C41D7FE98D00CC462E /* CustomAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9270C31D7FE98D00CC462E /* CustomAnnotation.m */; };
 		8A9270C71D7FE99700CC462E /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9270C61D7FE99700CC462E /* MapViewController.m */; };
@@ -68,8 +67,6 @@
 		8A56335B1D7950EA00206C8A /* ThreeHourForecastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeHourForecastView.m; sourceTree = "<group>"; };
 		8A7AB77D1D7CEE8A00B5A640 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		8A7AB77E1D7CEE8A00B5A640 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
-		8A7AB7801D7CFC6C00B5A640 /* FavoritePlaces+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FavoritePlaces+CoreDataProperties.h"; sourceTree = "<group>"; };
-		8A7AB7811D7CFC6C00B5A640 /* FavoritePlaces+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FavoritePlaces+CoreDataProperties.m"; sourceTree = "<group>"; };
 		8A7AB7821D7CFC6C00B5A640 /* FavoritePlaces.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritePlaces.h; sourceTree = "<group>"; };
 		8A7AB7831D7CFC6C00B5A640 /* FavoritePlaces.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritePlaces.m; sourceTree = "<group>"; };
 		8A9270C21D7FE98D00CC462E /* CustomAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotation.h; sourceTree = "<group>"; };
@@ -177,8 +174,6 @@
 		8A3E2B3B1D8255C300D72A2F /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				8A7AB7801D7CFC6C00B5A640 /* FavoritePlaces+CoreDataProperties.h */,
-				8A7AB7811D7CFC6C00B5A640 /* FavoritePlaces+CoreDataProperties.m */,
 				8A7AB7821D7CFC6C00B5A640 /* FavoritePlaces.h */,
 				8A7AB7831D7CFC6C00B5A640 /* FavoritePlaces.m */,
 				8ADC2AF61D742425000EE9B3 /* WeatherForecastApp.xcdatamodeld */,
@@ -410,7 +405,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A56335C1D7950EA00206C8A /* ThreeHourForecastView.m in Sources */,
-				8A7AB7841D7CFC6C00B5A640 /* FavoritePlaces+CoreDataProperties.m in Sources */,
 				8A962EBA1D80E6870007913D /* FMDatabase.m in Sources */,
 				8A9270C71D7FE99700CC462E /* MapViewController.m in Sources */,
 				8A962EBB1D80E6870007913D /* FMDatabaseAdditions.m in Sources */,

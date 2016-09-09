@@ -186,8 +186,10 @@
         NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:dbfile];
         checkDb = [fileManager copyItemAtPath:defaultDBPath toPath:dbPath error:&error];
         if(!checkDb){
+#if DEBUG
             // Erroの場合
             NSLog(@"Copy error = %@", defaultDBPath);
+#endif
         }
     }
     //データベースのパス

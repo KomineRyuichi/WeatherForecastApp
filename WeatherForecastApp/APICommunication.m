@@ -47,11 +47,17 @@
             networkOfflineFlag = NO;
             NSError *jsonError;
             jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
-        
-            if([jsonData objectForKey:@"cod"] == [NSNumber numberWithInteger:401]) {
-                apiRegulationsFlag = YES;
-            } else {
-                apiRegulationsFlag = NO;
+            
+            if(jsonError) {
+#if DEBUG
+                NSLog(@"Error:%@", jsonError);
+#endif
+            }else {
+                if([jsonData objectForKey:@"cod"] == [NSNumber numberWithInteger:401]) {
+                    apiRegulationsFlag = YES;
+                } else {
+                    apiRegulationsFlag = NO;
+                }
             }
         }
         
