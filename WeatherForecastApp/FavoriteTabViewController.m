@@ -62,11 +62,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    // 3時間ごとの天気予報を表示するviewの数
+    //その時刻から24時間分取得したいので24/3=8で8となっている
     pageCount = 8;
     
+    //タブバータイトル、アイコンの設定
     self.navigationController.visibleViewController.tabBarItem.image = [UIImage imageNamed:@"FavoriteTab"];
     self.navigationController.visibleViewController.tabBarItem.title = @"Favorite";
     
+    // テーブルのデリゲート、データソースの設定
     _tableView.delegate = self;
     _tableView.dataSource = self;
     
@@ -74,45 +79,55 @@
     self.tableView.estimatedRowHeight = 200.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
+    // 配列の初期化
+    weatherData = [NSMutableArray array];
     forecastData = [NSMutableArray array];
     favoritePlaces = [NSMutableArray array];
     
+    // contectの設定
     AppDelegate *appDelegate = [UIApplication.sharedApplication delegate];
     self.context = [appDelegate managedObjectContext];
     
+    //アラートの設定
     networkAlertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"オフラインです。" preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {}];
-    
     apiAlertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"API規制です。" preferredStyle:UIAlertControllerStyleAlert];
     
+    //アラート時のアクションの設定
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {}];
+    
+    // アラートにアクションを追加
     [networkAlertController addAction:action];
     [apiAlertController addAction:action];
     
+    // 通信状態を判別するフラグの初期化
     communicationDisableFlag = NO;
     communicateAPIDisableFlag = NO;
     
+    // ロード時の暗転処理用のview
     loadingView = [[UIView alloc] initWithFrame:self.view.bounds];
     loadingView.backgroundColor = [UIColor blackColor];
     loadingView.alpha = 0.5f;
 }
 
+// 画面表示直前に呼ばれるメソッド
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    // ナビゲーションのタイトル、アイテムの設定
     self.navigationController.visibleViewController.navigationItem.title = @"お気に入り";
     self.navigationController.visibleViewController.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.navigationController.visibleViewController.tabBarController.tabBar.hidden = NO;
     
+    // レコードの取得
     [self getFavoritePlace];
     
-    weatherData = [[NSMutableArray alloc] init];
-    
+    // レコードの件数分天気情報配列の要素を確保
     for (int i = 0; i < [favoritePlaces count]; i++)
     {
         [weatherData addObject:[NSDictionary dictionary]];
     }
 
+    // レコードの有無によって、「お気に入りを追加」のボタンを表示するか否かを判別
     if([favoritePlaces count]  == 0) {
         [self.view bringSubviewToFront:_addPlaceButton];
     } else {
@@ -125,16 +140,19 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    // インジケーターくるくるスタート
     [self.indicator startAnimating];
     [self.view addSubview:loadingView];
     [self.view bringSubviewToFront:_indicator];
     
+    // API通信開始
     for(int i=0; i<[favoritePlaces count]; i++) {
         double latitude = [[[favoritePlaces objectAtIndex:i] objectForKey:@"placeLatitude"] doubleValue];
         double longitude = [[[favoritePlaces objectAtIndex:i] objectForKey:@"placeLongitude"]doubleValue];
         [self startAPICommunication:@"weather" :latitude :longitude :i];
     }
     
+    // 通信できているかの判断
     if(communicationDisableFlag) {
         [self alertNetworkError];
     } else if (communicateAPIDisableFlag) {
@@ -142,9 +160,11 @@
     }
 }
 
+// 画面が消えた直後に呼ばれるメソッド
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     
+    // 各配列の要素を削除
     [weatherData removeAllObjects];
     [forecastData removeAllObjects];
     [favoritePlaces removeAllObjects];
@@ -189,7 +209,6 @@
     
     if([forecastData count] > 0) {
         // 3時間ごとの天気予報
-        //cell.scrollView.hidden = NO;
         int fromTime = 0.0f;
         int toTime = 0.0f;
         cell.scrollView.contentSize = CGSizeMake(100.0*pageCount, 95.0);
@@ -216,9 +235,7 @@
     }
     
     cell.placeNameLabel.text = [[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeName"];
-    
-    //cell.scrollView.hidden = YES;
-    
+
     return cell;
 }
 
@@ -349,7 +366,6 @@
     
         // エラー処理
         if(error) {
-            NSLog(@"Session Error:%@", error);
              communicationDisableFlag = YES;
             return;
         } else {
@@ -359,6 +375,7 @@
         // JSONのパース
         NSError *jsonError;
         NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
+        
         
         if([jsonData objectForKey:@"cod"] == [NSNumber numberWithInteger:401]) {
             communicateAPIDisableFlag = YES;
@@ -375,8 +392,6 @@
             }
         }
         
-        
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.indicator stopAnimating];
             [loadingView removeFromSuperview];
@@ -388,12 +403,15 @@
     [dataTask resume];
 }
 
+// 「お気に入りを追加」のボタンタップ時のアクション
 - (IBAction)addFavoritePlaceButton:(id)sender {
+    // タブ切り替え 0:お気に入り画面、1:地図画面
     self.tabBarController.selectedIndex = 1;
 }
 
 #pragma mark - CoreData
 
+// レコード検索
 - (void)getFavoritePlace{
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FavoritePlaces"];
     
@@ -427,31 +445,44 @@
     }
 }
 
+// レコード削除
 - (void)deleteFavoritePlace:(NSIndexPath *)indexPath {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FavoritePlaces"];
+    
+    // レコードをplaceOrderの昇順に取得
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"placeOrder" ascending:YES];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
     [fetchRequest setSortDescriptors:sortDescriptors];
     
+    // レコード取得実行
     NSArray *results = [self.context executeFetchRequest:fetchRequest error:nil];
     
+    // 該当するレコードの取得
     FavoritePlaces *place = [results objectAtIndex:indexPath.row];
+    
+    // レコード削除
     [self.context deleteObject:place];
     
+    // 操作を保存
     NSError *error = nil;
     if(![self.context save:&error]) {
         NSLog(@"Error:%@", error);
     }
 }
 
+// レコードの更新
 - (void)updateFavoritePlaceOrder{
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FavoritePlaces"];
+    
+    // レコードをplaceOrderの昇順に取得
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"placeOrder" ascending:NO];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
     [fetchRequest setSortDescriptors:sortDescriptors];
     
+    // レコード取得実行
     NSArray *results = [self.context executeFetchRequest:fetchRequest error:nil];
 
+    // 全レコードに対して、placeOrderを更新
     for (int i=0; i<[results count]; i++) {
         FavoritePlaces *data = [results objectAtIndex:i];
         NSDictionary *placeData = [NSDictionary dictionaryWithDictionary:[favoritePlaces objectAtIndex:i]];
@@ -461,6 +492,7 @@
         data.placeOrder = [NSNumber numberWithInt:i];
     }
     
+    // 操作を保存
     NSError *error = nil;
     if(![self.context save:&error]) {
         NSLog(@"Error:%@", error);
@@ -469,6 +501,7 @@
 
 #pragma mark - Alert
 
+// オフライン時のアラート
 - (void)alertNetworkError {
     UIViewController *baseView = [UIApplication sharedApplication].keyWindow.rootViewController;
     while (baseView.presentedViewController != nil && !baseView.presentedViewController.isBeingDismissed) {
@@ -477,6 +510,7 @@
     [baseView presentViewController:networkAlertController animated:YES completion:nil];
 }
 
+// API規制時のアラート
 - (void)alertAPIError {
     UIViewController *baseView = [UIApplication sharedApplication].keyWindow.rootViewController;
     while (baseView.presentedViewController != nil && !baseView.presentedViewController.isBeingDismissed) {
