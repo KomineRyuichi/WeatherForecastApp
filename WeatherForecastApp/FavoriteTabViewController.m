@@ -11,6 +11,8 @@
 #import "DetailViewController.h"
 #import "AppDelegate.h"
 #import "FavoritePlaces.h"
+#import "APICommunication.h"
+#import "CurrentWeatherData.h"
 
 @interface WeatherSummaryCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *todayWeatherIconImage;
@@ -42,10 +44,10 @@
     double selectedPlaceLongitude;
     UIAlertController *networkAlertController;
     UIAlertController *apiAlertController;
-    BOOL communicationDisableFlag;
-    BOOL communicateAPIDisableFlag;
     NSInteger pageCount;
     UIView *loadingView;
+    APICommunication *apiCommunication;
+    CurrentWeatherData *currentWeatherData;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *addPlaceButton;
@@ -99,14 +101,13 @@
     [networkAlertController addAction:action];
     [apiAlertController addAction:action];
     
-    // 通信状態を判別するフラグの初期化
-    communicationDisableFlag = NO;
-    communicateAPIDisableFlag = NO;
-    
     // ロード時の暗転処理用のview
     loadingView = [[UIView alloc] initWithFrame:self.view.bounds];
     loadingView.backgroundColor = [UIColor blackColor];
     loadingView.alpha = 0.5f;
+    
+    apiCommunication = [[APICommunication alloc] init];
+    currentWeatherData = [CurrentWeatherData getInstance];
 }
 
 // 画面表示直前に呼ばれるメソッド
@@ -134,29 +135,37 @@
         [self.view sendSubviewToBack:_addPlaceButton];
     }
     
+    // インジケーターくるくるスタート
+    [self.indicator startAnimating];
+    [self.view addSubview:loadingView];
+    [self.view bringSubviewToFront:_indicator];
 }
 
 // 画面表示直後の処理
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    // インジケーターくるくるスタート
-    [self.indicator startAnimating];
-    [self.view addSubview:loadingView];
-    [self.view bringSubviewToFront:_indicator];
-    
     // API通信開始
     for(int i=0; i<[favoritePlaces count]; i++) {
         double latitude = [[[favoritePlaces objectAtIndex:i] objectForKey:@"placeLatitude"] doubleValue];
         double longitude = [[[favoritePlaces objectAtIndex:i] objectForKey:@"placeLongitude"]doubleValue];
-        [self startAPICommunication:@"weather" :latitude :longitude :i];
-    }
     
-    // 通信できているかの判断
-    if(communicationDisableFlag) {
-        [self alertNetworkError];
-    } else if (communicateAPIDisableFlag) {
-        [self alertAPIError];
+        [apiCommunication startAPICommunication:@"weather" :latitude :longitude :^(NSDictionary *result, BOOL networkOfflineFlag, BOOL apiRegulationFlag){
+    
+            if(networkOfflineFlag || apiRegulationFlag) {
+                [self stopIndicator];
+                if(networkOfflineFlag) {
+                    [self alertNetworkError];
+                } else if (apiRegulationFlag) {
+                    [self alertAPIError];
+                }
+            } else {
+                [weatherData replaceObjectAtIndex:i withObject:result];
+                [self.tableView reloadData];
+                [self stopIndicator];
+                
+            }
+        }];
     }
 }
 
@@ -203,7 +212,9 @@
         NSDictionary *weatherDatum = [NSDictionary dictionaryWithDictionary:[weatherData objectAtIndex:indexPath.row]];
         
         cell.todayWeatherIconImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", [[[weatherDatum objectForKey:@"weather"] objectAtIndex:0] objectForKey:@"icon" ]]];
+        
         cell.temperatureLabel.text = [NSString stringWithFormat:@"%2.1f℃", [[[weatherDatum objectForKey:@"main"] objectForKey:@"temp"] doubleValue]];
+        
         [cell.cellExpansionButton addTarget:self action:@selector(pushCellExpansionButton:event:) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -324,7 +335,23 @@
         [self.indicator startAnimating];
         [self.view addSubview:loadingView];
         [self.view bringSubviewToFront:_indicator];
-        [self startAPICommunication:@"forecast" :latitude :longitude :0];
+        [apiCommunication startAPICommunication:@"forecast" :latitude :longitude :^(NSDictionary *result, BOOL networkOfflineFlag, BOOL apiRegulationFlag){
+        
+            if(networkOfflineFlag || apiRegulationFlag) {
+                [self stopIndicator];
+                if(networkOfflineFlag) {
+                    [self alertNetworkError];
+                } else if (apiRegulationFlag) {
+                    [self alertAPIError];
+                }
+            } else {
+                for(int i=0; i<pageCount; i++)  {
+                    [forecastData addObject:[[result objectForKey:@"list"] objectAtIndex:i]];
+                }
+                [self.tableView reloadData];
+                [self stopIndicator];
+            }
+        }];
     }
 }
 
@@ -343,64 +370,6 @@
     return indexPath;
 }
 
-// API通信開始
-- (void)startAPICommunication:(NSString *)resource :(double)latitude :(double)longitude :(int)indexNumber{
-    
-    // URLの設定
-    NSString *urlString = @"http://kominer:enimokR0150@api.openweathermap.org/data/2.5/";
-    NSString *apiKey = @"165932781f9394ab99e2dfc1ab4e38cc";
-    NSString *param = [NSString stringWithFormat:@"lat=%3.6lf&lon=%3.6lf&units=metric&appid=%@", latitude, longitude, apiKey];
-    NSString *test = [NSString stringWithFormat:@"%@%@?%@", urlString, resource, param];
-    NSURL *url = [NSURL URLWithString:[test stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]; 
-    
-    // Requestの設定
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"POST"];
-
-    // Session, SessionConfigの生成
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-    
-    // DataTaskの生成
-    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
-    
-        // エラー処理
-        if(error) {
-             communicationDisableFlag = YES;
-            return;
-        } else {
-            communicationDisableFlag = NO;
-        }
-        
-        // JSONのパース
-        NSError *jsonError;
-        NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
-        
-        
-        if([jsonData objectForKey:@"cod"] == [NSNumber numberWithInteger:401]) {
-            communicateAPIDisableFlag = YES;
-        } else {
-            communicateAPIDisableFlag = NO;
-            if ([resource isEqualToString:@"weather"]) {
-                // 天気情報を配列に追加
-                [weatherData replaceObjectAtIndex:indexNumber withObject:jsonData];
-            } else if([resource isEqualToString:@"forecast"]) {
-                // 3時間ごとの天気予報を取得
-                for(int i=0; i<pageCount; i++) {
-                    [forecastData addObject:[[jsonData objectForKey:@"list"] objectAtIndex:i]];
-                }
-            }
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-            [self stopIndicator];
-        });
-    }];
- 
-    // タスクの実行
-    [dataTask resume];
-}
 
 // 「お気に入りを追加」のボタンタップ時のアクション
 - (IBAction)addFavoritePlaceButton:(id)sender {

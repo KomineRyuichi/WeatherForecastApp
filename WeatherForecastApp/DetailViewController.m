@@ -16,8 +16,6 @@
 @interface DetailViewController () {
     NSDateFormatter *formatter;
     NSDate *date;
-    BOOL communicationDisableFlag;
-    BOOL communicateAPIDisableFlag;
     UIAlertController *networkAlertController;
     UIAlertController *apiAlertController;
     UIView *loadingView;
@@ -68,9 +66,6 @@
     
     [networkAlertController addAction:action];
     [apiAlertController addAction:action];
-    
-    communicationDisableFlag = NO;
-    communicateAPIDisableFlag = NO;
     
     // OFFの画像設定
     [self.favoriteButton setImage:[UIImage imageNamed:@"NonFavorite"] forState:UIControlStateNormal];
@@ -248,57 +243,7 @@
     }
 }
 
-//// API通信開始
-//- (void)startAPICommunication:(NSString *)resource :(double)latitude :(double)longitude{
-//    // URLの設定
-//    NSString *urlString = @"http://kominer:enimokR0150@api.openweathermap.org/data/2.5/";
-//    NSString *apiKey = @"54d51f13da00bdabafdee82cdee866ea";
-//    NSString *param = [NSString stringWithFormat:@"lat=%3.6lf&lon=%3.6lf&units=metric&appid=%@", latitude, longitude, apiKey];
-//    NSString *test = [NSString stringWithFormat:@"%@%@?%@", urlString, resource, param];
-//    NSURL *url = [NSURL URLWithString:[test stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
-//    
-//    // Requestの設定
-//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-//    [request setHTTPMethod:@"POST"];
-//    
-//    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-//    NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-//    
-//    // DataTaskの生成
-//    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
-//        
-//        // エラー処理
-//        if(error) {
-//            communicationDisableFlag = YES;
-//            return;
-//        } else {
-//            communicationDisableFlag = NO;
-//        }
-//        
-//        // JSONのパース
-//        NSLog(@"Parse");
-//        NSError *jsonError;
-//        NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
-//        
-//        if([jsonData objectForKey:@"cod"] == [NSNumber numberWithInteger:401]) {
-//            communicateAPIDisableFlag = YES;
-//        } else {
-//            communicateAPIDisableFlag = NO;
-//            if ([resource isEqualToString:@"weather"]) {
-//                // 天気の詳細データをUIに配置
-//                [currentWeatherData setJsonData:jsonData];
-//                [self setDetailData];
-//            
-//            } else if([resource isEqualToString:@"forecast"]) {
-//                // 4日間の予報データをUIに配置
-//                [self setForecasts:jsonData];
-//            }
-//        }
-//    }];
-//    
-//    // タスクの実行
-//    [dataTask resume];
-//}
+
 
 - (NSString *)windDecision:(int)angle {
     

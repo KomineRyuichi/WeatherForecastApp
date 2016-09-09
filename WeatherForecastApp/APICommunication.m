@@ -45,8 +45,6 @@
             networkOfflineFlag = YES;
         } else {
             networkOfflineFlag = NO;
-            // JSONのパース
-            NSLog(@"Parse");
             NSError *jsonError;
             jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
         
