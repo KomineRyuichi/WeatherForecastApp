@@ -10,6 +10,7 @@
 #import "CustomAnnotation.h"
 #import "DetailViewController.h"
 #import "FMDatabase.h"
+#import "APICommunication.h"
 
 @interface MapViewController ()<MKMapViewDelegate,UISearchBarDelegate>
 {
@@ -19,9 +20,6 @@
     MKCoordinateRegion region;
     //拡大・縮小ボタンを押した時のデルタ値を格納
     MKCoordinateRegion zoomRegion;
-    //URLに突っ込む緯度経度
-    NSString *latitude;
-    NSString *longitude;
     //Assetsの名前を格納する文字列
     NSString *iconNameString;
     //動作判別に使う
@@ -34,6 +32,8 @@
     NSString *range;
     //viewWillAppear:の初回判定に使用
     BOOL first;
+    //各アラート
+    UIAlertController *alertController;
 }
 @end
 
@@ -126,12 +126,10 @@
      {
          if(error) {
              // 検索失敗時アラート処理
-             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"" message:@"検索結果が見つかりません" preferredStyle:UIAlertControllerStyleAlert];
+             alertController = [UIAlertController alertControllerWithTitle:@"" message:@"検索結果が見つかりません" preferredStyle:UIAlertControllerStyleAlert];
              [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
              }]];
              [self presentViewController:alertController animated:YES completion:nil];
-             NSLog(@"Search Error:%@", error);
-             return;
          }else{
              //検索結果の1件目の地点を拡大
              MKMapItem *item = [response.mapItems objectAtIndex:0];
@@ -221,57 +219,38 @@
         [self doCommunication:resultArray count:idx];
     }];
 }
-//DBから取得したデータをパラメータとして、APIにリクエストを投げる
+//DBから取得したデータを通信クラスに渡す、レスポンスを引数にパースメソッド呼び出し
 -(void)doCommunication:(NSArray *)array count:(NSUInteger)count{
     NSString *placeName = [array[count] objectForKey:@"place"];
-    latitude = [NSString stringWithFormat:@"%@",[array[count] objectForKey:@"lat"]];
-    longitude = [NSString stringWithFormat:@"%@",[array[count] objectForKey:@"lon"]];
-    double resultlat = [latitude doubleValue];
-    double resultlon = [longitude doubleValue];
-    NSString *origin = [NSString stringWithFormat:@"http://iwakamiy:0828sYs1129@api.openweathermap.org/data/2.5/weather?lat=%@&lon=%@&appid=a9a8461295cb8b16af35deb36ec27445",latitude,longitude];
-    NSURL* url = [NSURL URLWithString:origin];
-    
-    //**　dataTaskWithRequest:requestだとJSONじゃなくてHTMLが取得される
-    NSMutableURLRequest *request = [NSMutableURLRequest new];
-    [request setURL:url];
-    [request setHTTPMethod:@"POST"];
-    //**（dataTaskWithURL:url）（dataTaskWithRequest:request）
-    
-    NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession* session = [NSURLSession sessionWithConfiguration:config delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-    NSURLSessionDataTask* task =
-    [session dataTaskWithURL:url
-           completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-               if(error) {
-                   // オフライン時アラート処理
-                   UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"⚠︎" message:@"ネットワークに接続されていません" preferredStyle:UIAlertControllerStyleAlert];
-                   [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                   }]];
-                   [self presentViewController:alertController animated:YES completion:nil];
-                   return;
-               }else{
-                   [self doParseData:data Place:placeName Lat:resultlat Lon:resultlon];
-               }
-           }];
-    
-    [task resume];
+    double resultlat = [[NSString stringWithFormat:@"%@",[array[count] objectForKey:@"lat"]] doubleValue];
+    double resultlon = [[NSString stringWithFormat:@"%@",[array[count] objectForKey:@"lon"]] doubleValue];
+    //通信
+    APICommunication *apiCommunication = [[APICommunication alloc] init];
+    [apiCommunication startAPICommunication:@"weather" :resultlat :resultlon :^(NSDictionary *jsonData, BOOL networkOfflineFlag, BOOL apiRegulationsFlag) {
+        if(networkOfflineFlag){
+            alertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"オフラインです。" preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            }]];
+            [self presentViewController:alertController animated:YES completion:nil];
+        }else{
+            if(apiRegulationsFlag){
+                alertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"API規制です。" preferredStyle:UIAlertControllerStyleAlert];
+                [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                }]];
+                [self presentViewController:alertController animated:YES completion:nil];
+            }else{
+                [self doParseData:jsonData Place:placeName Lat:resultlat Lon:resultlon];
+            }
+        }
+    }];
 }
-//JSON形式のレスポンスをパース、iconキーの値を取得
--(void)doParseData:(NSData*)data Place:(NSString*)place Lat:(double)lat Lon:(double)lon{
-    // JSONをパース
-    NSError *error;
-    NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-    //エラー処理
-    if(error){
-        NSLog(@"%@", [error localizedDescription]);
-    }
-    NSArray *weather = [jsonData objectForKey:@"weather"];
+//コールバックで呼ばれる。パース済みのデータからiconキーの値を取得
+-(void)doParseData:(NSDictionary*)data Place:(NSString*)place Lat:(double)lat Lon:(double)lon{
+    NSArray *weather = [data objectForKey:@"weather"];
     NSDictionary *icon = [weather objectAtIndex:0];
     iconNameString = [icon objectForKey:@"icon"];
     NSString *placeName = place;
-    double resultlat = lat;
-    double resultlon = lon;
-    [self setWeatherIconPlace:placeName Lat:resultlat Lon:resultlon];
+    [self setWeatherIconPlace:placeName Lat:lat Lon:lon];
 }
 //ピンをセット
 -(void)setWeatherIconPlace:(NSString*)place Lat:(double)lat Lon:(double)lon{
@@ -281,7 +260,7 @@
     weatherIconAnnotation.subtitle = @"詳細画面へ";
     [self.mapView addAnnotation:weatherIconAnnotation];
 }
-//ピンを削除（縮小した時に呼ばれる）
+//ピンを削除
 -(void)deleteIcon{
     [self.mapView removeAnnotations:self.mapView.annotations];
 }
