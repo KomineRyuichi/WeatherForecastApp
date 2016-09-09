@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 
 @interface CustomAnnotation : NSObject <MKAnnotation>
-@property (readwrite, nonatomic) CLLocationCoordinate2D coordinate;
-@property (readwrite, nonatomic, copy) NSString* title;
-@property (readwrite, nonatomic, copy) NSString* subtitle;
+@property (nonatomic) CLLocationCoordinate2D coordinate;
+@property (nonatomic, copy) NSString* title;
+@property (nonatomic, copy) NSString* subtitle;
 @end
