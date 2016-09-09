@@ -15,7 +15,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        // 初期化
         UINib *nib = [UINib nibWithNibName:@"ThreeHourForecastView" bundle:[NSBundle mainBundle]];
         NSArray *array = [nib instantiateWithOwner:self options:nil];
         self = [array objectAtIndex:0];

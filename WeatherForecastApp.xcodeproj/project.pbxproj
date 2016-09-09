@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8A2587261D7E7E3600530776 /* DailyForecastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A2587251D7E7E3600530776 /* DailyForecastView.xib */; };
 		8A2587291D7E7E5A00530776 /* DailyForecastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A2587281D7E7E5A00530776 /* DailyForecastView.m */; };
+		8A3E2B371D823FA100D72A2F /* CurrentWeatherData.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A3E2B361D823FA100D72A2F /* CurrentWeatherData.m */; };
 		8A5633561D7949D500206C8A /* ThreeHourForecastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A5633551D7949D500206C8A /* ThreeHourForecastView.xib */; };
 		8A56335C1D7950EA00206C8A /* ThreeHourForecastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A56335B1D7950EA00206C8A /* ThreeHourForecastView.m */; };
 		8A7AB77F1D7CEE8A00B5A640 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A7AB77E1D7CEE8A00B5A640 /* DetailViewController.m */; };
@@ -28,7 +29,6 @@
 		8AB16D4F1D77A9E700BCF000 /* FavoriteTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB16D4E1D77A9E700BCF000 /* FavoriteTabViewController.m */; };
 		8ADC2AEC1D742424000EE9B3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC2AEB1D742424000EE9B3 /* main.m */; };
 		8ADC2AEF1D742424000EE9B3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC2AEE1D742424000EE9B3 /* AppDelegate.m */; };
-		8ADC2AF21D742424000EE9B3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC2AF11D742424000EE9B3 /* ViewController.m */; };
 		8ADC2AF51D742425000EE9B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ADC2AF31D742425000EE9B3 /* Main.storyboard */; };
 		8ADC2AF81D742425000EE9B3 /* WeatherForecastApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC2AF61D742425000EE9B3 /* WeatherForecastApp.xcdatamodeld */; };
 		8ADC2AFA1D742425000EE9B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8ADC2AF91D742425000EE9B3 /* Assets.xcassets */; };
@@ -58,6 +58,8 @@
 		8A2587251D7E7E3600530776 /* DailyForecastView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DailyForecastView.xib; sourceTree = "<group>"; };
 		8A2587271D7E7E5A00530776 /* DailyForecastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyForecastView.h; sourceTree = "<group>"; };
 		8A2587281D7E7E5A00530776 /* DailyForecastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DailyForecastView.m; sourceTree = "<group>"; };
+		8A3E2B351D823FA100D72A2F /* CurrentWeatherData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentWeatherData.h; sourceTree = "<group>"; };
+		8A3E2B361D823FA100D72A2F /* CurrentWeatherData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentWeatherData.m; sourceTree = "<group>"; };
 		8A5633551D7949D500206C8A /* ThreeHourForecastView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThreeHourForecastView.xib; sourceTree = "<group>"; };
 		8A56335A1D7950EA00206C8A /* ThreeHourForecastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeHourForecastView.h; sourceTree = "<group>"; };
 		8A56335B1D7950EA00206C8A /* ThreeHourForecastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeHourForecastView.m; sourceTree = "<group>"; };
@@ -92,8 +94,6 @@
 		8ADC2AEB1D742424000EE9B3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8ADC2AED1D742424000EE9B3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8ADC2AEE1D742424000EE9B3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		8ADC2AF01D742424000EE9B3 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		8ADC2AF11D742424000EE9B3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		8ADC2AF41D742425000EE9B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8ADC2AF71D742425000EE9B3 /* WeatherForecastApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WeatherForecastApp.xcdatamodel; sourceTree = "<group>"; };
 		8ADC2AF91D742425000EE9B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -134,6 +134,55 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8A3E2B381D82552200D72A2F /* DetailView */ = {
+			isa = PBXGroup;
+			children = (
+				8A7AB77D1D7CEE8A00B5A640 /* DetailViewController.h */,
+				8A7AB77E1D7CEE8A00B5A640 /* DetailViewController.m */,
+				8A3E2B351D823FA100D72A2F /* CurrentWeatherData.h */,
+				8A3E2B361D823FA100D72A2F /* CurrentWeatherData.m */,
+				8A2587251D7E7E3600530776 /* DailyForecastView.xib */,
+				8A2587271D7E7E5A00530776 /* DailyForecastView.h */,
+				8A2587281D7E7E5A00530776 /* DailyForecastView.m */,
+			);
+			name = DetailView;
+			sourceTree = "<group>";
+		};
+		8A3E2B391D82554900D72A2F /* FavoriteView */ = {
+			isa = PBXGroup;
+			children = (
+				8AB16D4D1D77A9E700BCF000 /* FavoriteTabViewController.h */,
+				8AB16D4E1D77A9E700BCF000 /* FavoriteTabViewController.m */,
+				8A5633551D7949D500206C8A /* ThreeHourForecastView.xib */,
+				8A56335A1D7950EA00206C8A /* ThreeHourForecastView.h */,
+				8A56335B1D7950EA00206C8A /* ThreeHourForecastView.m */,
+			);
+			name = FavoriteView;
+			sourceTree = "<group>";
+		};
+		8A3E2B3A1D82555D00D72A2F /* MapView */ = {
+			isa = PBXGroup;
+			children = (
+				8A9270C51D7FE99700CC462E /* MapViewController.h */,
+				8A9270C61D7FE99700CC462E /* MapViewController.m */,
+				8A9270C21D7FE98D00CC462E /* CustomAnnotation.h */,
+				8A9270C31D7FE98D00CC462E /* CustomAnnotation.m */,
+			);
+			name = MapView;
+			sourceTree = "<group>";
+		};
+		8A3E2B3B1D8255C300D72A2F /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				8A7AB7801D7CFC6C00B5A640 /* FavoritePlaces+CoreDataProperties.h */,
+				8A7AB7811D7CFC6C00B5A640 /* FavoritePlaces+CoreDataProperties.m */,
+				8A7AB7821D7CFC6C00B5A640 /* FavoritePlaces.h */,
+				8A7AB7831D7CFC6C00B5A640 /* FavoritePlaces.m */,
+				8ADC2AF61D742425000EE9B3 /* WeatherForecastApp.xcdatamodeld */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
 		8A962EAD1D80E6870007913D /* fmdb */ = {
 			isa = PBXGroup;
 			children = (
@@ -180,31 +229,14 @@
 			children = (
 				8ADC2AED1D742424000EE9B3 /* AppDelegate.h */,
 				8ADC2AEE1D742424000EE9B3 /* AppDelegate.m */,
-				8ADC2AF01D742424000EE9B3 /* ViewController.h */,
-				8ADC2AF11D742424000EE9B3 /* ViewController.m */,
-				8A5633551D7949D500206C8A /* ThreeHourForecastView.xib */,
-				8A56335A1D7950EA00206C8A /* ThreeHourForecastView.h */,
-				8A56335B1D7950EA00206C8A /* ThreeHourForecastView.m */,
-				8A2587251D7E7E3600530776 /* DailyForecastView.xib */,
-				8A2587271D7E7E5A00530776 /* DailyForecastView.h */,
-				8A2587281D7E7E5A00530776 /* DailyForecastView.m */,
-				8A9270C21D7FE98D00CC462E /* CustomAnnotation.h */,
-				8A9270C31D7FE98D00CC462E /* CustomAnnotation.m */,
-				8A9270C51D7FE99700CC462E /* MapViewController.h */,
-				8A9270C61D7FE99700CC462E /* MapViewController.m */,
-				8AB16D4D1D77A9E700BCF000 /* FavoriteTabViewController.h */,
-				8AB16D4E1D77A9E700BCF000 /* FavoriteTabViewController.m */,
-				8A7AB77D1D7CEE8A00B5A640 /* DetailViewController.h */,
-				8A7AB77E1D7CEE8A00B5A640 /* DetailViewController.m */,
-				8A7AB7801D7CFC6C00B5A640 /* FavoritePlaces+CoreDataProperties.h */,
-				8A7AB7811D7CFC6C00B5A640 /* FavoritePlaces+CoreDataProperties.m */,
-				8A7AB7821D7CFC6C00B5A640 /* FavoritePlaces.h */,
-				8A7AB7831D7CFC6C00B5A640 /* FavoritePlaces.m */,
 				8A962E7E1D80E4610007913D /* Location.db */,
 				8ADC2AF31D742425000EE9B3 /* Main.storyboard */,
 				8ADC2AFB1D742425000EE9B3 /* LaunchScreen.storyboard */,
-				8ADC2AF61D742425000EE9B3 /* WeatherForecastApp.xcdatamodeld */,
 				8ADC2AFE1D742425000EE9B3 /* Info.plist */,
+				8A3E2B3A1D82555D00D72A2F /* MapView */,
+				8A3E2B391D82554900D72A2F /* FavoriteView */,
+				8A3E2B381D82552200D72A2F /* DetailView */,
+				8A3E2B3B1D8255C300D72A2F /* CoreData */,
 				8ADC2AF91D742425000EE9B3 /* Assets.xcassets */,
 				8A962EAD1D80E6870007913D /* fmdb */,
 				8ADC2AEA1D742424000EE9B3 /* Supporting Files */,
@@ -375,12 +407,12 @@
 				8A56335C1D7950EA00206C8A /* ThreeHourForecastView.m in Sources */,
 				8A7AB7841D7CFC6C00B5A640 /* FavoritePlaces+CoreDataProperties.m in Sources */,
 				8A962EBA1D80E6870007913D /* FMDatabase.m in Sources */,
-				8ADC2AF21D742424000EE9B3 /* ViewController.m in Sources */,
 				8A9270C71D7FE99700CC462E /* MapViewController.m in Sources */,
 				8A962EBB1D80E6870007913D /* FMDatabaseAdditions.m in Sources */,
 				8ADC2AEF1D742424000EE9B3 /* AppDelegate.m in Sources */,
 				8A962EBC1D80E6870007913D /* FMDatabasePool.m in Sources */,
 				8ADC2AEC1D742424000EE9B3 /* main.m in Sources */,
+				8A3E2B371D823FA100D72A2F /* CurrentWeatherData.m in Sources */,
 				8A962EBD1D80E6870007913D /* FMDatabaseQueue.m in Sources */,
 				8A9270C41D7FE98D00CC462E /* CustomAnnotation.m in Sources */,
 				8A2587291D7E7E5A00530776 /* DailyForecastView.m in Sources */,

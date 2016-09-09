@@ -10,6 +10,7 @@
 #import "FavoritePlaces.h"
 #import "AppDelegate.h"
 #import "DailyForecastView.h"
+#import "CurrentWeatherData.h"
 
 @interface DetailViewController () {
     NSDateFormatter *formatter;
@@ -19,6 +20,7 @@
     UIAlertController *networkAlertController;
     UIAlertController *apiAlertController;
     UIView *loadingView;
+    CurrentWeatherData *currentWeatherData;
 }
 
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
@@ -74,9 +76,22 @@
     // ONの画像設定
     [self.favoriteButton setImage:[UIImage imageNamed:@"AddFavorite"] forState:UIControlStateSelected];
     
+    // 読み込み中暗転用ビュー
     loadingView = [[UIView alloc] initWithFrame:self.view.bounds];
     loadingView.backgroundColor = [UIColor blackColor];
     loadingView.alpha = 0.5f;
+    
+    currentWeatherData = [CurrentWeatherData getInstance];
+    
+    // 天気アイコン以外の各アイコンの設定
+    // 気温アイコン
+    self.temperatureIcon.image = [UIImage imageNamed:@"temperature"];
+    // 湿度アイコン
+    self.humidityIcon.image = [UIImage imageNamed:@"humidity"];
+    // 風向きアイコン
+    self.windAngleIcon.image = [UIImage imageNamed:@"wind"];
+    // 風速アイコン
+    self.windSpeedIcon.image = [UIImage imageNamed:@"wind speed"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -129,43 +144,31 @@
 }
 
 // 詳細情報を画面に配置
-- (void)setDetailData:(NSDictionary *)detailData {
+- (void)setDetailData {
     // 天気アイコン
-    self.weatherIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", [[[detailData objectForKey:@"weather"] objectAtIndex:0] objectForKey:@"icon" ]]];
+    self.weatherIcon.image = [UIImage imageNamed:currentWeatherData.iconName];
     
     // 地名
     self.placeNameLabel.text = _placeName;
-
-    // 気温、湿度、気圧情報(レスポンスのKey:mainに入っている)
-    NSDictionary *main = [NSDictionary dictionaryWithDictionary:[detailData objectForKey:@"main"]];
-    // 気温アイコン
-    self.temperatureIcon.image = [UIImage imageNamed:@"temperature"];
-    // 平均気温
-    self.averageTemperatureLabel.text = [NSString stringWithFormat:@"%2.0f℃", [[main objectForKey:@"temp"] doubleValue]];
-    // 最高気温
-    self.highTemperatureLabel.text = [NSString stringWithFormat:@"%2.0f", [[main objectForKey:@"temp_max"] doubleValue]];
-    // 最低気温
-    self.lowTemperatureLabel.text = [NSString stringWithFormat:@"%2.0f", [[main objectForKey:@"temp_min"] doubleValue]];
     
-    // 湿度アイコン
-    self.humidityIcon.image = [UIImage imageNamed:@"humidity"];
+    // 平均気温
+    self.averageTemperatureLabel.text = [NSString stringWithFormat:@"%2.0f℃", currentWeatherData.averageTemperature];
+    // 最高気温
+    self.highTemperatureLabel.text = [NSString stringWithFormat:@"%2.0f", currentWeatherData.highTemperature];
+    // 最低気温
+    self.lowTemperatureLabel.text = [NSString stringWithFormat:@"%2.0f", currentWeatherData.lowTemperature];
+    
     // 湿度
-    self.humidityLabel.text = [NSString stringWithFormat:@"%2.0f%%", [[main objectForKey:@"humidity"] doubleValue]];
+    self.humidityLabel.text = [NSString stringWithFormat:@"%2.0f%%", currentWeatherData.humidity];
     
     // 気圧
-    self.pressureLabel.text = [NSString stringWithFormat:@"%4.1fhPa", [[main objectForKey:@"pressure"] doubleValue]];
+    self.pressureLabel.text = [NSString stringWithFormat:@"%4.1fhPa", currentWeatherData.pressure];
     
-    // 風向き、風速情報(レスポンスのKey:windに入っている)
-    NSDictionary *wind = [NSDictionary dictionaryWithDictionary:[detailData objectForKey:@"wind"]];
-    // 風向きアイコン
-    self.windAngleIcon.image = [UIImage imageNamed:@"wind"];
     // 風向き
-    self.windAngleLabel.text = [self windDecision:[[wind objectForKey:@"deg"] intValue]];
+    self.windAngleLabel.text = [self windDecision:currentWeatherData.windAngle];
     
-    // 風速アイコン
-    self.windSpeedIcon.image = [UIImage imageNamed:@"wind speed"];
     // 風速
-    self.windSpeedLabel.text = [NSString stringWithFormat:@"%1.0fm/s", [[wind objectForKey:@"speed"] doubleValue]];
+    self.windSpeedLabel.text = [NSString stringWithFormat:@"%1.0fm/s", currentWeatherData.windSpeed];
 }
 
 // 4日間の予報を画面に配置
@@ -236,7 +239,6 @@
         // エラー処理
         if(error) {
             communicationDisableFlag = YES;
-            NSLog(@"Session Error:%@", error);
             return;
         } else {
             communicationDisableFlag = NO;
@@ -253,7 +255,8 @@
             communicateAPIDisableFlag = NO;
             if ([resource isEqualToString:@"weather"]) {
                 // 天気の詳細データをUIに配置
-                [self setDetailData:jsonData];
+                [currentWeatherData setJsonData:jsonData];
+                [self setDetailData];
             
             } else if([resource isEqualToString:@"forecast"]) {
                 // 4日間の予報データをUIに配置
@@ -316,8 +319,6 @@
     NSError *error = nil;
     if(![self.context save:&error]) {
         NSLog(@"Error:%@", error);
-    } else {
-        NSLog(@"Success");
     }
 }
 
@@ -334,8 +335,6 @@
     NSError *error = nil;
     if(![self.context save:&error]) {
         NSLog(@"Error:%@", error);
-    } else {
-        NSLog(@"Success");
     }
 }
 
