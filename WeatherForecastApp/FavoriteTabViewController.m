@@ -135,10 +135,12 @@
         [self.view sendSubviewToBack:_addPlaceButton];
     }
     
-    // インジケーターくるくるスタート
-    [self.indicator startAnimating];
-    [self.view addSubview:loadingView];
-    [self.view bringSubviewToFront:_indicator];
+    if([favoritePlaces count] > 0) {
+        // インジケーターくるくるスタート
+        [self.indicator startAnimating];
+        [self.view addSubview:loadingView];
+        [self.view bringSubviewToFront:_indicator];
+    }
 }
 
 // 画面表示直後の処理
@@ -152,13 +154,15 @@
     
         [apiCommunication startAPICommunication:@"weather" :latitude :longitude :^(NSDictionary *result, BOOL networkOfflineFlag, BOOL apiRegulationFlag){
     
-            if(networkOfflineFlag || apiRegulationFlag) {
+            if((networkOfflineFlag || apiRegulationFlag) && i == 0) {
                 [self stopIndicator];
                 if(networkOfflineFlag) {
                     [self alertNetworkError];
                 } else if (apiRegulationFlag) {
                     [self alertAPIError];
                 }
+            } else if ((networkOfflineFlag || apiRegulationFlag) && i > 0) {
+                return;
             } else {
                 [weatherData replaceObjectAtIndex:i withObject:result];
                 [self.tableView reloadData];
