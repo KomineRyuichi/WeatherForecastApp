@@ -334,11 +334,14 @@
         }
         [self.tableView reloadData];
     } else {
-            double latitude = [[[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeLatitude"] doubleValue];
-            double longitude = [[[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeLongitude"]doubleValue];
+        double latitude = [[[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeLatitude"] doubleValue];
+        double longitude = [[[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeLongitude"]doubleValue];
         [self.indicator startAnimating];
         [self.view addSubview:loadingView];
         [self.view bringSubviewToFront:_indicator];
+        for (UIView *subview in cell.scrollView.subviews) {
+            [subview removeFromSuperview];
+        }
         [apiCommunication startAPICommunication:@"forecast" :latitude :longitude :^(NSDictionary *result, BOOL networkOfflineFlag, BOOL apiRegulationFlag){
         
             if(networkOfflineFlag || apiRegulationFlag) {
@@ -364,6 +367,7 @@
     [super setEditing:editing animated:animated];
     
     self.tableView.editing = editing;
+    
 }
 
 // 押されたボタンの行番号を返す
