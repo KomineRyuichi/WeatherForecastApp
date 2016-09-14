@@ -66,27 +66,10 @@
     // viewに追加
     [self.view addSubview:self.mapView];
     
-    //「縮尺を戻す」ボタン
-    UIButton *resetScaleButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    resetScaleButton.frame = CGRectMake(10, 650, 100, 30);
-    resetScaleButton.backgroundColor = [UIColor lightGrayColor];
-    [resetScaleButton setTitle:@"縮尺を戻す" forState:UIControlStateNormal];
-    [resetScaleButton addTarget:self action:@selector(pushResetScaleButton) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:resetScaleButton];
-    //「拡大」ボタン
-    UIButton *zoomButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    zoomButton.frame = CGRectMake(375, 650, 30, 30);
-    zoomButton.backgroundColor = [UIColor lightGrayColor];
-    [zoomButton setTitle:@"＋" forState:UIControlStateNormal];
-    [zoomButton addTarget:self action:@selector(pushZoomButton) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:zoomButton];
-    //「縮小」ボタン
-    UIButton *zoomOutButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    zoomOutButton.frame = CGRectMake(340, 650, 30, 30);
-    zoomOutButton.backgroundColor = [UIColor lightGrayColor];
-    [zoomOutButton setTitle:@"−" forState:UIControlStateNormal];
-    [zoomOutButton addTarget:self action:@selector(pushZoomOutButton) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:zoomOutButton];
+    //ボタンを最前面に移動
+    [self.view bringSubviewToFront:_resetScaleButton];
+    [self.view bringSubviewToFront:_zoomOutButton];
+    [self.view bringSubviewToFront:_zoomInButton];
     
     [self getScaleAndLocation];
 }
@@ -325,24 +308,13 @@
 
 #pragma mark - button
 //「縮尺を戻す」ボタン
--(void)pushResetScaleButton{
+- (IBAction)pushResetScaleButton:(UIButton *)sender {
     pushButton = YES;
     [self.mapView setCenterCoordinate:location animated:YES];
     [self.mapView setRegion:region animated:YES];
 }
-//「拡大」ボタン
--(void)pushZoomButton{
-    gesture = @"pushButton";
-    pushButton = YES;
-    [self getScaleAndLocation];
-    //取得したデルタ値を縮めることで地図を拡大
-    zoomRegion.span.latitudeDelta -= 2;
-    zoomRegion.span.longitudeDelta -= 2;
-    [self.mapView setRegion:zoomRegion animated:YES];
-    //gesture = nil;
-}
-//「縮小」ボタン
--(void)pushZoomOutButton{
+//「−」ボタン
+- (IBAction)pushZoomOutButton:(UIButton *)sender {
     gesture = @"pushButton";
     pushButton = YES;
     [self getScaleAndLocation];
@@ -350,7 +322,16 @@
     zoomRegion.span.latitudeDelta += 2;
     zoomRegion.span.longitudeDelta += 2;
     [self.mapView setRegion:zoomRegion animated:YES];
-    //gesture = nil;
+}
+//「＋」ボタン
+- (IBAction)pushZoomInButton:(UIButton *)sender {
+    gesture = @"pushButton";
+    pushButton = YES;
+    [self getScaleAndLocation];
+    //取得したデルタ値を縮めることで地図を拡大
+    zoomRegion.span.latitudeDelta -= 2;
+    zoomRegion.span.longitudeDelta -= 2;
+    [self.mapView setRegion:zoomRegion animated:YES];
 }
 
 

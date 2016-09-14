@@ -45,12 +45,84 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RZ0-1e-m9D">
                                 <rect key="frame" x="0.0" y="108" width="600" height="443"/>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="snn-pJ-JSV" customClass="CustomButton">
+                                <rect key="frame" x="20" y="504" width="89" height="30"/>
+                                <color key="backgroundColor" red="0.81440199609999997" green="0.81440199609999997" blue="0.81440199609999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="89" id="cwA-pP-0FJ"/>
+                                </constraints>
+                                <state key="normal" title="縮尺を戻す">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" red="0.81440199607329844" green="0.81440199607329844" blue="0.81440199607329844" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="pushResetScaleButton:" destination="ulF-eT-0q5" eventType="touchUpInside" id="fkF-G4-u4d"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mRk-fI-eY4" customClass="CustomButton">
+                                <rect key="frame" x="550" y="504" width="30" height="30"/>
+                                <color key="backgroundColor" red="0.81440199609999997" green="0.81440199609999997" blue="0.81440199609999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="＋">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" red="0.81440199609999997" green="0.81440199609999997" blue="0.81440199609999997" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="pushZoomInButton:" destination="ulF-eT-0q5" eventType="touchUpInside" id="0Lu-HY-jGr"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VEf-4P-aKd" customClass="CustomButton">
+                                <rect key="frame" x="515" y="504" width="30" height="30"/>
+                                <color key="backgroundColor" red="0.81440199609999997" green="0.81440199609999997" blue="0.81440199609999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="−">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" red="0.81440199609999997" green="0.81440199609999997" blue="0.81440199609999997" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="pushZoomOutButton:" destination="ulF-eT-0q5" eventType="touchUpInside" id="cmU-cn-ozq"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="0bl-QX-zXz" secondAttribute="trailing" id="0UQ-52-ykX"/>
                             <constraint firstItem="RZ0-1e-m9D" firstAttribute="leading" secondItem="ssD-G8-x7B" secondAttribute="leading" id="419-zR-rxd"/>
+                            <constraint firstItem="snn-pJ-JSV" firstAttribute="leading" secondItem="ssD-G8-x7B" secondAttribute="leading" constant="20" id="A4d-xm-T6C"/>
+                            <constraint firstItem="aRo-2r-e4g" firstAttribute="top" secondItem="mRk-fI-eY4" secondAttribute="bottom" constant="17" id="LLk-qb-tdT"/>
+                            <constraint firstItem="mRk-fI-eY4" firstAttribute="leading" secondItem="VEf-4P-aKd" secondAttribute="trailing" constant="5" id="MHl-48-gcN"/>
+                            <constraint firstItem="aRo-2r-e4g" firstAttribute="top" secondItem="snn-pJ-JSV" secondAttribute="bottom" constant="17" id="Qny-sI-Z2v"/>
                             <constraint firstItem="aRo-2r-e4g" firstAttribute="top" secondItem="RZ0-1e-m9D" secondAttribute="bottom" id="TkS-cH-pbz"/>
+                            <constraint firstAttribute="trailing" secondItem="mRk-fI-eY4" secondAttribute="trailing" constant="20" id="Vf8-8d-fLt"/>
+                            <constraint firstItem="aRo-2r-e4g" firstAttribute="top" secondItem="VEf-4P-aKd" secondAttribute="bottom" constant="17" id="g5C-jN-KzW"/>
                             <constraint firstItem="0bl-QX-zXz" firstAttribute="leading" secondItem="ssD-G8-x7B" secondAttribute="leading" id="kov-Rz-6K4"/>
                             <constraint firstItem="0bl-QX-zXz" firstAttribute="top" secondItem="klx-Oh-6av" secondAttribute="bottom" id="onF-Vo-RVF"/>
                             <constraint firstItem="RZ0-1e-m9D" firstAttribute="top" secondItem="0bl-QX-zXz" secondAttribute="bottom" id="pQT-Jk-kIU"/>
@@ -62,7 +134,10 @@
                     <navigationItem key="navigationItem" id="Xet-E1-yeB"/>
                     <connections>
                         <outlet property="mapView" destination="RZ0-1e-m9D" id="4xY-hG-CJi"/>
+                        <outlet property="resetScaleButton" destination="snn-pJ-JSV" id="eeR-zw-ld8"/>
                         <outlet property="searchBar" destination="0bl-QX-zXz" id="LaI-5e-dlU"/>
+                        <outlet property="zoomInButton" destination="mRk-fI-eY4" id="Ewc-AI-L63"/>
+                        <outlet property="zoomOutButton" destination="VEf-4P-aKd" id="2Pv-kd-mJu"/>
                         <segue destination="OIb-cA-Nms" kind="show" identifier="goDetail" id="iaV-cM-cGU"/>
                     </connections>
                 </viewController>
@@ -534,6 +609,6 @@
         <image name="temperature" width="45" height="45"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rup-tp-gfP"/>
+        <segue reference="iaV-cM-cGU"/>
     </inferredMetricsTieBreakers>
 </document>
