@@ -167,18 +167,18 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WCf-ix-RZ2">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8GK-PG-gdq">
-                                                <rect key="frame" x="226" y="11" width="148" height="29"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="29" id="Wxa-27-kJs"/>
-                                                    <constraint firstAttribute="width" constant="148" id="tUO-KO-ste"/>
-                                                </constraints>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8GK-PG-gdq">
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="51"/>
+                                                <color key="backgroundColor" red="0.81440199609999997" green="0.81440199609999997" blue="0.81440199609999997" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
                                         <constraints>
+                                            <constraint firstItem="8GK-PG-gdq" firstAttribute="top" secondItem="WCf-ix-RZ2" secondAttribute="top" id="78U-MN-GfR"/>
+                                            <constraint firstItem="8GK-PG-gdq" firstAttribute="leading" secondItem="WCf-ix-RZ2" secondAttribute="leading" id="D6h-pa-QsC"/>
+                                            <constraint firstAttribute="trailing" secondItem="8GK-PG-gdq" secondAttribute="trailing" id="NbO-bi-YfV"/>
                                             <constraint firstItem="8GK-PG-gdq" firstAttribute="centerY" secondItem="WCf-ix-RZ2" secondAttribute="centerY" id="kOg-pW-P9C"/>
                                             <constraint firstItem="8GK-PG-gdq" firstAttribute="centerX" secondItem="WCf-ix-RZ2" secondAttribute="centerX" id="rPM-cp-Sn0"/>
                                         </constraints>
@@ -350,22 +350,28 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8pz-Ek-M5P">
                                         <rect key="frame" x="0.0" y="321" width="600" height="215"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4日間の予報" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wTS-l8-6FJ">
-                                                <rect key="frame" x="244" y="0.0" width="113" height="24"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="今後4日の予報" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wTS-l8-6FJ">
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="51"/>
+                                                <color key="backgroundColor" red="0.81440199609999997" green="0.81440199609999997" blue="0.81440199609999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="51" id="5Iw-1n-aPd"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <scrollView clipsSubviews="YES" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsVerticalScrollIndicator="NO" indicatorStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="4q2-Sp-qGV">
-                                                <rect key="frame" x="0.0" y="24" width="600" height="191"/>
+                                                <rect key="frame" x="0.0" y="51" width="600" height="164"/>
                                             </scrollView>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="wTS-l8-6FJ" firstAttribute="centerX" secondItem="8pz-Ek-M5P" secondAttribute="centerX" id="4qR-9j-lc3"/>
                                             <constraint firstItem="4q2-Sp-qGV" firstAttribute="leading" secondItem="8pz-Ek-M5P" secondAttribute="leading" id="A3B-6Z-lxU"/>
+                                            <constraint firstItem="wTS-l8-6FJ" firstAttribute="leading" secondItem="8pz-Ek-M5P" secondAttribute="leading" id="LJ8-D5-ofE"/>
                                             <constraint firstAttribute="bottom" secondItem="4q2-Sp-qGV" secondAttribute="bottom" id="LNg-lD-DBK"/>
-                                            <constraint firstItem="4q2-Sp-qGV" firstAttribute="centerY" secondItem="8pz-Ek-M5P" secondAttribute="centerY" constant="12" id="MFZ-Wl-2V8"/>
+                                            <constraint firstItem="4q2-Sp-qGV" firstAttribute="centerY" secondItem="8pz-Ek-M5P" secondAttribute="centerY" constant="25.5" id="MFZ-Wl-2V8"/>
                                             <constraint firstItem="wTS-l8-6FJ" firstAttribute="top" secondItem="8pz-Ek-M5P" secondAttribute="top" id="VWk-WU-sqN"/>
+                                            <constraint firstAttribute="trailing" secondItem="wTS-l8-6FJ" secondAttribute="trailing" id="VfB-nY-71x"/>
                                             <constraint firstItem="4q2-Sp-qGV" firstAttribute="centerX" secondItem="8pz-Ek-M5P" secondAttribute="centerX" id="Xzf-wv-ndq"/>
                                         </constraints>
                                     </view>
