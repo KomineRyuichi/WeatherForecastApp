@@ -32,6 +32,10 @@
     NSString *range;
     //viewWillAppear:の初回判定に使用
     BOOL first;
+    //オフラインアラート表示の際に、ボタン操作による拡大縮小かどうかを判定
+    BOOL pushButton;
+    //オフライン状態かどうかを判定
+    BOOL off;
     //各アラート
     UIAlertController *alertController;
 }
@@ -44,7 +48,6 @@
     [super viewDidLoad];
     self.navigationItem.title = @"お天気マップ";
     _searchBar.delegate = self;
-    _searchBar.placeholder = @"地名を入力してください";
     _searchBar.keyboardType = UIKeyboardTypeURL;
     
     // Delegate をセット
@@ -126,7 +129,14 @@
      {
          if(error) {
              // 検索失敗時アラート処理
-             alertController = [UIAlertController alertControllerWithTitle:@"" message:@"検索結果が見つかりません" preferredStyle:UIAlertControllerStyleAlert];
+             NSString *keyWord;
+             //オフライン時に検索をかけると「オフラインです。」と表示する
+             if(off){
+                 keyWord = @"オフラインです。";
+             }else{
+                 keyWord = @"結果が見つかりませんでした。";
+             }
+             alertController = [UIAlertController alertControllerWithTitle:@"" message:[NSString stringWithFormat:@"%@",keyWord] preferredStyle:UIAlertControllerStyleAlert];
              [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
              }]];
              [self presentViewController:alertController animated:YES completion:nil];
@@ -157,12 +167,14 @@
     //画面右下の緯度・経度を取得
     CGPoint southEast = CGPointMake(_mapView.bounds.origin.x+_mapView.bounds.size.width,_mapView.bounds.origin.y+_mapView.bounds.size.height);
     CLLocationCoordinate2D seCoord = [_mapView convertPoint:southEast toCoordinateFromView:_mapView];
-    //拡大・縮小ボタンから呼ばれた時はzoomRegionに値を格納、それ以外はreadDBを実行
+    //拡大・縮小ボタンから直接呼ばれた時はzoomRegionに値を格納、mapView:regionDidChangeAnimated:から呼ばれた場合はreadDBを実行
     if([gesture isEqualToString:@"pushButton"]){
         zoomRegion = self.mapView.region;
         //現在の画面のデルタ値を取得
         zoomRegion.span.latitudeDelta = (nwCoord.latitude - seCoord.latitude);
         zoomRegion.span.longitudeDelta = (seCoord.longitude - nwCoord.longitude);
+        //gestureをリセット
+        gesture = nil;
     }else{
         [self readDBnwCoord:nwCoord seCoord:seCoord];
     }
@@ -230,10 +242,17 @@
     APICommunication *apiCommunication = [[APICommunication alloc] init];
     [apiCommunication startAPICommunication:@"weather" :resultlat :resultlon :^(NSDictionary *jsonData, BOOL networkOfflineFlag, BOOL apiRegulationsFlag) {
         if(networkOfflineFlag){
-            alertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"オフラインです。" preferredStyle:UIAlertControllerStyleAlert];
-            [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            }]];
-            [self presentViewController:alertController animated:YES completion:nil];
+            //ボタン操作による拡大縮小の場合のみアラートを表示
+            if(pushButton){
+                //オフライン状態を示すフラグをオン
+                off = YES;
+                alertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"オフラインです。" preferredStyle:UIAlertControllerStyleAlert];
+                [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                }]];
+                [self presentViewController:alertController animated:YES completion:nil];
+                //ボタン操作かどうかを判別するフラグをオフ
+                pushButton = NO;
+            }
         }else{
             if(apiRegulationsFlag){
                 alertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"API規制です。" preferredStyle:UIAlertControllerStyleAlert];
@@ -241,6 +260,8 @@
                 }]];
                 [self presentViewController:alertController animated:YES completion:nil];
             }else{
+                //オフライン状態を示すフラグをオフ
+                off = NO;
                 [self doParseData:jsonData Place:placeName Lat:resultlat Lon:resultlon];
             }
         }
@@ -305,30 +326,31 @@
 #pragma mark - button
 //「縮尺を戻す」ボタン
 -(void)pushResetScaleButton{
-    gesture = @"resetScale";
+    pushButton = YES;
     [self.mapView setCenterCoordinate:location animated:YES];
     [self.mapView setRegion:region animated:YES];
-    gesture = nil;
 }
 //「拡大」ボタン
 -(void)pushZoomButton{
     gesture = @"pushButton";
+    pushButton = YES;
     [self getScaleAndLocation];
     //取得したデルタ値を縮めることで地図を拡大
     zoomRegion.span.latitudeDelta -= 2;
     zoomRegion.span.longitudeDelta -= 2;
     [self.mapView setRegion:zoomRegion animated:YES];
-    gesture = nil;
+    //gesture = nil;
 }
 //「縮小」ボタン
 -(void)pushZoomOutButton{
     gesture = @"pushButton";
+    pushButton = YES;
     [self getScaleAndLocation];
     //取得したデルタ値を広げることで地図を縮小
     zoomRegion.span.latitudeDelta += 2;
     zoomRegion.span.longitudeDelta += 2;
     [self.mapView setRegion:zoomRegion animated:YES];
-    gesture = nil;
+    //gesture = nil;
 }
 
 
