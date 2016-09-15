@@ -35,6 +35,8 @@
 		8ADC2AFD1D742425000EE9B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ADC2AFB1D742425000EE9B3 /* LaunchScreen.storyboard */; };
 		8ADC2B081D742425000EE9B3 /* WeatherForecastAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC2B071D742425000EE9B3 /* WeatherForecastAppTests.m */; };
 		8ADC2B131D742425000EE9B3 /* WeatherForecastAppUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC2B121D742425000EE9B3 /* WeatherForecastAppUITests.m */; };
+		8AFA8C0C1D892C4F00F6F30F /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AFA8C0B1D892C4F00F6F30F /* CustomButton.m */; };
+		8AFB0CAD1D8A28DA00CB5688 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AFB0CAC1D8A28DA00CB5688 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +107,9 @@
 		8ADC2B0E1D742425000EE9B3 /* WeatherForecastAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherForecastAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8ADC2B121D742425000EE9B3 /* WeatherForecastAppUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeatherForecastAppUITests.m; sourceTree = "<group>"; };
 		8ADC2B141D742425000EE9B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8AFA8C0A1D892C4F00F6F30F /* CustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomButton.h; sourceTree = "<group>"; };
+		8AFA8C0B1D892C4F00F6F30F /* CustomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomButton.m; sourceTree = "<group>"; };
+		8AFB0CAC1D8A28DA00CB5688 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AFB0CAD1D8A28DA00CB5688 /* QuartzCore.framework in Frameworks */,
 				8A962EC11D80E6910007913D /* libsqlite3.0.tbd in Frameworks */,
 				8A9270DC1D7FEA8600CC462E /* MapKit.framework in Frameworks */,
 			);
@@ -167,6 +173,8 @@
 				8A9270C61D7FE99700CC462E /* MapViewController.m */,
 				8A9270C21D7FE98D00CC462E /* CustomAnnotation.h */,
 				8A9270C31D7FE98D00CC462E /* CustomAnnotation.m */,
+				8AFA8C0A1D892C4F00F6F30F /* CustomButton.h */,
+				8AFA8C0B1D892C4F00F6F30F /* CustomButton.m */,
 			);
 			name = MapView;
 			sourceTree = "<group>";
@@ -204,6 +212,7 @@
 		8ADC2ADE1D742424000EE9B3 = {
 			isa = PBXGroup;
 			children = (
+				8AFB0CAC1D8A28DA00CB5688 /* QuartzCore.framework */,
 				8A9270DB1D7FEA8600CC462E /* MapKit.framework */,
 				8ADC2AE91D742424000EE9B3 /* WeatherForecastApp */,
 				8ADC2B061D742425000EE9B3 /* WeatherForecastAppTests */,
@@ -416,6 +425,7 @@
 				8A9270C41D7FE98D00CC462E /* CustomAnnotation.m in Sources */,
 				8A2587291D7E7E5A00530776 /* DailyForecastView.m in Sources */,
 				8AB16D4F1D77A9E700BCF000 /* FavoriteTabViewController.m in Sources */,
+				8AFA8C0C1D892C4F00F6F30F /* CustomButton.m in Sources */,
 				8A962EBE1D80E6870007913D /* FMResultSet.m in Sources */,
 				8ADC2AF81D742425000EE9B3 /* WeatherForecastApp.xcdatamodeld in Sources */,
 				8A3E2B3E1D82694E00D72A2F /* APICommunication.m in Sources */,
