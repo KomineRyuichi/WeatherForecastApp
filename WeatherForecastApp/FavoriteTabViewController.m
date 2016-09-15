@@ -27,7 +27,6 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.temperatureLabel.text = @"　℃";
-    self.scrollView.hidden = YES;
     [self.cellExpansionButton setImage:[UIImage imageNamed:@"open"] forState:UIControlStateNormal];
     [self.cellExpansionButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateSelected];
 }
@@ -37,17 +36,21 @@
 @interface FavoriteTabViewController () <UITableViewDelegate, UITableViewDataSource> {
     NSMutableArray *weatherData;
     NSMutableArray *forecastData;
+    NSMutableArray *cellHeightData;
     NSArray *forecastViewArray;
     NSMutableArray *favoritePlaces;
+    NSIndexPath *selectedCellIndexPath;
     NSString *selectedPlaceName;
     double selectedPlaceLatitude;
     double selectedPlaceLongitude;
+    float cellHeight;
     UIAlertController *networkAlertController;
     UIAlertController *apiAlertController;
     NSInteger pageCount;
     UIView *loadingView;
     APICommunication *apiCommunication;
     CurrentWeatherData *currentWeatherData;
+    BOOL cellExpansinOpenFlag;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *addPlaceButton;
@@ -78,13 +81,15 @@
     _tableView.dataSource = self;
     
     // セルの高さ設定
-    self.tableView.estimatedRowHeight = 200.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 200.0f;
+    cellHeight = self.tableView.estimatedRowHeight;
     
     // 配列の初期化
     weatherData = [NSMutableArray array];
     forecastData = [NSMutableArray array];
     favoritePlaces = [NSMutableArray array];
+    cellHeightData = [NSMutableArray array];
     
     // contectの設定
     AppDelegate *appDelegate = [UIApplication.sharedApplication delegate];
@@ -108,6 +113,8 @@
     
     apiCommunication = [[APICommunication alloc] init];
     currentWeatherData = [CurrentWeatherData getInstance];
+    
+    selectedCellIndexPath = nil;
 }
 
 // 画面表示直前に呼ばれるメソッド
@@ -126,6 +133,7 @@
     for (int i = 0; i < [favoritePlaces count]; i++)
     {
         [weatherData addObject:[NSDictionary dictionary]];
+        [cellHeightData addObject:[NSNumber numberWithFloat:cellHeight]];
     }
 
     // レコードの有無によって、「お気に入りを追加」のボタンを表示するか否かを判別
@@ -149,6 +157,7 @@
     
     // API通信開始
     for(int i=0; i<[favoritePlaces count]; i++) {
+        NSLog(@"通信 %d", i);
         double latitude = [[[favoritePlaces objectAtIndex:i] objectForKey:@"placeLatitude"] doubleValue];
         double longitude = [[[favoritePlaces objectAtIndex:i] objectForKey:@"placeLongitude"]doubleValue];
     
@@ -222,10 +231,11 @@
         [cell.cellExpansionButton addTarget:self action:@selector(pushCellExpansionButton:event:) forControlEvents:UIControlEventTouchUpInside];
     }
     
-    if([forecastData count] > 0) {
+    if([forecastData count] > 0 && indexPath.row == selectedCellIndexPath.row) {
+        cell.scrollView.hidden = NO;
+        cell.cellExpansionButton.selected = YES;
         // 3時間ごとの天気予報
         int fromTime = 0.0f;
-        int toTime = 0.0f;
         cell.scrollView.contentSize = CGSizeMake(100.0*pageCount, 95.0);
         for(int i=0; i<pageCount; i++) {
             ThreeHourForecastView *forecastView = [[ThreeHourForecastView alloc] init];
@@ -236,33 +246,22 @@
             if(fromTime >=24) {
                 fromTime = fromTime -24;
             }
-            toTime = fromTime + 3;
-            if(toTime >=24) {
-                toTime = toTime -24;
-            }
-            forecastView.timeLabel.text = [NSString stringWithFormat:@"%d時〜%d時", fromTime, toTime];
+            forecastView.timeLabel.text = [NSString stringWithFormat:@"%d時", fromTime];
             forecastView.precipitationLabel.text = [NSString stringWithFormat:@"%2.1f ml", [[[forecast objectForKey:@"rain"] objectForKey:@"3h"] doubleValue]];
             forecastView.icon.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", [[[forecast objectForKey:@"weather"] objectAtIndex:0] objectForKey:@"icon" ]]];
             [cell.scrollView addSubview:forecastView];
             forecastView = nil;
         }
-        
+    } else {
+        cell.cellExpansionButton.selected = NO;
+        cell.scrollView.hidden = YES;
     }
+    
+    NSLog(@"%d", cell.cellExpansionButton.selected);
     
     cell.placeNameLabel.text = [[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeName"];
 
     return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    WeatherSummaryCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    float height = self.tableView.estimatedRowHeight -128;
-
-    if(!cell.scrollView.hidden) {
-        height = height + 128;
-    }
-    
-    return height;
 }
 
 // 削除許可
@@ -315,27 +314,49 @@
 
 // 編集スタイル
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     return self.tableView.editing ? UITableViewCellEditingStyleDelete : UITableViewCellEditingStyleNone;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    //WeatherSummaryCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    float height = [[cellHeightData objectAtIndex:indexPath.row] floatValue];
+    
+    [cellHeightData replaceObjectAtIndex:indexPath.row withObject:@(height)];
+    return height;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //float height = 200.0f;
+
+    float height = [[cellHeightData objectAtIndex:indexPath.row] floatValue];
+    
+    if (cellExpansinOpenFlag && indexPath.row == selectedCellIndexPath.row) {
+        height = 200.0f;
+    } else {
+        height = 73.0f;
+    }
+    
+    NSLog(@"row:%ld, heght:%f", (long)indexPath.row, height);
+    [cellHeightData replaceObjectAtIndex:indexPath.row withObject:@(height)];
+    return height;
 }
 
 #pragma mark - Other
 
 // 拡張ボタンアクション
 - (void)pushCellExpansionButton:(UIButton *)sender event:(UIEvent *)event {
-    NSIndexPath *indexPath = [self indexPathForControlEvent:event];
-    WeatherSummaryCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    selectedCellIndexPath = [self indexPathForControlEvent:event];
+    WeatherSummaryCell *cell = [self.tableView cellForRowAtIndexPath:selectedCellIndexPath];
     
-    cell.scrollView.hidden = !cell.scrollView.hidden;
+    NSLog(@"拡張セル row:%ld", (long)selectedCellIndexPath.row);
     cell.cellExpansionButton.selected = !cell.cellExpansionButton.selected;
+    cellExpansinOpenFlag = cell.cellExpansionButton.selected;
     
-    if(cell.scrollView.hidden) {
-        for (UIView *subview in cell.scrollView.subviews) {
-            [subview removeFromSuperview];
-        }
-        [self.tableView reloadData];
-    } else {
-        double latitude = [[[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeLatitude"] doubleValue];
-        double longitude = [[[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeLongitude"]doubleValue];
+    if(cell.cellExpansionButton.selected) {
+        double latitude = [[[favoritePlaces objectAtIndex:selectedCellIndexPath.row] objectForKey:@"placeLatitude"] doubleValue];
+        double longitude = [[[favoritePlaces objectAtIndex:selectedCellIndexPath.row] objectForKey:@"placeLongitude"]doubleValue];
         [self.indicator startAnimating];
         [self.view addSubview:loadingView];
         [self.view bringSubviewToFront:_indicator];
@@ -355,10 +376,17 @@
                 for(int i=0; i<pageCount; i++)  {
                     [forecastData addObject:[[result objectForKey:@"list"] objectAtIndex:i]];
                 }
+                NSLog(@"reload!!!!");
                 [self.tableView reloadData];
                 [self stopIndicator];
             }
         }];
+    } else {
+        [forecastData removeAllObjects];
+        for (UIView *subview in cell.scrollView.subviews) {
+            [subview removeFromSuperview];
+        }
+        [self.tableView reloadData];
     }
 }
 
@@ -374,7 +402,9 @@
 - (NSIndexPath *)indexPathForControlEvent:(UIEvent *)event {
     UITouch *touch = [[event allTouches] anyObject];
     CGPoint point = [touch locationInView:self.tableView];
+    NSLog(@"x:%f y:%f", point.x, point.y);
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:point];
+    NSLog(@"row:%ld", (long)indexPath.row);
     return indexPath;
 }
 
