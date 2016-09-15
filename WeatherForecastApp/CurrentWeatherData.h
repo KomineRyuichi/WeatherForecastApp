@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ JSONデータで取得した天気情報を管理するクラス
+ */
 @interface CurrentWeatherData : NSObject
 
 @property (nonnull) NSString *iconName;

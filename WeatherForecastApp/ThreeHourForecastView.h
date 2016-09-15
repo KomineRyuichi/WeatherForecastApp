@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+/**
+ 3時間ごとの天気を表示するビュークラス
+ */
 @interface ThreeHourForecastView : UIView
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *icon;

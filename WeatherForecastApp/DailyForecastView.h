@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ 日ごとの天気予報を表示するビュークラス
+ */
 @interface DailyForecastView :UIView
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *weatherIcon;

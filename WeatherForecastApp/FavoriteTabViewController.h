@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+/**
+ お気に入りに登録した地名を表示する画面のクラス
+ */
 @interface FavoriteTabViewController : UIViewController
 
 @end
