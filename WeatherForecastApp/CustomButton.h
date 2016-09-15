@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 
 IB_DESIGNABLE
-
+/**
+ マップ上のボタンを編集するためのクラス
+ */
 @interface CustomButton : UIButton
 
 @property (nonatomic) IBInspectable UIColor *borderColor;

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 /**
- コメントテスト
+ 日本国内の天気をマップ上のアイコンで表示するクラス
  */
 @interface MapViewController : UIViewController
 
