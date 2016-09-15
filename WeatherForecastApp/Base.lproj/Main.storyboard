@@ -422,6 +422,9 @@
                         <outlet property="placeNameLabel" destination="o7y-qE-vLZ" id="9jp-u2-TRZ"/>
                         <outlet property="pressureLabel" destination="5sh-Xw-p2I" id="c1b-rk-KqT"/>
                         <outlet property="temperatureIcon" destination="BhF-2Q-PdL" id="0wP-3d-2kf"/>
+                        <outlet property="view1" destination="Yks-4f-Kia" id="Y6l-JS-EmU"/>
+                        <outlet property="view2" destination="WGK-dw-lut" id="o3w-3f-hEu"/>
+                        <outlet property="view3" destination="l6v-UP-VFG" id="mL3-3z-e7A"/>
                         <outlet property="weatherIcon" destination="g3b-FO-zod" id="JYr-UK-E9m"/>
                         <outlet property="windAngleIcon" destination="RVO-UR-hAK" id="zyy-PZ-dYJ"/>
                         <outlet property="windAngleLabel" destination="ICa-aW-hST" id="knV-Xw-yUw"/>

@@ -12,6 +12,7 @@
 #import "DailyForecastView.h"
 #import "CurrentWeatherData.h"
 #import "APICommunication.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface DetailViewController () {
     NSDateFormatter *formatter;
@@ -41,6 +42,9 @@
 @property (strong, nonatomic) NSManagedObjectContext *context;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *indicator;
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
+@property (weak, nonatomic) IBOutlet UIView *view1;
+@property (weak, nonatomic) IBOutlet UIView *view2;
+@property (weak, nonatomic) IBOutlet UIView *view3;
 
 @end
 
@@ -98,6 +102,13 @@
     self.windAngleIcon.image = [UIImage imageNamed:@"wind"];
     // 風速アイコン
     self.windSpeedIcon.image = [UIImage imageNamed:@"wind speed"];
+    //viewに枠線を設定
+    _view1.layer.borderColor = [UIColor blackColor].CGColor;
+    _view1.layer.borderWidth = 0.5f;
+    _view2.layer.borderColor = [UIColor blackColor].CGColor;
+    _view2.layer.borderWidth = 0.5f;
+    _view3.layer.borderColor = [UIColor blackColor].CGColor;
+    _view3.layer.borderWidth = 0.5f;
     
     apiCommunication = [[APICommunication alloc] init];
 }
@@ -212,6 +223,13 @@
         NSArray *list = [NSArray arrayWithArray:[forecastData objectForKey:@"list"]];
         NSDictionary *weatherData = [NSDictionary dictionaryWithDictionary:[list objectAtIndex:j]];
         DailyForecastView *forecastView = [[DailyForecastView alloc] init];
+        //viewに枠線を設定
+        forecastView.view4.layer.borderColor = [UIColor blackColor].CGColor;
+        forecastView.view4.layer.borderWidth = 0.5f;
+        forecastView.view5.layer.borderColor = [UIColor blackColor].CGColor;
+        forecastView.view5.layer.borderWidth = 0.5f;
+        forecastView.view6.layer.borderColor = [UIColor blackColor].CGColor;
+        forecastView.view6.layer.borderWidth = 0.5f;
         // フレームサイズ
         forecastView.frame = CGRectMake(170*i, 0.0, 170, 245);
         // 日付
