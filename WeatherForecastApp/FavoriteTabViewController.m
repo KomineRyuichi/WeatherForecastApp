@@ -126,6 +126,9 @@
     self.navigationController.visibleViewController.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.navigationController.visibleViewController.tabBarController.tabBar.hidden = NO;
     
+    // 開閉フラグの初期化
+    cellExpansinOpenFlag = NO;
+    
     // レコードの取得
     [self getFavoritePlace];
     
@@ -281,6 +284,7 @@
     selectedPlaceLongitude = [[selectedPlace objectForKey:@"placeLongitude"] doubleValue];
     selectedPlaceLatitude = [[selectedPlace objectForKey:@"placeLatitude"] doubleValue];
     [favoritePlaces removeAllObjects];
+    [cellHeightData removeAllObjects];
     [self.navigationController.visibleViewController performSegueWithIdentifier:@"goDetail" sender:self];
 }
 
