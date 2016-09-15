@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
+/**
+アノテーションを生成するためのクラス
+*/
+
 @interface CustomAnnotation : NSObject <MKAnnotation>
 @property (nonatomic) CLLocationCoordinate2D coordinate;
 @property (nonatomic, copy) NSString* title;

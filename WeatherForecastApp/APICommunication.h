@@ -11,7 +11,9 @@
 #if NS_BLOCKS_AVAILABLE
 typedef void (^CallBackHandler)(NSDictionary *result, BOOL offlineFlag, BOOL apiFlag);
 #endif
-
+/**
+ APIとの通信を行うクラス
+ */
 @interface APICommunication : NSObject
 #if NS_BLOCKS_AVAILABLE
 - (void)startAPICommunication :(NSString *)resource :(double)latitude :(double)longitude :(CallBackHandler)handler;
