@@ -231,7 +231,7 @@
         forecastView.view6.layer.borderColor = [UIColor blackColor].CGColor;
         forecastView.view6.layer.borderWidth = 0.5f;
         // フレームサイズ
-        forecastView.frame = CGRectMake(170*i, 0.0, 170, 245);
+        forecastView.frame = CGRectMake(170*i, 0.0, 170, self.dailyForecasts.frame.size.height);
         // 日付
         NSString *forecastDate = [[weatherData objectForKey:@"dt_txt"] substringWithRange:NSMakeRange(5, 5)];
         forecastView.dateLabel.text = [forecastDate stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
