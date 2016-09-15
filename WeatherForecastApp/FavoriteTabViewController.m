@@ -160,7 +160,6 @@
     
     // API通信開始
     for(int i=0; i<[favoritePlaces count]; i++) {
-        NSLog(@"通信 %d", i);
         double latitude = [[[favoritePlaces objectAtIndex:i] objectForKey:@"placeLatitude"] doubleValue];
         double longitude = [[[favoritePlaces objectAtIndex:i] objectForKey:@"placeLongitude"]doubleValue];
     
@@ -260,8 +259,6 @@
         cell.scrollView.hidden = YES;
     }
     
-    NSLog(@"%d", cell.cellExpansionButton.selected);
-    
     cell.placeNameLabel.text = [[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeName"];
 
     return cell;
@@ -341,8 +338,6 @@
     } else {
         height = 73.0f;
     }
-    
-    NSLog(@"row:%ld, heght:%f", (long)indexPath.row, height);
     [cellHeightData replaceObjectAtIndex:indexPath.row withObject:@(height)];
     return height;
 }
@@ -354,7 +349,6 @@
     selectedCellIndexPath = [self indexPathForControlEvent:event];
     WeatherSummaryCell *cell = [self.tableView cellForRowAtIndexPath:selectedCellIndexPath];
     
-    NSLog(@"拡張セル row:%ld", (long)selectedCellIndexPath.row);
     cell.cellExpansionButton.selected = !cell.cellExpansionButton.selected;
     cellExpansinOpenFlag = cell.cellExpansionButton.selected;
     
@@ -380,7 +374,6 @@
                 for(int i=0; i<pageCount; i++)  {
                     [forecastData addObject:[[result objectForKey:@"list"] objectAtIndex:i]];
                 }
-                NSLog(@"reload!!!!");
                 [self.tableView reloadData];
                 [self stopIndicator];
             }
@@ -406,9 +399,7 @@
 - (NSIndexPath *)indexPathForControlEvent:(UIEvent *)event {
     UITouch *touch = [[event allTouches] anyObject];
     CGPoint point = [touch locationInView:self.tableView];
-    NSLog(@"x:%f y:%f", point.x, point.y);
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:point];
-    NSLog(@"row:%ld", (long)indexPath.row);
     return indexPath;
 }
 
