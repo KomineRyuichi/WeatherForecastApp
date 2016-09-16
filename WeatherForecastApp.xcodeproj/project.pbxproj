@@ -29,6 +29,8 @@
 		8ADC2AFD1D742425000EE9B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ADC2AFB1D742425000EE9B3 /* LaunchScreen.storyboard */; };
 		8ADC2B081D742425000EE9B3 /* WeatherForecastAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC2B071D742425000EE9B3 /* WeatherForecastAppTests.m */; };
 		8ADC2B131D742425000EE9B3 /* WeatherForecastAppUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC2B121D742425000EE9B3 /* WeatherForecastAppUITests.m */; };
+		8AF7B19A1D8B894D00DF5E88 /* NotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF7B1991D8B894C00DF5E88 /* NotificationViewController.m */; };
+		8AF7B19D1D8B897E00DF5E88 /* PlaceNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF7B19C1D8B897E00DF5E88 /* PlaceNameViewController.m */; };
 		8AFA8C0C1D892C4F00F6F30F /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AFA8C0B1D892C4F00F6F30F /* CustomButton.m */; };
 		8AFB0CAD1D8A28DA00CB5688 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AFB0CAC1D8A28DA00CB5688 /* QuartzCore.framework */; };
 		8BC0A0C167FB10BE00E68275 /* libPods-WeatherForecastApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D414901C46E2F4D178EEC342 /* libPods-WeatherForecastApp.a */; };
@@ -94,6 +96,10 @@
 		8ADC2B0E1D742425000EE9B3 /* WeatherForecastAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherForecastAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8ADC2B121D742425000EE9B3 /* WeatherForecastAppUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeatherForecastAppUITests.m; sourceTree = "<group>"; };
 		8ADC2B141D742425000EE9B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8AF7B1981D8B894C00DF5E88 /* NotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationViewController.h; sourceTree = "<group>"; };
+		8AF7B1991D8B894C00DF5E88 /* NotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationViewController.m; sourceTree = "<group>"; };
+		8AF7B19B1D8B897E00DF5E88 /* PlaceNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceNameViewController.h; sourceTree = "<group>"; };
+		8AF7B19C1D8B897E00DF5E88 /* PlaceNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceNameViewController.m; sourceTree = "<group>"; };
 		8AFA8C0A1D892C4F00F6F30F /* CustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomButton.h; sourceTree = "<group>"; };
 		8AFA8C0B1D892C4F00F6F30F /* CustomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomButton.m; sourceTree = "<group>"; };
 		8AFB0CAC1D8A28DA00CB5688 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -218,6 +224,10 @@
 				8ADC2AFE1D742425000EE9B3 /* Info.plist */,
 				8A3E2B3C1D82694E00D72A2F /* APICommunication.h */,
 				8A3E2B3D1D82694E00D72A2F /* APICommunication.m */,
+				8AF7B1981D8B894C00DF5E88 /* NotificationViewController.h */,
+				8AF7B1991D8B894C00DF5E88 /* NotificationViewController.m */,
+				8AF7B19B1D8B897E00DF5E88 /* PlaceNameViewController.h */,
+				8AF7B19C1D8B897E00DF5E88 /* PlaceNameViewController.m */,
 				8A3E2B3A1D82555D00D72A2F /* MapView */,
 				8A3E2B391D82554900D72A2F /* FavoriteView */,
 				8A3E2B381D82552200D72A2F /* DetailView */,
@@ -548,6 +558,8 @@
 				8A3E2B371D823FA100D72A2F /* CurrentWeatherData.m in Sources */,
 				8A9270C41D7FE98D00CC462E /* CustomAnnotation.m in Sources */,
 				8A2587291D7E7E5A00530776 /* DailyForecastView.m in Sources */,
+				8AF7B19A1D8B894D00DF5E88 /* NotificationViewController.m in Sources */,
+				8AF7B19D1D8B897E00DF5E88 /* PlaceNameViewController.m in Sources */,
 				8AB16D4F1D77A9E700BCF000 /* FavoriteTabViewController.m in Sources */,
 				8AFA8C0C1D892C4F00F6F30F /* CustomButton.m in Sources */,
 				8ADC2AF81D742425000EE9B3 /* WeatherForecastApp.xcdatamodeld in Sources */,
