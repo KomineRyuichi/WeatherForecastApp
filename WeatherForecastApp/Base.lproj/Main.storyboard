@@ -150,7 +150,7 @@
         <!--Date Picker View Controller-->
         <scene sceneID="NPf-Gg-ZNz">
             <objects>
-                <viewController id="ziq-5R-GAB" customClass="DatePickerViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DatePickerViewController" id="ziq-5R-GAB" customClass="DatePickerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ZiV-bg-Kw8"/>
                         <viewControllerLayoutGuide type="bottom" id="3NM-4M-oLc"/>
@@ -163,6 +163,9 @@
                                 <frame key="frameInset" width="414" height="736"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="closeButton:" destination="ziq-5R-GAB" eventType="touchUpInside" id="YeF-rc-QGl"/>
+                                </connections>
                             </button>
                             <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="siv-cc-wVv">
                                 <frame key="frameInset" minY="449" height="216"/>
@@ -173,10 +176,14 @@
                             </datePicker>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="closeButton" destination="2BO-6k-Add" id="4wV-AR-Rmz"/>
+                        <outlet property="datePicker" destination="siv-cc-wVv" id="VFf-VW-yh3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kEd-Xd-VGc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-678.26086956521749" y="1159.2391304347827"/>
+            <point key="canvasLocation" x="970" y="1690"/>
         </scene>
         <!--Notification View Controller-->
         <scene sceneID="xhF-UY-E7h">
@@ -194,17 +201,29 @@
                                 <frame key="frameInset" minY="76" width="414" height="660"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notificationTableCell" id="amI-mh-dgJ">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="amI-mh-dgJ" id="rWb-G8-vLx">
+                                            <frame key="frameInset" width="414" height="43.666666666666664"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="NotificationTableView" destination="UkK-KW-0Gv" id="Pt8-Tn-1th"/>
+                        <segue destination="yMw-CB-zIN" kind="show" identifier="toPlaceNameView" id="zpG-ed-j7A"/>
+                        <segue destination="ziq-5R-GAB" kind="presentation" identifier="toDatePickerView" id="a5W-gh-1YN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3kU-Yb-Ya0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="47.826086956521742" y="1100.5434782608697"/>
+            <point key="canvasLocation" x="259" y="1594"/>
         </scene>
         <!--Place Name View Controller-->
         <scene sceneID="KqT-CV-2OE">
@@ -242,7 +261,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gbc-Gz-id6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="766.66666666666674" y="1100.5434782608697"/>
+            <point key="canvasLocation" x="970" y="1034"/>
         </scene>
         <!--詳細-->
         <scene sceneID="mkq-QS-BJ3">

@@ -10,5 +10,5 @@
 
 @interface PlaceNameViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UITableView *PlaceNameTableView;
-
+@property (nonatomic) void (^dataBlocks)(NSString *,NSNumber *,NSNumber *);
 @end

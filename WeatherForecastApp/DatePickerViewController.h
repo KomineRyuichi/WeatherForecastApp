@@ -10,4 +10,8 @@
 
 @interface DatePickerViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
+@property (weak, nonatomic) IBOutlet UIButton *closeButton;
+@property (nonatomic)void(^pickerBlocks)(NSString *);
+
 @end

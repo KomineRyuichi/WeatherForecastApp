@@ -18,6 +18,16 @@
     [super viewDidLoad];
 }
 
+
+
+
+
+- (IBAction)closeButton:(UIButton *)sender {
+    _pickerBlocks(@"");
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
