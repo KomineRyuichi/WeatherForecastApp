@@ -18,6 +18,7 @@
 		8A7AB7851D7CFC6C00B5A640 /* FavoritePlaces.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A7AB7831D7CFC6C00B5A640 /* FavoritePlaces.m */; };
 		8A83DAEE1D8B948300C5CC08 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A83DAED1D8B948300C5CC08 /* HistoryViewController.m */; };
 		8A83DAF11D8B996800C5CC08 /* OtherTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A83DAF01D8B996800C5CC08 /* OtherTabViewController.m */; };
+		8A83DAF41D8BA7D900C5CC08 /* History.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A83DAF31D8BA7D900C5CC08 /* History.m */; };
 		8A9270C41D7FE98D00CC462E /* CustomAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9270C31D7FE98D00CC462E /* CustomAnnotation.m */; };
 		8A9270C71D7FE99700CC462E /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9270C61D7FE99700CC462E /* MapViewController.m */; };
 		8A9270DC1D7FEA8600CC462E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9270DB1D7FEA8600CC462E /* MapKit.framework */; };
@@ -77,6 +78,9 @@
 		8A83DAED1D8B948300C5CC08 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		8A83DAEF1D8B996800C5CC08 /* OtherTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherTabViewController.h; sourceTree = "<group>"; };
 		8A83DAF01D8B996800C5CC08 /* OtherTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherTabViewController.m; sourceTree = "<group>"; };
+		8A83DAF21D8BA7D900C5CC08 /* History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = History.h; sourceTree = "<group>"; };
+		8A83DAF31D8BA7D900C5CC08 /* History.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = History.m; sourceTree = "<group>"; };
+		8A83DAF51D8BB76300C5CC08 /* WeatherForecastApp 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WeatherForecastApp 2.xcdatamodel"; sourceTree = "<group>"; };
 		8A9270C21D7FE98D00CC462E /* CustomAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotation.h; sourceTree = "<group>"; };
 		8A9270C31D7FE98D00CC462E /* CustomAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnnotation.m; sourceTree = "<group>"; };
 		8A9270C51D7FE99700CC462E /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
@@ -184,6 +188,8 @@
 			children = (
 				8A7AB7821D7CFC6C00B5A640 /* FavoritePlaces.h */,
 				8A7AB7831D7CFC6C00B5A640 /* FavoritePlaces.m */,
+				8A83DAF21D8BA7D900C5CC08 /* History.h */,
+				8A83DAF31D8BA7D900C5CC08 /* History.m */,
 				8ADC2AF61D742425000EE9B3 /* WeatherForecastApp.xcdatamodeld */,
 			);
 			name = CoreData;
@@ -557,6 +563,7 @@
 				8ADC2AEC1D742424000EE9B3 /* main.m in Sources */,
 				8A3E2B371D823FA100D72A2F /* CurrentWeatherData.m in Sources */,
 				8A83DAF11D8B996800C5CC08 /* OtherTabViewController.m in Sources */,
+				8A83DAF41D8BA7D900C5CC08 /* History.m in Sources */,
 				8A83DAEE1D8B948300C5CC08 /* HistoryViewController.m in Sources */,
 				8A9270C41D7FE98D00CC462E /* CustomAnnotation.m in Sources */,
 				8A2587291D7E7E5A00530776 /* DailyForecastView.m in Sources */,
@@ -823,9 +830,10 @@
 		8ADC2AF61D742425000EE9B3 /* WeatherForecastApp.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				8A83DAF51D8BB76300C5CC08 /* WeatherForecastApp 2.xcdatamodel */,
 				8ADC2AF71D742425000EE9B3 /* WeatherForecastApp.xcdatamodel */,
 			);
-			currentVersion = 8ADC2AF71D742425000EE9B3 /* WeatherForecastApp.xcdatamodel */;
+			currentVersion = 8A83DAF51D8BB76300C5CC08 /* WeatherForecastApp 2.xcdatamodel */;
 			path = WeatherForecastApp.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

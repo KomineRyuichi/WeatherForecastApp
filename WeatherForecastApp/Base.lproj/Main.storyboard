@@ -213,11 +213,11 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2jM-uL-rqd">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HistoryCell" id="Rb9-Lt-XPo" customClass="HistoryCell">
-                                        <rect key="frame" x="0.0" y="92" width="414" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HistoryCell" rowHeight="73" id="Rb9-Lt-XPo" customClass="HistoryCell">
+                                        <rect key="frame" x="0.0" y="92" width="414" height="73"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rb9-Lt-XPo" id="f6Q-P4-IrO">
-                                            <frame key="frameInset" width="414" height="44"/>
+                                            <frame key="frameInset" width="414" height="73"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HbW-M3-Nrd">
@@ -273,6 +273,7 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="2jM-uL-rqd" id="2nv-OT-eB8"/>
+                        <segue destination="OIb-cA-Nms" kind="show" identifier="goDetail" id="6Mk-P0-pLe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wtz-4N-Mt2" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -761,6 +762,6 @@
         <image name="temperature" width="15" height="15"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rup-tp-gfP"/>
+        <segue reference="6Mk-P0-pLe"/>
     </inferredMetricsTieBreakers>
 </document>

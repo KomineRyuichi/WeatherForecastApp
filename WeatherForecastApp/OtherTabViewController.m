@@ -21,7 +21,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
+    self.tableView.estimatedRowHeight = 73.0f;
+    
     cells = [NSArray arrayWithObjects:@"閲覧履歴", @"通知設定",  nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationController.visibleViewController.navigationItem.title = @"その他";
+     self.navigationController.visibleViewController.tabBarController.tabBar.hidden = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,6 +63,7 @@
     }
     
     cell.textLabel.text = [cells objectAtIndex:indexPath.row];
+    cell.textLabel.font = [UIFont fontWithName:@"Arial" size:24];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;

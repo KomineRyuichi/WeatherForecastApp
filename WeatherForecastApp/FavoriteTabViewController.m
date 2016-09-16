@@ -91,8 +91,8 @@
     favoritePlaces = [NSMutableArray array];
     cellHeightData = [NSMutableArray array];
     
-    // contectの設定
-    AppDelegate *appDelegate = [UIApplication.sharedApplication delegate];
+    // contextの設定
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication.sharedApplication delegate];
     self.context = [appDelegate managedObjectContext];
     
     //アラートの設定

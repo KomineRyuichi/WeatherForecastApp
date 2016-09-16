@@ -13,6 +13,7 @@
 #import "CurrentWeatherData.h"
 #import "APICommunication.h"
 #import <QuartzCore/QuartzCore.h>
+#import "History.h"
 
 @interface DetailViewController () {
     NSDateFormatter *formatter;
@@ -58,7 +59,7 @@
     formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"yyyy/MM/dd";
     
-    AppDelegate *appDelegate = [UIApplication.sharedApplication delegate];
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication.sharedApplication delegate];
     self.context = [appDelegate managedObjectContext];
     
     networkAlertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"オフラインです。" preferredStyle:UIAlertControllerStyleAlert];
@@ -120,6 +121,11 @@
     
     date = [NSDate date];
     
+    // 閲覧履歴保存
+    [self checkOverlapOfViewHistory:_placeName];
+    [self registerViewHistoryToCoreData];
+    [self checkNumberOfViewHistory];
+    
     // 今日の日付表示
     self.dateLabel.text = [formatter stringFromDate:date];
     
@@ -177,7 +183,7 @@
     sender.selected = !sender.selected;
     
     if(sender.selected) {
-        [self registerPlaceToCoreData];
+        [self registerFavoritePlaceToCoreData];
     } else {
         [self deleteFavoritePlace];
     }
@@ -287,7 +293,7 @@
 
 #pragma mark - CoreData
 
-- (void)registerPlaceToCoreData {
+- (void)registerFavoritePlaceToCoreData {
     FavoritePlaces *newPlace = [NSEntityDescription insertNewObjectForEntityForName:@"FavoritePlaces" inManagedObjectContext:self.context];
     
     newPlace.placeName = _placeName;
@@ -383,5 +389,93 @@
         self.favoriteButton.selected = YES;
     }
 }
+
+// 履歴保存
+- (void)registerViewHistoryToCoreData {
+    History *newPlace = [NSEntityDescription insertNewObjectForEntityForName:@"History" inManagedObjectContext:self.context];
+    
+    newPlace.placeName = _placeName;
+    newPlace.placeLatitude = [NSNumber numberWithDouble:_detailLatitude];
+    newPlace.placeLongitude = [NSNumber numberWithDouble:_detailLongitude];
+    newPlace.date = date;
+
+    NSError *error = nil;
+    if(![self.context save:&error]) {
+#if DEBUG
+        NSLog(@"Error:%@", error);
+#endif
+    }
+}
+
+// 閲覧履歴重複確認（重複してたら削除）
+- (void)checkOverlapOfViewHistory:(NSString *)placeName {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"History"];
+    
+    // 一度に読み込むサイズを指定します。
+    [fetchRequest setFetchLimit:20];
+    
+    // 検索結果をplaceOrderの昇順にする。
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO selector:@selector(caseInsensitiveCompare:)];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"placeName = %@", placeName];
+    [fetchRequest setPredicate:predicate];
+    
+    // NSFetchedResultsController(結果を持ってくるクラス)の生成
+    NSFetchedResultsController *fetchedResultsController
+    = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                          managedObjectContext:self.context
+                                            sectionNameKeyPath:nil
+                                                     cacheName:nil];
+    
+    // データ検索
+    NSError *error = nil;
+    if (![fetchedResultsController performFetch:&error]) {
+#if DEBUG
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#endif
+    }
+    
+    if([[fetchedResultsController fetchedObjects] count] > 0) {
+        for (History *data in [fetchedResultsController fetchedObjects]) {
+            [self.context deleteObject:data];
+        }
+    }
+}
+
+// 閲覧履歴件数確認（20件超えていたら20件より後を削除）
+- (void)checkNumberOfViewHistory{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"History"];
+    
+    // 検索結果をplaceOrderの昇順にする。
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO selector:@selector(caseInsensitiveCompare:)];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    // NSFetchedResultsController(結果を持ってくるクラス)の生成
+    NSFetchedResultsController *fetchedResultsController
+    = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                          managedObjectContext:self.context
+                                            sectionNameKeyPath:nil
+                                                     cacheName:nil];
+    
+    // データ検索
+    NSError *error = nil;
+    if (![fetchedResultsController performFetch:&error]) {
+#if DEBUG
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#endif
+    }
+    
+    if([[fetchedResultsController fetchedObjects] count] > 20) {
+        for (int i =20; i<[[fetchedResultsController fetchedObjects] count]; i++) {
+            History *data = [[fetchedResultsController fetchedObjects] objectAtIndex:i];
+            [self.context deleteObject:data];
+        }
+    }
+}
+
+
 
 @end

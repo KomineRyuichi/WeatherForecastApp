@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+閲覧履歴を表示する画面クラス
+ */
+
 @interface HistoryViewController : UIViewController
 
 @end
