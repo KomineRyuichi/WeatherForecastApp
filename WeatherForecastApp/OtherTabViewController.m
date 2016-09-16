@@ -17,6 +17,7 @@
 
 @implementation OtherTabViewController
 
+// 読み込まれた直後に行う処理
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -29,6 +30,7 @@
     cells = [NSArray arrayWithObjects:@"閲覧履歴", @"通知設定",  nil];
 }
 
+// 画面表示する直前に行う処理
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -43,10 +45,12 @@
 
 #pragma mark - TableView
 
+// セルの個数を決める処理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [cells count];
 }
 
+// セルを生成する処理
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell"];
     
@@ -61,6 +65,7 @@
     return cell;
 }
 
+// セルを選択したときの処理
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *segueID = [[NSString alloc] init];
     
