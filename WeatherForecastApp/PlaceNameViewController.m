@@ -14,7 +14,7 @@
 {
     UITableViewCell *cell;
     NSMutableArray *favoritePlaces;
-    NSDictionary *dic
+    NSDictionary *dic;
 }
 @property (strong, nonatomic) NSManagedObjectContext *context;
 @end
@@ -38,14 +38,14 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     cell = [self.PlaceNameTableView dequeueReusableCellWithIdentifier:@"placeNameCell"];
-    dic = [favoritePlaces objectAtIndex:indexPath];
+    dic = [favoritePlaces objectAtIndex:indexPath.row];
     cell.textLabel.text = [dic objectForKey:@"placeName"];
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     cell = [self.PlaceNameTableView cellForRowAtIndexPath:indexPath];
-    dic = [favoritePlaces objectAtIndex:indexPath];
+    dic = [favoritePlaces objectAtIndex:indexPath.row];
     _dataBlocks([dic objectForKey:@"placeName"],[dic objectForKey:@"placeLatitude"],[dic objectForKey:@"placeLongitude"]);
     [self.navigationController popViewControllerAnimated:YES];
 }

@@ -31,6 +31,10 @@
                     </label>
                 </subviews>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="placeNameLabel" destination="sSc-yH-ky9" id="cJx-1p-oUE"/>
+                <outlet property="titlelabel" destination="tn1-MG-Ue6" id="gBv-rB-IrC"/>
+            </connections>
         </tableViewCell>
     </objects>
 </document>

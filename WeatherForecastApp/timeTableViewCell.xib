@@ -31,6 +31,10 @@
                     </label>
                 </subviews>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="timeLabel" destination="tAk-5j-JVR" id="FlS-dL-6VH"/>
+                <outlet property="titleLabel" destination="XWU-76-c1b" id="avA-b5-5i1"/>
+            </connections>
         </tableViewCell>
     </objects>
 </document>

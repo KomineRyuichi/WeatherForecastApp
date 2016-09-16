@@ -38,11 +38,12 @@
     _NotificationTableView.delegate = self;
     _NotificationTableView.dataSource = self;
     //カスタムセルを指定
-    //UINib *nib1 = [UINib nibWithNibName:@"onOffTableViewCell" bundle:nil];
-    //UINib *nib2 = [UINib nibWithNibName:@"placeAndTimeTableViewCell" bundle:nil];
-    //[self.NotificationTableView registerNib:nib1 forCellReuseIdentifier:@"notificationTableCell"];
-    //[self.NotificationTableView registerNib:nib2 forCellReuseIdentifier:@"notificationTableCell"];
-    
+    UINib *nib1 = [UINib nibWithNibName:@"onOffTableViewCell" bundle:nil];
+    [self.NotificationTableView registerNib:nib1 forCellReuseIdentifier:@"notificationTableCell1"];
+    UINib *nib2 = [UINib nibWithNibName:@"placeNameTableViewCell" bundle:nil];
+    [self.NotificationTableView registerNib:nib2 forCellReuseIdentifier:@"notificationTableCell2"];
+    UINib *nib3 = [UINib nibWithNibName:@"timeTableViewCell" bundle:nil];
+    [self.NotificationTableView registerNib:nib3 forCellReuseIdentifier:@"notificationTableCell3"];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -51,33 +52,32 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    //static const id identifiers[3] = {@"onOffTableViewCell",@"placeAndTimeTableViewCell",@"placeAndTimeTableViewCell"};
-    //NSString *CellIdentifier = identifiers[indexPath.row];
-    //cell = [self.NotificationTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    //if (cell == nil) {
         switch (indexPath.row) {
             case 0:
-                onOffCell = [[onOffTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"onOffTableViewCell"];
+                //onOffCell = [[onOffTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"onOffTableViewCell"];
+                onOffCell = [_NotificationTableView dequeueReusableCellWithIdentifier:@"notificationTableCell1"];
                 [onOffCell.onOffSwitch addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
-                cell = onOffCell;
+                return onOffCell;
                 break;
             case 1:
-                placeNameCell = [[placeNameTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"placeAndTimeTableViewCell"];
-                placeNameCell.titleLabel.text = @"通知する地点";
+                //placeNameCell = [[placeNameTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"placeNameTableViewCell"];
+                placeNameCell = [_NotificationTableView dequeueReusableCellWithIdentifier:@"notificationTableCell2"];
+                placeNameCell.titlelabel.text = @"通知する地点";
                 //暫定
                 placeNameCell.placeNameLabel.text = @"未設定";
-                cell = placeNameCell;
+                return placeNameCell;
                 break;
             case 2:
-                placeTimeCell = [[placeAndTimeTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"placeAndTimeTableViewCell"];
-                placeTimeCell.titleLabel.text = @"通知する時間";
+                //timeCell = [[timeTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"timeTableViewCell"];
+                timeCell = [_NotificationTableView dequeueReusableCellWithIdentifier:@"notificationTableCell3"];
+                timeCell.titleLabel.text = @"通知する時間";
                 //暫定
-                placeTimeCell.placeNameLabel.text = @"未設定";
-                cell = placeTimeCell;
+                timeCell.timeLabel.text = @"未設定";
+                return timeCell;
                 break;
+            default:
+               return cell;
         }
-    //}
-    return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -105,13 +105,17 @@
             placeLatitude = latitude;
             placeLongitude = longitude;
             
-            placeTimeCell.placeNameLabel.text = placeName;
+            placeNameCell.placeNameLabel.text = placeName;
+            NSLog(@"%@",placeName);
         };
     }else{
         DatePickerViewController *datePickerViewController = segue.destinationViewController;
-        datePickerViewController.pickerBlocks = ^(NSString *text){
+        datePickerViewController.pickerBlocks = ^(NSDate *date){
             //test
-            notificationDate = [NSDate date];
+            //notificationDate = [NSDate date];
+            notificationDate = date;
+            timeCell.timeLabel.text = notificationDate;
+            NSLog(@"%@",notificationDate);
         };
     }
 }
