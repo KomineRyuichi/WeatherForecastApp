@@ -195,6 +195,17 @@
 			name = CoreData;
 			sourceTree = "<group>";
 		};
+		8A83DAF61D8BCB3500C5CC08 /* OtherView */ = {
+			isa = PBXGroup;
+			children = (
+				8A83DAEC1D8B948300C5CC08 /* HistoryViewController.h */,
+				8A83DAED1D8B948300C5CC08 /* HistoryViewController.m */,
+				8A83DAEF1D8B996800C5CC08 /* OtherTabViewController.h */,
+				8A83DAF01D8B996800C5CC08 /* OtherTabViewController.m */,
+			);
+			name = OtherView;
+			sourceTree = "<group>";
+		};
 		8ADC2ADE1D742424000EE9B3 = {
 			isa = PBXGroup;
 			children = (
@@ -230,10 +241,7 @@
 				8ADC2AFE1D742425000EE9B3 /* Info.plist */,
 				8A3E2B3C1D82694E00D72A2F /* APICommunication.h */,
 				8A3E2B3D1D82694E00D72A2F /* APICommunication.m */,
-				8A83DAEC1D8B948300C5CC08 /* HistoryViewController.h */,
-				8A83DAED1D8B948300C5CC08 /* HistoryViewController.m */,
-				8A83DAEF1D8B996800C5CC08 /* OtherTabViewController.h */,
-				8A83DAF01D8B996800C5CC08 /* OtherTabViewController.m */,
+				8A83DAF61D8BCB3500C5CC08 /* OtherView */,
 				8A3E2B3A1D82555D00D72A2F /* MapView */,
 				8A3E2B391D82554900D72A2F /* FavoriteView */,
 				8A3E2B381D82552200D72A2F /* DetailView */,
