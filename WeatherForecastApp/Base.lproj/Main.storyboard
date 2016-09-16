@@ -164,10 +164,10 @@
             </objects>
             <point key="canvasLocation" x="-481" y="1081"/>
         </scene>
-        <!--View Controller-->
+        <!--Other Tab View Controller-->
         <scene sceneID="M0z-VJ-y9M">
             <objects>
-                <viewController id="Mwe-wS-6Ia" sceneMemberID="viewController">
+                <viewController id="Mwe-wS-6Ia" customClass="OtherTabViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6Yu-UP-h0T"/>
                         <viewControllerLayoutGuide type="bottom" id="jfi-xt-p0J"/>
@@ -190,6 +190,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="6kT-nK-ZRP"/>
                     <connections>
+                        <outlet property="tableView" destination="TO0-CB-F9H" id="zfn-OO-5EY"/>
                         <segue destination="NEv-ck-W03" kind="show" identifier="goHistory" id="Rqi-oo-HpA"/>
                     </connections>
                 </viewController>
@@ -197,10 +198,10 @@
             </objects>
             <point key="canvasLocation" x="257.97101449275362" y="1080.9782608695652"/>
         </scene>
-        <!--View Controller-->
+        <!--History View Controller-->
         <scene sceneID="ZHb-ib-cGz">
             <objects>
-                <viewController id="NEv-ck-W03" sceneMemberID="viewController">
+                <viewController id="NEv-ck-W03" customClass="HistoryViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BIR-10-dku"/>
                         <viewControllerLayoutGuide type="bottom" id="QP2-vx-V55"/>
@@ -212,7 +213,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2jM-uL-rqd">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Rb9-Lt-XPo">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HistoryCell" id="Rb9-Lt-XPo" customClass="HistoryCell">
                                         <rect key="frame" x="0.0" y="92" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rb9-Lt-XPo" id="f6Q-P4-IrO">
@@ -252,6 +253,11 @@
                                                 <constraint firstItem="HbW-M3-Nrd" firstAttribute="centerY" secondItem="f6Q-P4-IrO" secondAttribute="centerY" id="qQG-bn-Czw"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="dateLabel" destination="5Ir-0E-zMf" id="8QT-wn-X0X"/>
+                                            <outlet property="favoriteButton" destination="HbW-M3-Nrd" id="X1U-Lx-aca"/>
+                                            <outlet property="placeNameLabel" destination="89W-H8-Gpp" id="IFN-Tb-K38"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -265,6 +271,9 @@
                         </constraints>
                     </view>
                     <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="tableView" destination="2jM-uL-rqd" id="2nv-OT-eB8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wtz-4N-Mt2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
