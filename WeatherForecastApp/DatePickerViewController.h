@@ -1,5 +1,5 @@
 //
-//  NotificationViewController.h
+//  DatePickerViewController.h
 //  WeatherForecastApp
 //
 //  Created by PCK-135-087 on 2016/09/16.
@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NotificationViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UITableView *NotificationTableView;
+@interface DatePickerViewController : UIViewController
 
 @end

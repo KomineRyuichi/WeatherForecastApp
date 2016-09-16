@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface PlaceNameViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UITableView *PlaceNameTableView;
 
 @end

@@ -147,6 +147,37 @@
             </objects>
             <point key="canvasLocation" x="260" y="370"/>
         </scene>
+        <!--Date Picker View Controller-->
+        <scene sceneID="NPf-Gg-ZNz">
+            <objects>
+                <viewController id="ziq-5R-GAB" customClass="DatePickerViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ZiV-bg-Kw8"/>
+                        <viewControllerLayoutGuide type="bottom" id="3NM-4M-oLc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xGj-ol-lzD">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2BO-6k-Add">
+                                <frame key="frameInset" width="414" height="736"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                            <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="siv-cc-wVv">
+                                <frame key="frameInset" minY="449" height="216"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <date key="date" timeIntervalSinceReferenceDate="495680821.67207301">
+                                    <!--2016-09-16 01:07:01 +0000-->
+                                </date>
+                            </datePicker>
+                        </subviews>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kEd-Xd-VGc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-678.26086956521749" y="1159.2391304347827"/>
+        </scene>
         <!--Notification View Controller-->
         <scene sceneID="xhF-UY-E7h">
             <objects>
@@ -167,6 +198,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="NotificationTableView" destination="UkK-KW-0Gv" id="Pt8-Tn-1th"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3kU-Yb-Ya0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -188,10 +222,23 @@
                                 <frame key="frameInset" minY="77" width="414" height="659"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="placeNameCell" id="kXf-5e-fLD">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kXf-5e-fLD" id="U1X-rb-5tu">
+                                            <frame key="frameInset" width="414" height="43.666666666666664"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="PlaceNameTableView" destination="za4-Uq-oH4" id="5PY-gT-7Ll"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gbc-Gz-id6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -444,7 +491,7 @@
                     <navigationItem key="navigationItem" title="詳細" id="hpc-Qa-l05">
                         <barButtonItem key="rightBarButtonItem" title="Item" style="done" id="aZB-bd-uPr">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lEX-UB-DoJ">
-                                <rect key="frame" x="550" y="7" width="30" height="29"/>
+                                <rect key="frame" x="364" y="7" width="30" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="NonFavorite"/>
                                 <connections>
@@ -517,7 +564,7 @@
                                         <rect key="frame" x="0.0" y="24" width="600" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gCB-fG-DVT" id="8qh-uc-ogk">
-                                            <frame key="frameInset" width="600" height="200"/>
+                                            <frame key="frameInset" width="600" height="199.66666666666666"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8Lf-9Q-eG5">
@@ -584,16 +631,16 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="Ccu-RT-Mvh"/>
                                                     <exclude reference="eA8-zH-ALT"/>
                                                     <exclude reference="f8u-hH-2Bb"/>
-                                                    <exclude reference="dbR-di-Gry"/>
-                                                    <exclude reference="huj-oL-i4Y"/>
+                                                    <exclude reference="Ccu-RT-Mvh"/>
                                                     <exclude reference="2cP-rP-0tS"/>
                                                     <exclude reference="E7F-6K-tn2"/>
                                                     <exclude reference="Pls-ce-RTt"/>
                                                     <exclude reference="P9D-Xr-zHU"/>
                                                     <exclude reference="pbA-mt-YMA"/>
+                                                    <exclude reference="dbR-di-Gry"/>
+                                                    <exclude reference="huj-oL-i4Y"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
