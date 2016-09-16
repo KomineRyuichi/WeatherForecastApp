@@ -177,11 +177,13 @@
             } else {
                 [weatherData replaceObjectAtIndex:i withObject:result];
                 [self.tableView reloadData];
-                [self stopIndicator];
-                
+                if(i == [favoritePlaces count] -1) {
+                    [self stopIndicator];
+                }
             }
         }];
     }
+
 }
 
 // 画面が消えた直後に呼ばれるメソッド

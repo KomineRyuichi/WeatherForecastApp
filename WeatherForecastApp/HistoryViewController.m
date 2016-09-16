@@ -48,6 +48,8 @@
 @implementation HistoryViewController
 
 #pragma mark - ViewController
+
+// 読み込まれた直後の処理
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -66,6 +68,7 @@
     dateFormatter.dateFormat = @"yyyy/MM/dd";
 }
 
+// 画面が表示される直前
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -77,7 +80,6 @@
     [self searchForViewHistory];
     
     [self.tableView reloadData];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -87,10 +89,9 @@
 
 
 #pragma mark - Navigation
-// In a storyboard-based application, you will often want to do a little preparation before navigation
+
+// 画面遷移する直前
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
     DetailViewController *viewController = segue.destinationViewController;
     viewController.placeName = selectedPlaceName;
     viewController.detailLatitude = selectedPlaceLatitude;
@@ -138,6 +139,7 @@
 }
 
 #pragma mark - Other
+
 // お気に入り追加アクション
 - (void)addFavorite:(UIButton *)sender event:(UIEvent *)event{
     NSIndexPath *indexPath = [self indexPathForControlEvent:event];
@@ -215,6 +217,43 @@
     }
 }
 
+// 既にお気に入りされているかどうかの確認(されていればYES, そうでなければNO)
+- (BOOL)searchFavoritePlace:(NSString *)placeName {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FavoritePlaces"];
+    
+    // 一度に読み込むサイズを指定します。
+    [fetchRequest setFetchLimit:20];
+    
+    // 検索結果をplaceOrderの昇順にする。
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"placeOrder" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"placeName = %@", placeName];
+    [fetchRequest setPredicate:predicate];
+    
+    // NSFetchedResultsController(結果を持ってくるクラス)の生成
+    NSFetchedResultsController *fetchedResultsController
+    = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                          managedObjectContext:self.context
+                                            sectionNameKeyPath:nil
+                                                     cacheName:nil];
+    
+    // データ検索
+    NSError *error = nil;
+    if (![fetchedResultsController performFetch:&error]) {
+#if DEBUG
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#endif
+    }
+    
+    if([[fetchedResultsController fetchedObjects] count] > 0) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 // 履歴検索
 - (void)searchForViewHistory{
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"History"];
@@ -249,42 +288,6 @@
         NSDictionary *place = [NSDictionary dictionaryWithObjectsAndKeys:name, @"placeName", data.placeLatitude, @"placeLatitude", data.placeLongitude, @"placeLongitude", data.date, @"date", nil];
         [historyData addObject:place];
         place = nil;
-    }
-}
-
-- (BOOL)searchFavoritePlace:(NSString *)placeName {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FavoritePlaces"];
-    
-    // 一度に読み込むサイズを指定します。
-    [fetchRequest setFetchLimit:20];
-    
-    // 検索結果をplaceOrderの昇順にする。
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"placeOrder" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-    [fetchRequest setSortDescriptors:sortDescriptors];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"placeName = %@", placeName];
-    [fetchRequest setPredicate:predicate];
-    
-    // NSFetchedResultsController(結果を持ってくるクラス)の生成
-    NSFetchedResultsController *fetchedResultsController
-    = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                          managedObjectContext:self.context
-                                            sectionNameKeyPath:nil
-                                                     cacheName:nil];
-    
-    // データ検索
-    NSError *error = nil;
-    if (![fetchedResultsController performFetch:&error]) {
-#if DEBUG
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-#endif
-    }
-    
-    if([[fetchedResultsController fetchedObjects] count] > 0) {
-        return YES;
-    } else {
-        return NO;
     }
 }
 
