@@ -34,7 +34,7 @@
                         <viewControllerLayoutGuide type="bottom" id="aRo-2r-e4g"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ssD-G8-x7B">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="0bl-QX-zXz">
@@ -168,7 +168,7 @@
                         <viewControllerLayoutGuide type="bottom" id="jfi-xt-p0J"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="tSo-cF-gRS">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="TO0-CB-F9H">
@@ -187,6 +187,7 @@
                     <connections>
                         <outlet property="tableView" destination="TO0-CB-F9H" id="zfn-OO-5EY"/>
                         <segue destination="NEv-ck-W03" kind="show" identifier="goHistory" id="Rqi-oo-HpA"/>
+                        <segue destination="OYF-Qt-X4w" kind="show" identifier="goNotification" id="NRP-y5-IoJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i5Z-EL-TEC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -202,17 +203,17 @@
                         <viewControllerLayoutGuide type="bottom" id="QP2-vx-V55"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ShB-TO-gIN">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2jM-uL-rqd">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HistoryCell" rowHeight="73" id="Rb9-Lt-XPo" customClass="HistoryCell">
-                                        <rect key="frame" x="0.0" y="92" width="414" height="73"/>
+                                        <rect key="frame" x="0.0" y="92" width="1000" height="73"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rb9-Lt-XPo" id="f6Q-P4-IrO">
-                                            <frame key="frameInset" width="414" height="73"/>
+                                            <frame key="frameInset" width="1000" height="72.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HbW-M3-Nrd">
@@ -275,6 +276,24 @@
             </objects>
             <point key="canvasLocation" x="1257.9710144927537" y="1080.9782608695652"/>
         </scene>
+        <!--Notification View Controller-->
+        <scene sceneID="52K-Pk-EIX">
+            <objects>
+                <viewController id="OYF-Qt-X4w" customClass="NotificationViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eXH-ag-zyP"/>
+                        <viewControllerLayoutGuide type="bottom" id="hv7-yh-oDf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="U2H-LZ-A40">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jlJ-tc-ONt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1257" y="1790"/>
+        </scene>
         <!--詳細-->
         <scene sceneID="mkq-QS-BJ3">
             <objects>
@@ -284,7 +303,7 @@
                         <viewControllerLayoutGuide type="bottom" id="jYW-A2-nIk"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Hyd-Qx-uFQ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <activityIndicatorView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="fZs-dZ-TcK">
@@ -547,7 +566,7 @@
                         <viewControllerLayoutGuide type="bottom" id="LB9-uZ-J9o"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="mtP-bm-ysc">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JEn-No-QpK">
@@ -567,10 +586,10 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="WeatherSummaryCell" rowHeight="200" id="gCB-fG-DVT" customClass="WeatherSummaryCell">
-                                        <rect key="frame" x="0.0" y="24" width="414" height="200"/>
+                                        <rect key="frame" x="0.0" y="24" width="375" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gCB-fG-DVT" id="8qh-uc-ogk">
-                                            <frame key="frameInset" width="414" height="200"/>
+                                            <frame key="frameInset" width="375" height="199.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8Lf-9Q-eG5">
@@ -731,9 +750,9 @@
         <image name="MapTab" width="30" height="30"/>
         <image name="NonFavorite" width="30" height="29"/>
         <image name="OtherTab" width="30" height="30"/>
-        <image name="humidity" width="15" height="15"/>
+        <image name="humidity" width="22" height="22"/>
         <image name="open" width="274" height="274"/>
-        <image name="temperature" width="15" height="15"/>
+        <image name="temperature" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="rup-tp-gfP"/>
