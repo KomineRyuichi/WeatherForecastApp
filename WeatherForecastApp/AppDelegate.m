@@ -127,4 +127,20 @@
     }
 }
 
+#pragma mark - Local Notification
+
+//バナーの通知から起動した時に呼ばれる
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    NSLog(@"didReceiveLocalNotification");
+    if(application.applicationState == UIApplicationStateActive) {
+        //※フォアグラウンドで起動中はバナーは出ない
+        NSLog(@"フォアグラウンドで起動中に通知を受信");
+    }
+    if(application.applicationState == UIApplicationStateInactive) {
+        NSLog(@"バックグラウンドで起動中に通知を受信、バナーをタップ");
+    }
+    // 通常、削除の処理を行う
+    [[UIApplication sharedApplication] cancelLocalNotification:notification];
+}
+
 @end
