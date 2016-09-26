@@ -21,7 +21,6 @@
     NSString *placeName;
     NSNumber *placeLatitude;
     NSNumber *placeLongitude;
-    NSDate *notificationDate;
     
     UITableViewCell *cell;
     SwitchTableViewCell *onOffCell;
@@ -99,23 +98,21 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if(screenTransitionFlag){
         PlaceNameViewController *placeNameViewController = segue.destinationViewController;
-        //__weak typeof(self) weakSelf = self;
         placeNameViewController.dataBlocks = ^(NSString *text,NSNumber *latitude,NSNumber *longitude){
             placeName = text;
             placeLatitude = latitude;
             placeLongitude = longitude;
             
             placeNameCell.placeNameLabel.text = placeName;
-            NSLog(@"%@",placeName);
         };
     }else{
         DatePickerViewController *datePickerViewController = segue.destinationViewController;
         datePickerViewController.pickerBlocks = ^(NSDate *date){
-            //test
-            //notificationDate = [NSDate date];
-            notificationDate = date;
-            timeCell.timeLabel.text = notificationDate;
-            NSLog(@"%@",notificationDate);
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"HH:mm"];
+            NSString *dateStr = [formatter stringFromDate:date];
+            
+            timeCell.timeLabel.text = dateStr;
         };
     }
 }

@@ -43,13 +43,19 @@
         [_datePicker setDate:_iniDate];
     }
     // 背景だけ透過
-    UIColor *alphaColor = [self.view.backgroundColor colorWithAlphaComponent:0.2]; //透過率
+    UIColor *alphaColor = [self.view.backgroundColor colorWithAlphaComponent:0.0]; //透過率
     self.view.backgroundColor = alphaColor;
     // button だけ透過
-    UIColor *alphaColor2 = [self.closeButton.backgroundColor colorWithAlphaComponent:0.2]; //透過率
+    UIColor *alphaColor2 = [self.closeButton.backgroundColor colorWithAlphaComponent:0.0]; //透過率
     self.closeButton.backgroundColor = alphaColor2;
     // UIDatepicker だけ非透過
     self.datePicker.backgroundColor = [UIColor colorWithWhite:1.0 alpha:1];
+}
+
+
+//modalで表示した時に背景が真っ黒になるのを回避
+- (UIModalPresentationStyle)modalPresentationStyle{
+    return UIModalPresentationOverCurrentContext;
 }
 
 
@@ -65,15 +71,14 @@
 /**
  * 日付ピッカーの値が変更されたとき
  */
-- (void)datePickerValueChanged:(id)sender
-{
+- (void)datePickerValueChanged:(id)sender{
     // デリゲート先の処理を呼び出し、選択された文字列を親Viewに表示させる
     //[self.delegate applySelectedString:_datePicker.date];
 }
 
 
 - (IBAction)closeButton:(UIButton *)sender {
-    //_pickerBlocks(_datePicker.date);
+    _pickerBlocks(_datePicker.date);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
