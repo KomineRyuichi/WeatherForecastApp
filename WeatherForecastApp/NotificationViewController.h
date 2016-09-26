@@ -11,4 +11,6 @@
 @interface NotificationViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UITableView *notificationTableView;
 
+-(id)readData:(NSString *)flag;
+
 @end

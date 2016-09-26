@@ -427,7 +427,7 @@
         <!--詳細-->
         <scene sceneID="mkq-QS-BJ3">
             <objects>
-                <viewController id="OIb-cA-Nms" customClass="DetailViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailViewController" id="OIb-cA-Nms" customClass="DetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="E9t-Lw-4YN"/>
                         <viewControllerLayoutGuide type="bottom" id="jYW-A2-nIk"/>
@@ -649,7 +649,7 @@
                     <navigationItem key="navigationItem" title="詳細" id="hpc-Qa-l05">
                         <barButtonItem key="rightBarButtonItem" title="Item" style="done" id="aZB-bd-uPr">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lEX-UB-DoJ">
-                                <rect key="frame" x="329" y="7" width="30" height="29"/>
+                                <rect key="frame" x="364" y="7" width="30" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="NonFavorite"/>
                                 <connections>
@@ -690,7 +690,7 @@
         <!--Favorite Tab View Controller-->
         <scene sceneID="Fib-dA-Tab">
             <objects>
-                <viewController id="en2-bX-7N1" customClass="FavoriteTabViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FavoriteTabViewController" id="en2-bX-7N1" customClass="FavoriteTabViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Jme-Tj-f47"/>
                         <viewControllerLayoutGuide type="bottom" id="LB9-uZ-J9o"/>

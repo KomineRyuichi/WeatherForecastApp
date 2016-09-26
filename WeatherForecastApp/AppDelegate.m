@@ -7,16 +7,26 @@
 //
 
 #import "AppDelegate.h"
+#import "DetailViewController.h"
+
 
 @interface AppDelegate ()
-
+{
+    BOOL firstBool;
+    BOOL flag;
+}
 @end
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    NSDictionary* userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    if (userInfo != nil) {
+        [self showSecondViewController];
+    }
+    firstBool = NO;
+    flag = NO;
     return YES;
 }
 
@@ -32,6 +42,18 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [self showSecondViewController];
+    if(flag || firstBool==NO){
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UIViewController *favController = [storyboard instantiateViewControllerWithIdentifier:@"FavoriteTabViewController"];
+        UIViewController *detailController = [storyboard instantiateViewControllerWithIdentifier:@"DetailViewController"];
+        //self.window.rootViewController = favController;
+        UINavigationController *navigationController = [[UINavigationController alloc]initWithRootViewController:favController];
+        UITabBarController *tabBarController = [[UITabBarController alloc] init];
+        self.window.rootViewController = navigationController;
+        [navigationController pushViewController:detailController animated:YES];
+    }
+    firstBool = YES;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -132,15 +154,24 @@
 //バナーの通知から起動した時に呼ばれる
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
     NSLog(@"didReceiveLocalNotification");
-    if(application.applicationState == UIApplicationStateActive) {
-        //※フォアグラウンドで起動中はバナーは出ない
-        NSLog(@"フォアグラウンドで起動中に通知を受信");
-    }
+//    if(application.applicationState == UIApplicationStateActive) {
+//        //※フォアグラウンドで起動中はバナーは出ない→アラートなどを出す
+//        NSLog(@"フォアグラウンドで起動中に通知を受信");
+//    }
+    
     if(application.applicationState == UIApplicationStateInactive) {
         NSLog(@"バックグラウンドで起動中に通知を受信、バナーをタップ");
+        flag = YES;
     }
     // 通常、削除の処理を行う
     [[UIApplication sharedApplication] cancelLocalNotification:notification];
+}
+- (void)showSecondViewController{
+    //DetailViewController *controller = [[DetailViewController alloc] init];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"DetailViewController"];
+    //self.window.rootViewController.selectedIndex = 0;
+    [self.window.rootViewController.navigationController pushViewController:controller animated:YES];
 }
 
 @end

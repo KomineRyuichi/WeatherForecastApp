@@ -7,6 +7,7 @@
 //
 
 #import "SwitchTableViewCell.h"
+#import "NotificationViewController.h"
 
 @implementation SwitchTableViewCell
 
