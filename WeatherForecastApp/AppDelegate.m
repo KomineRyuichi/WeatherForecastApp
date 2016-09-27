@@ -40,19 +40,7 @@
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     
     flag = NO;
-//    if(flag){
-//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//        DetailViewController *detailController = [storyboard instantiateViewControllerWithIdentifier:@"DetailViewController"];
-//        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-//        detailController.placeName = [ud objectForKey:@"KEY_place"];
-//        detailController.detailLatitude = [[ud objectForKey:@"KEY_latitude"]doubleValue];
-//        detailController.detailLongitude = [[ud objectForKey:@"KEY_longitude"]doubleValue];
-//        UITabBarController *tabBarContoroller = [[UITabBarController alloc]init];
-//        tabBarContoroller = (UITabBarController*)self.window.rootViewController;
-//        tabBarContoroller.selectedIndex = 0;
-//        [tabBarContoroller.selectedViewController pushViewController:detailController animated:YES];
-//    }
-    //firstBool = YES;
+
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

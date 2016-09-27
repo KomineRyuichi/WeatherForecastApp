@@ -56,7 +56,6 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     switch (indexPath.row) {
         case 0:{
-            //onOffCell = [[onOffTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"onOffTableViewCell"];
             onOffCell = [_notificationTableView dequeueReusableCellWithIdentifier:@"notificationTableCell1"];
             onOffCell.onOffSwitch.on = [[self readData:@"switch"] boolValue];
             onOffCell.textLabel.font = [UIFont fontWithName:@"Arial" size:24];
@@ -65,7 +64,6 @@
             break;
         }
         case 1:{
-            //placeNameCell = [[placeNameTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"placeNameTableViewCell"];
             placeNameCell = [_notificationTableView dequeueReusableCellWithIdentifier:@"notificationTableCell2"];
             placeNameCell.titlelabel.text = @"通知する地点";
             //Userdefaultsにデータがあるかどうかを判断
@@ -80,7 +78,6 @@
             break;
         }
         case 2:{
-            //timeCell = [[timeTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"timeTableViewCell"];
             timeCell = [_notificationTableView dequeueReusableCellWithIdentifier:@"notificationTableCell3"];
             timeCell.titleLabel.text = @"通知する時間";
             //Userdefaultsにデータがあるかどうかを判断
@@ -122,7 +119,6 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if(screenTransitionFlag){
         PlaceNameViewController *placeNameViewController = segue.destinationViewController;
-        //__weak typeof(self) weakSelf = self;
         placeNameViewController.dataBlocks = ^(NSString *text,NSNumber *latitude,NSNumber *longitude){
             placeNameCell.placeNameLabel.text = text;
             //通知用
@@ -168,7 +164,6 @@
             [[UIApplication sharedApplication] cancelLocalNotification:notificationObject];
             // 通知の登録開始
             [self registerNotification];
-            NSLog(@"テスト：ON");
         }
     }else{
         // Offの時の処理
@@ -177,7 +172,6 @@
         [self saveData:@"switch"];
         // 通知のリセット
         [[UIApplication sharedApplication] cancelLocalNotification:notificationObject];
-        NSLog(@"テスト：OFF");
     }
 }
 
@@ -193,15 +187,12 @@
     UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
     // アプリケーションに登録
     [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
-    NSLog(@"①通知タイプ登録完了");
     [self createNotificationObject];
 }
 //②通知オブジェクトの生成と内容指定
 -(void)createNotificationObject{
     // インスタンス生成
     notificationObject = [[UILocalNotification alloc] init];
-    // テスト用：通知時間（15秒後）
-    //notificationObject.fireDate = [NSDate dateWithTimeIntervalSinceNow:(15)];
     // 通知時間 <= 現在時 なら次の日の同時刻を指定
     if ([[self readData:@"time"] timeIntervalSinceNow] <= 0) {
         NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
@@ -228,14 +219,12 @@
     notificationObject.soundName = UILocalNotificationDefaultSoundName;
     // 通知の登録
     [[UIApplication sharedApplication] scheduleLocalNotification:notificationObject];
-    NSLog(@"②通知オブジェクト生成・内容指定完了");
     [self createSchedule];
 }
 //③スケジューリング
 -(void)createSchedule{
     [[UIApplication sharedApplication] cancelLocalNotification:notificationObject];
     [[UIApplication sharedApplication] scheduleLocalNotification:notificationObject];
-    NSLog(@"③スケジューリング完了");
 }
 //通知を受信した時の処理はAppDelegate.mのdidReceiveLocalNotificationに記述
 
