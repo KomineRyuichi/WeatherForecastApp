@@ -72,7 +72,7 @@
     if(indexPath.row == 0) {
         segueID = @"goHistory";
     } else {
-        segueID = @"";
+        segueID = @"goNotification";
     }
     
     [self performSegueWithIdentifier:segueID sender:self];

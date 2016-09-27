@@ -10,7 +10,7 @@
         <!--Navigation Controller-->
         <scene sceneID="Ia8-Uu-pbD">
             <objects>
-                <navigationController id="eci-9k-ith" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="NavigationFavoriteViewController" id="eci-9k-ith" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="FavoriteTab" id="LKE-vr-bLM"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="sLz-mJ-iX1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -187,6 +187,7 @@
                     <connections>
                         <outlet property="tableView" destination="TO0-CB-F9H" id="zfn-OO-5EY"/>
                         <segue destination="NEv-ck-W03" kind="show" identifier="goHistory" id="Rqi-oo-HpA"/>
+                        <segue destination="OYF-Qt-X4w" kind="show" identifier="goNotification" id="NRP-y5-IoJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i5Z-EL-TEC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -275,10 +276,158 @@
             </objects>
             <point key="canvasLocation" x="1257.9710144927537" y="1080.9782608695652"/>
         </scene>
+        <!--Notification View Controller-->
+        <scene sceneID="52K-Pk-EIX">
+            <objects>
+                <viewController id="OYF-Qt-X4w" customClass="NotificationViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eXH-ag-zyP"/>
+                        <viewControllerLayoutGuide type="bottom" id="hv7-yh-oDf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="U2H-LZ-A40">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Fd5-11-hOO">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notificationTableCell1" id="5PI-BE-U5o">
+                                        <rect key="frame" x="0.0" y="92" width="374" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5PI-BE-U5o" id="z24-1K-BAb">
+                                            <frame key="frameInset" width="374" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notificationTableCell2" id="9Cu-Gm-b2M">
+                                        <rect key="frame" x="0.0" y="136" width="374" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9Cu-Gm-b2M" id="QAJ-VT-MZP">
+                                            <frame key="frameInset" width="374" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notificationTableCell3" id="XfO-ec-OJ6">
+                                        <rect key="frame" x="0.0" y="180" width="374" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XfO-ec-OJ6" id="CkO-Av-DXI">
+                                            <frame key="frameInset" width="374" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="Fd5-11-hOO" secondAttribute="trailing" id="73O-0F-iNE"/>
+                            <constraint firstItem="Fd5-11-hOO" firstAttribute="leading" secondItem="U2H-LZ-A40" secondAttribute="leadingMargin" id="Gq1-sE-pHA"/>
+                            <constraint firstItem="Fd5-11-hOO" firstAttribute="top" secondItem="eXH-ag-zyP" secondAttribute="bottom" id="RPi-N3-uMt"/>
+                            <constraint firstItem="hv7-yh-oDf" firstAttribute="top" secondItem="Fd5-11-hOO" secondAttribute="bottom" id="wHe-1x-rxe"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="notificationTableView" destination="Fd5-11-hOO" id="szm-Jr-aE6"/>
+                        <segue destination="iVD-1V-ZKN" kind="show" identifier="toPlaceNameView" id="oK5-SV-tqI"/>
+                        <segue destination="Uxb-fM-jlw" kind="presentation" identifier="toDatePickerView" id="Ie8-d3-FqZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jlJ-tc-ONt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1256.521739130435" y="1789.4021739130437"/>
+        </scene>
+        <!--Place Name View Controller-->
+        <scene sceneID="SQr-pf-CrA">
+            <objects>
+                <viewController id="iVD-1V-ZKN" customClass="PlaceNameViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="en4-is-UW1"/>
+                        <viewControllerLayoutGuide type="bottom" id="n4H-Ny-fi8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="FQo-iN-rT0">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vd9-Ij-cqe">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="placeNameCell" id="cSE-4o-LCx">
+                                        <rect key="frame" x="0.0" y="92" width="374" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cSE-4o-LCx" id="FYx-AD-Dyc">
+                                            <frame key="frameInset" width="374" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="vd9-Ij-cqe" secondAttribute="trailing" id="0RU-1l-lGF"/>
+                            <constraint firstItem="n4H-Ny-fi8" firstAttribute="top" secondItem="vd9-Ij-cqe" secondAttribute="bottom" id="FU1-Vq-zDN"/>
+                            <constraint firstItem="vd9-Ij-cqe" firstAttribute="leading" secondItem="FQo-iN-rT0" secondAttribute="leadingMargin" id="MEb-zj-L2N"/>
+                            <constraint firstItem="vd9-Ij-cqe" firstAttribute="top" secondItem="en4-is-UW1" secondAttribute="bottom" id="QTm-aQ-m7t"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="placeNameTableView" destination="vd9-Ij-cqe" id="jlM-1I-r1y"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZNy-3L-nHd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2133.5999999999999" y="1633.1334332833585"/>
+        </scene>
+        <!--Date Picker View Controller-->
+        <scene sceneID="q51-99-NVR">
+            <objects>
+                <viewController id="Uxb-fM-jlw" customClass="DatePickerViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="40H-Bi-fln"/>
+                        <viewControllerLayoutGuide type="bottom" id="2K2-zq-W8Z"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Fjg-Ct-eBH">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sTx-Qq-heQ">
+                                <connections>
+                                    <action selector="closeButton:" destination="Uxb-fM-jlw" eventType="touchUpInside" id="c11-ju-Wcf"/>
+                                </connections>
+                            </button>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="BiA-1P-8nD">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="216" id="raq-6Y-JVZ"/>
+                                </constraints>
+                                <date key="date" timeIntervalSinceReferenceDate="496510483.83097398">
+                                    <!--2016-09-25 15:34:43 +0000-->
+                                </date>
+                            </datePicker>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="sTx-Qq-heQ" firstAttribute="top" secondItem="40H-Bi-fln" secondAttribute="bottom" id="E2N-vY-3di"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="BiA-1P-8nD" secondAttribute="trailing" id="Ged-fm-BGd"/>
+                            <constraint firstItem="sTx-Qq-heQ" firstAttribute="leading" secondItem="Fjg-Ct-eBH" secondAttribute="leadingMargin" id="JV7-mG-L9Q"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="sTx-Qq-heQ" secondAttribute="trailing" id="UWM-qw-QNX"/>
+                            <constraint firstItem="2K2-zq-W8Z" firstAttribute="top" secondItem="sTx-Qq-heQ" secondAttribute="bottom" id="hob-4j-pJv"/>
+                            <constraint firstItem="2K2-zq-W8Z" firstAttribute="top" secondItem="BiA-1P-8nD" secondAttribute="bottom" id="jEm-gC-a2P"/>
+                            <constraint firstItem="BiA-1P-8nD" firstAttribute="leading" secondItem="Fjg-Ct-eBH" secondAttribute="leadingMargin" id="p0a-ac-wyP"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="closeButton" destination="sTx-Qq-heQ" id="W2n-T5-6bd"/>
+                        <outlet property="datePicker" destination="BiA-1P-8nD" id="zFe-2h-fE3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gWe-Gu-1ft" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2133.5999999999999" y="2316.7916041979011"/>
+        </scene>
         <!--詳細-->
         <scene sceneID="mkq-QS-BJ3">
             <objects>
-                <viewController id="OIb-cA-Nms" customClass="DetailViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailViewController" id="OIb-cA-Nms" customClass="DetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="E9t-Lw-4YN"/>
                         <viewControllerLayoutGuide type="bottom" id="jYW-A2-nIk"/>
@@ -541,7 +690,7 @@
         <!--Favorite Tab View Controller-->
         <scene sceneID="Fib-dA-Tab">
             <objects>
-                <viewController id="en2-bX-7N1" customClass="FavoriteTabViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FavoriteTabViewController" id="en2-bX-7N1" customClass="FavoriteTabViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Jme-Tj-f47"/>
                         <viewControllerLayoutGuide type="bottom" id="LB9-uZ-J9o"/>

@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A8EEF301D981DE30036CDDA /* NotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8EEF2F1D981DE30036CDDA /* NotificationViewController.m */; };
+		6A8EEF331D9822850036CDDA /* PlaceNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8EEF321D9822850036CDDA /* PlaceNameViewController.m */; };
+		6A8EEF4A1D9824B30036CDDA /* DatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8EEF491D9824B30036CDDA /* DatePickerViewController.m */; };
+		6A8EEF4E1D9828360036CDDA /* SwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8EEF4C1D9828360036CDDA /* SwitchTableViewCell.m */; };
+		6A8EEF4F1D9828360036CDDA /* SwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8EEF4D1D9828360036CDDA /* SwitchTableViewCell.xib */; };
+		6A8EEF531D9828560036CDDA /* PlaceNameTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8EEF511D9828560036CDDA /* PlaceNameTableViewCell.m */; };
+		6A8EEF541D9828560036CDDA /* PlaceNameTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8EEF521D9828560036CDDA /* PlaceNameTableViewCell.xib */; };
+		6A8EEF581D9828790036CDDA /* TimeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8EEF561D9828790036CDDA /* TimeTableViewCell.m */; };
+		6A8EEF591D9828790036CDDA /* TimeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8EEF571D9828790036CDDA /* TimeTableViewCell.xib */; };
 		7F5421CED4E85844C3D217C7 /* libPods-WeatherForecastAppUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EF0D5081BBE65F9CB7263B /* libPods-WeatherForecastAppUITests.a */; };
 		8A2587261D7E7E3600530776 /* DailyForecastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A2587251D7E7E3600530776 /* DailyForecastView.xib */; };
 		8A2587291D7E7E5A00530776 /* DailyForecastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A2587281D7E7E5A00530776 /* DailyForecastView.m */; };
@@ -59,6 +68,21 @@
 		00EF0D5081BBE65F9CB7263B /* libPods-WeatherForecastAppUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeatherForecastAppUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F2FCA2597D5343C2E284187 /* Pods-WeatherForecastAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherForecastAppUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherForecastAppUITests/Pods-WeatherForecastAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		45EFAF583178B5832B1CBF76 /* Pods-WeatherForecastApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherForecastApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherForecastApp/Pods-WeatherForecastApp.debug.xcconfig"; sourceTree = "<group>"; };
+		6A8EEF2E1D981DE30036CDDA /* NotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationViewController.h; sourceTree = "<group>"; };
+		6A8EEF2F1D981DE30036CDDA /* NotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationViewController.m; sourceTree = "<group>"; };
+		6A8EEF311D9822850036CDDA /* PlaceNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceNameViewController.h; sourceTree = "<group>"; };
+		6A8EEF321D9822850036CDDA /* PlaceNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceNameViewController.m; sourceTree = "<group>"; };
+		6A8EEF481D9824B30036CDDA /* DatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerViewController.h; sourceTree = "<group>"; };
+		6A8EEF491D9824B30036CDDA /* DatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerViewController.m; sourceTree = "<group>"; };
+		6A8EEF4B1D9828360036CDDA /* SwitchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchTableViewCell.h; sourceTree = "<group>"; };
+		6A8EEF4C1D9828360036CDDA /* SwitchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchTableViewCell.m; sourceTree = "<group>"; };
+		6A8EEF4D1D9828360036CDDA /* SwitchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SwitchTableViewCell.xib; sourceTree = "<group>"; };
+		6A8EEF501D9828560036CDDA /* PlaceNameTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceNameTableViewCell.h; sourceTree = "<group>"; };
+		6A8EEF511D9828560036CDDA /* PlaceNameTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceNameTableViewCell.m; sourceTree = "<group>"; };
+		6A8EEF521D9828560036CDDA /* PlaceNameTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaceNameTableViewCell.xib; sourceTree = "<group>"; };
+		6A8EEF551D9828790036CDDA /* TimeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeTableViewCell.h; sourceTree = "<group>"; };
+		6A8EEF561D9828790036CDDA /* TimeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeTableViewCell.m; sourceTree = "<group>"; };
+		6A8EEF571D9828790036CDDA /* TimeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimeTableViewCell.xib; sourceTree = "<group>"; };
 		6BF08F1792209379C92DDF7A /* libPods-WeatherForecastAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeatherForecastAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A2587251D7E7E3600530776 /* DailyForecastView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DailyForecastView.xib; sourceTree = "<group>"; };
 		8A2587271D7E7E5A00530776 /* DailyForecastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyForecastView.h; sourceTree = "<group>"; };
@@ -144,6 +168,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6A8EEF2D1D981DAF0036CDDA /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				6A8EEF2E1D981DE30036CDDA /* NotificationViewController.h */,
+				6A8EEF2F1D981DE30036CDDA /* NotificationViewController.m */,
+				6A8EEF4B1D9828360036CDDA /* SwitchTableViewCell.h */,
+				6A8EEF4C1D9828360036CDDA /* SwitchTableViewCell.m */,
+				6A8EEF4D1D9828360036CDDA /* SwitchTableViewCell.xib */,
+				6A8EEF501D9828560036CDDA /* PlaceNameTableViewCell.h */,
+				6A8EEF511D9828560036CDDA /* PlaceNameTableViewCell.m */,
+				6A8EEF521D9828560036CDDA /* PlaceNameTableViewCell.xib */,
+				6A8EEF551D9828790036CDDA /* TimeTableViewCell.h */,
+				6A8EEF561D9828790036CDDA /* TimeTableViewCell.m */,
+				6A8EEF571D9828790036CDDA /* TimeTableViewCell.xib */,
+				6A8EEF481D9824B30036CDDA /* DatePickerViewController.h */,
+				6A8EEF491D9824B30036CDDA /* DatePickerViewController.m */,
+				6A8EEF311D9822850036CDDA /* PlaceNameViewController.h */,
+				6A8EEF321D9822850036CDDA /* PlaceNameViewController.m */,
+			);
+			name = Notification;
+			sourceTree = "<group>";
+		};
 		8A3E2B381D82552200D72A2F /* DetailView */ = {
 			isa = PBXGroup;
 			children = (
@@ -198,6 +244,7 @@
 		8A83DAF61D8BCB3500C5CC08 /* OtherView */ = {
 			isa = PBXGroup;
 			children = (
+				6A8EEF2D1D981DAF0036CDDA /* Notification */,
 				8A83DAEC1D8B948300C5CC08 /* HistoryViewController.h */,
 				8A83DAED1D8B948300C5CC08 /* HistoryViewController.m */,
 				8A83DAEF1D8B996800C5CC08 /* OtherTabViewController.h */,
@@ -416,7 +463,10 @@
 				8ADC2AFD1D742425000EE9B3 /* LaunchScreen.storyboard in Resources */,
 				8ADC2AFA1D742425000EE9B3 /* Assets.xcassets in Resources */,
 				8A962E7F1D80E4610007913D /* Location.db in Resources */,
+				6A8EEF541D9828560036CDDA /* PlaceNameTableViewCell.xib in Resources */,
 				8ADC2AF51D742425000EE9B3 /* Main.storyboard in Resources */,
+				6A8EEF4F1D9828360036CDDA /* SwitchTableViewCell.xib in Resources */,
+				6A8EEF591D9828790036CDDA /* TimeTableViewCell.xib in Resources */,
 				8A2587261D7E7E3600530776 /* DailyForecastView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -565,21 +615,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A8EEF4A1D9824B30036CDDA /* DatePickerViewController.m in Sources */,
 				8A56335C1D7950EA00206C8A /* ThreeHourForecastView.m in Sources */,
 				8A9270C71D7FE99700CC462E /* MapViewController.m in Sources */,
+				6A8EEF301D981DE30036CDDA /* NotificationViewController.m in Sources */,
 				8ADC2AEF1D742424000EE9B3 /* AppDelegate.m in Sources */,
 				8ADC2AEC1D742424000EE9B3 /* main.m in Sources */,
+				6A8EEF331D9822850036CDDA /* PlaceNameViewController.m in Sources */,
 				8A3E2B371D823FA100D72A2F /* CurrentWeatherData.m in Sources */,
 				8A83DAF11D8B996800C5CC08 /* OtherTabViewController.m in Sources */,
+				6A8EEF531D9828560036CDDA /* PlaceNameTableViewCell.m in Sources */,
 				8A83DAF41D8BA7D900C5CC08 /* History.m in Sources */,
 				8A83DAEE1D8B948300C5CC08 /* HistoryViewController.m in Sources */,
 				8A9270C41D7FE98D00CC462E /* CustomAnnotation.m in Sources */,
 				8A2587291D7E7E5A00530776 /* DailyForecastView.m in Sources */,
+				6A8EEF4E1D9828360036CDDA /* SwitchTableViewCell.m in Sources */,
 				8AB16D4F1D77A9E700BCF000 /* FavoriteTabViewController.m in Sources */,
 				8AFA8C0C1D892C4F00F6F30F /* CustomButton.m in Sources */,
 				8ADC2AF81D742425000EE9B3 /* WeatherForecastApp.xcdatamodeld in Sources */,
 				8A3E2B3E1D82694E00D72A2F /* APICommunication.m in Sources */,
 				8A7AB77F1D7CEE8A00B5A640 /* DetailViewController.m in Sources */,
+				6A8EEF581D9828790036CDDA /* TimeTableViewCell.m in Sources */,
 				8A7AB7851D7CFC6C00B5A640 /* FavoritePlaces.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
