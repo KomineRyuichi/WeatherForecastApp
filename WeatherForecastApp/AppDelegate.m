@@ -21,10 +21,6 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    NSDictionary* userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-    if (userInfo != nil) {
-        [self showDetailViewController];
-    }
     firstBool = NO;
     flag = NO;
     return YES;
@@ -42,8 +38,27 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    [self showDetailViewController];
-    if(flag || firstBool==NO){
+    
+    flag = NO;
+//    if(flag){
+//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//        DetailViewController *detailController = [storyboard instantiateViewControllerWithIdentifier:@"DetailViewController"];
+//        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+//        detailController.placeName = [ud objectForKey:@"KEY_place"];
+//        detailController.detailLatitude = [[ud objectForKey:@"KEY_latitude"]doubleValue];
+//        detailController.detailLongitude = [[ud objectForKey:@"KEY_longitude"]doubleValue];
+//        UITabBarController *tabBarContoroller = [[UITabBarController alloc]init];
+//        tabBarContoroller = (UITabBarController*)self.window.rootViewController;
+//        tabBarContoroller.selectedIndex = 0;
+//        [tabBarContoroller.selectedViewController pushViewController:detailController animated:YES];
+//    }
+    //firstBool = YES;
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    if(flag){
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         DetailViewController *detailController = [storyboard instantiateViewControllerWithIdentifier:@"DetailViewController"];
         NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
@@ -54,12 +69,7 @@
         tabBarContoroller = (UITabBarController*)self.window.rootViewController;
         tabBarContoroller.selectedIndex = 0;
         [tabBarContoroller.selectedViewController pushViewController:detailController animated:YES];
-        }
-    firstBool = YES;
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -155,25 +165,12 @@
 
 //バナーの通知から起動した時に呼ばれる
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-    NSLog(@"didReceiveLocalNotification");
-//    if(application.applicationState == UIApplicationStateActive) {
-//        //※フォアグラウンドで起動中はバナーは出ない→アラートなどを出す
-//        NSLog(@"フォアグラウンドで起動中に通知を受信");
-//    }
-    
     if(application.applicationState == UIApplicationStateInactive) {
-        NSLog(@"バックグラウンドで起動中に通知を受信、バナーをタップ");
         flag = YES;
     }
     // 通常、削除の処理を行う
     [[UIApplication sharedApplication] cancelLocalNotification:notification];
 }
-- (void)showDetailViewController{
-    //DetailViewController *controller = [[DetailViewController alloc] init];
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"DetailViewController"];
-    //self.window.rootViewController.selectedIndex = 0;
-    [self.window.rootViewController.navigationController pushViewController:controller animated:YES];
-}
+
 
 @end

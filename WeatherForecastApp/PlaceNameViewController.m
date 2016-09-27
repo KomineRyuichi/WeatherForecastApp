@@ -27,7 +27,7 @@
     _placeNameTableView.delegate = self;
     favoritePlaces = [NSMutableArray array];
     // contectの設定
-    AppDelegate *appDelegate = [UIApplication.sharedApplication delegate];
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication.sharedApplication delegate];
     self.context = [appDelegate managedObjectContext];
     [self getFavoritePlace];
 }
