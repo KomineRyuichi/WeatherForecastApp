@@ -24,23 +24,24 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O5G-hu-xwa">
-                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="未選択" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="S6T-JV-gT4">
                         <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
                 </subviews>
                 <constraints>
                     <constraint firstItem="PF7-aH-obR" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="58Q-Cq-pkd"/>
+                    <constraint firstItem="S6T-JV-gT4" firstAttribute="leading" secondItem="PF7-aH-obR" secondAttribute="trailing" constant="11" id="5uQ-Sv-cJ7"/>
                     <constraint firstItem="PF7-aH-obR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="3" id="CiE-lf-hN1"/>
-                    <constraint firstItem="O5G-hu-xwa" firstAttribute="leading" secondItem="PF7-aH-obR" secondAttribute="trailing" constant="38" id="Dc7-Rh-bqO"/>
-                    <constraint firstItem="PF7-aH-obR" firstAttribute="baseline" secondItem="O5G-hu-xwa" secondAttribute="baseline" id="E1g-N1-HlN"/>
                     <constraint firstItem="PF7-aH-obR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="20" id="F6t-SE-yX8"/>
-                    <constraint firstItem="PF7-aH-obR" firstAttribute="top" secondItem="O5G-hu-xwa" secondAttribute="top" id="Kw6-fW-Yts"/>
+                    <constraint firstAttribute="trailing" secondItem="S6T-JV-gT4" secondAttribute="trailing" id="a91-mG-vKF"/>
+                    <constraint firstItem="S6T-JV-gT4" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-1" id="eUG-dB-O8V"/>
+                    <constraint firstItem="S6T-JV-gT4" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="wYu-Wn-5Ru"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="timeLabel" destination="O5G-hu-xwa" id="KMR-x0-Ob6"/>
+                <outlet property="timeTextField" destination="S6T-JV-gT4" id="F3g-Lq-qt8"/>
                 <outlet property="titleLabel" destination="PF7-aH-obR" id="31D-iU-uTF"/>
             </connections>
         </tableViewCell>
