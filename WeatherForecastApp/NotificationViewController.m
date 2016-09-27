@@ -39,6 +39,7 @@
     [super viewDidLoad];
     _notificationTableView.delegate = self;
     _notificationTableView.dataSource = self;
+    self.notificationTableView.estimatedRowHeight = 73.0f;
     //カスタムセルを指定
     UINib *nib1 = [UINib nibWithNibName:@"SwitchTableViewCell" bundle:nil];
     [self.notificationTableView registerNib:nib1 forCellReuseIdentifier:@"notificationTableCell1"];
@@ -133,6 +134,7 @@
             placeLongitude = longitude;
             //UserDefaults
             [self saveData:@"place"];
+            [self switchChanged:onOffCell.onOffSwitch];
         };
     }else{
         DatePickerViewController *datePickerViewController = segue.destinationViewController;
@@ -145,6 +147,7 @@
             notificationDate = date;
             //UserDefaults
             [self saveData:@"time"];
+            [self switchChanged:onOffCell.onOffSwitch];
         };
     }
 }
@@ -233,6 +236,7 @@
 }
 //③スケジューリング
 -(void)createSchedule{
+    [[UIApplication sharedApplication] cancelLocalNotification:notificationObject];
     [[UIApplication sharedApplication] scheduleLocalNotification:notificationObject];
     NSLog(@"③スケジューリング完了");
 }
@@ -270,6 +274,8 @@
     }else if([flag isEqualToString:@"place"]){
         // 地名をKEY_placeキーで保存
         [ud setObject:placeName forKey:@"KEY_place"];
+        [ud setObject:placeLatitude forKey:@"KEY_latitude"];
+        [ud setObject:placeLongitude forKey:@"KEY_longitude"];
         [ud synchronize];
     }else if([flag isEqualToString:@"time"]){
         // 通知時間をKEY_timeキーで保存
