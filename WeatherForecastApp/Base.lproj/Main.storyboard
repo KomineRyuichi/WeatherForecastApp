@@ -573,7 +573,7 @@
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4ki-7o-Ypa"/>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ICa-aW-hST">
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="80" id="fYC-vT-Q2I"/>
+                                                    <constraint firstAttribute="width" constant="86" id="fYC-vT-Q2I"/>
                                                     <constraint firstAttribute="height" constant="24" id="tXY-Uj-ElR"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -594,7 +594,7 @@
                                             <constraint firstItem="ICa-aW-hST" firstAttribute="leading" secondItem="RVO-UR-hAK" secondAttribute="trailing" constant="8" symbolic="YES" id="2ZM-ol-CPc"/>
                                             <constraint firstItem="3zh-kU-5Mp" firstAttribute="leading" secondItem="4ki-7o-Ypa" secondAttribute="trailing" constant="23" id="8xm-QM-kBJ"/>
                                             <constraint firstItem="3zh-kU-5Mp" firstAttribute="centerX" secondItem="l6v-UP-VFG" secondAttribute="centerX" constant="117" id="FW5-VT-t5Z"/>
-                                            <constraint firstItem="ICa-aW-hST" firstAttribute="centerX" secondItem="l6v-UP-VFG" secondAttribute="centerX" constant="-45" id="G5b-qc-IEo"/>
+                                            <constraint firstItem="ICa-aW-hST" firstAttribute="centerX" secondItem="l6v-UP-VFG" secondAttribute="centerX" constant="-42" id="G5b-qc-IEo"/>
                                             <constraint firstItem="ICa-aW-hST" firstAttribute="centerY" secondItem="l6v-UP-VFG" secondAttribute="centerY" id="LrF-o3-esK"/>
                                             <constraint firstItem="4ki-7o-Ypa" firstAttribute="centerX" secondItem="l6v-UP-VFG" secondAttribute="centerX" constant="41.5" id="ORq-IX-Faa"/>
                                             <constraint firstItem="RVO-UR-hAK" firstAttribute="top" secondItem="4ki-7o-Ypa" secondAttribute="top" id="T4k-tW-lkS"/>
@@ -688,7 +688,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3WF-Hi-amE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1104" y="64"/>
+            <point key="canvasLocation" x="1102.8985507246377" y="63.586956521739133"/>
         </scene>
         <!--Favorite Tab View Controller-->
         <scene sceneID="Fib-dA-Tab">
