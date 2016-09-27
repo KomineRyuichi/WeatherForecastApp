@@ -25,6 +25,7 @@
     [super viewDidLoad];
     _placeNameTableView.dataSource = self;
     _placeNameTableView.delegate = self;
+    self.placeNameTableView.estimatedRowHeight = 73.0f;
     favoritePlaces = [NSMutableArray array];
     // contectの設定
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication.sharedApplication delegate];
@@ -40,6 +41,7 @@
     cell = [self.placeNameTableView dequeueReusableCellWithIdentifier:@"placeNameCell"];
     dic = [favoritePlaces objectAtIndex:indexPath.row];
     cell.textLabel.text = [dic objectForKey:@"placeName"];
+    cell.textLabel.font = [UIFont fontWithName:@"Arial" size:24];
     return cell;
 }
 
