@@ -355,6 +355,7 @@
     cellExpansinOpenFlag = cell.cellExpansionButton.selected;
     
     if(cell.cellExpansionButton.selected) {
+        [forecastData removeAllObjects];
         double latitude = [[[favoritePlaces objectAtIndex:selectedCellIndexPath.row] objectForKey:@"placeLatitude"] doubleValue];
         double longitude = [[[favoritePlaces objectAtIndex:selectedCellIndexPath.row] objectForKey:@"placeLongitude"]doubleValue];
         [self.indicator startAnimating];
