@@ -47,14 +47,6 @@
     [self.notificationTableView registerNib:nib2 forCellReuseIdentifier:@"notificationTableCell2"];
     UINib *nib3 = [UINib nibWithNibName:@"TimeTableViewCell" bundle:nil];
     [self.notificationTableView registerNib:nib3 forCellReuseIdentifier:@"notificationTableCell3"];
-    
-    //スイッチの初期値がONならswitchChanged:を呼んで、起動時にも通知が設定されるようにする
-    //最終的にはお気に入り画面からswitchChanged:を呼ぶ？
-//    NSLog(@"てすと：%d",[[self readData:@"switch"]boolValue]);
-//    if([[self readData:@"switch"]boolValue]){
-//        NSLog(@"switchChanged:呼び出し！");
-//        [self switchChanged:[[self readData:@"switch"]boolValue]];
-//    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -67,6 +59,7 @@
             //onOffCell = [[onOffTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"onOffTableViewCell"];
             onOffCell = [_notificationTableView dequeueReusableCellWithIdentifier:@"notificationTableCell1"];
             onOffCell.onOffSwitch.on = [[self readData:@"switch"] boolValue];
+            onOffCell.textLabel.font = [UIFont fontWithName:@"Arial" size:24];
             [onOffCell.onOffSwitch addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
             return onOffCell;
             break;
@@ -81,6 +74,8 @@
                 placeText = @"未設定";
             }
             placeNameCell.placeNameLabel.text = placeText;
+            placeNameCell.textLabel.font = [UIFont fontWithName:@"Arial" size:24];
+            placeNameCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             return placeNameCell;
             break;
         }
@@ -97,6 +92,8 @@
                 timeText = @"未設定";
             }
             timeCell.timeLabel.text = timeText;
+            timeCell.textLabel.font = [UIFont fontWithName:@"Arial" size:24];
+            timeCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             return timeCell;
             break;
         }
