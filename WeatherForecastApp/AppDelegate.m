@@ -31,7 +31,6 @@
         // キャッシュを削除
         [NSURLCache sharedURLCache].memoryCapacity = 0;
         [NSURLCache sharedURLCache].diskCapacity = 0;
-        NSLog(@"タイマー：キャッシュ削除");
     }];
     [timer fire];
     return YES;
