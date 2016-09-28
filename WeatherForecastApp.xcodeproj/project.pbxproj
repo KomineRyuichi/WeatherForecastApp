@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		6A8EEF301D981DE30036CDDA /* NotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8EEF2F1D981DE30036CDDA /* NotificationViewController.m */; };
 		6A8EEF331D9822850036CDDA /* PlaceNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8EEF321D9822850036CDDA /* PlaceNameViewController.m */; };
-		6A8EEF4A1D9824B30036CDDA /* DatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8EEF491D9824B30036CDDA /* DatePickerViewController.m */; };
 		6A8EEF4E1D9828360036CDDA /* SwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8EEF4C1D9828360036CDDA /* SwitchTableViewCell.m */; };
 		6A8EEF4F1D9828360036CDDA /* SwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8EEF4D1D9828360036CDDA /* SwitchTableViewCell.xib */; };
 		6A8EEF531D9828560036CDDA /* PlaceNameTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8EEF511D9828560036CDDA /* PlaceNameTableViewCell.m */; };
@@ -73,8 +72,6 @@
 		6A8EEF2F1D981DE30036CDDA /* NotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationViewController.m; sourceTree = "<group>"; };
 		6A8EEF311D9822850036CDDA /* PlaceNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceNameViewController.h; sourceTree = "<group>"; };
 		6A8EEF321D9822850036CDDA /* PlaceNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceNameViewController.m; sourceTree = "<group>"; };
-		6A8EEF481D9824B30036CDDA /* DatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerViewController.h; sourceTree = "<group>"; };
-		6A8EEF491D9824B30036CDDA /* DatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerViewController.m; sourceTree = "<group>"; };
 		6A8EEF4B1D9828360036CDDA /* SwitchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchTableViewCell.h; sourceTree = "<group>"; };
 		6A8EEF4C1D9828360036CDDA /* SwitchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchTableViewCell.m; sourceTree = "<group>"; };
 		6A8EEF4D1D9828360036CDDA /* SwitchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SwitchTableViewCell.xib; sourceTree = "<group>"; };
@@ -187,8 +184,6 @@
 				6A8EEF551D9828790036CDDA /* TimeTableViewCell.h */,
 				6A8EEF561D9828790036CDDA /* TimeTableViewCell.m */,
 				6A8EEF571D9828790036CDDA /* TimeTableViewCell.xib */,
-				6A8EEF481D9824B30036CDDA /* DatePickerViewController.h */,
-				6A8EEF491D9824B30036CDDA /* DatePickerViewController.m */,
 				6A8EEF311D9822850036CDDA /* PlaceNameViewController.h */,
 				6A8EEF321D9822850036CDDA /* PlaceNameViewController.m */,
 			);
@@ -620,7 +615,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A8EEF4A1D9824B30036CDDA /* DatePickerViewController.m in Sources */,
 				8A56335C1D7950EA00206C8A /* ThreeHourForecastView.m in Sources */,
 				8A9270C71D7FE99700CC462E /* MapViewController.m in Sources */,
 				6A8EEF301D981DE30036CDDA /* NotificationViewController.m in Sources */,

@@ -24,7 +24,7 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xvg-BJ-G71">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="さいたま市" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xvg-BJ-G71">
                         <constraints>
                             <constraint firstAttribute="width" constant="122" id="PEY-cR-oKw"/>
                             <constraint firstAttribute="height" constant="22" id="rxw-ke-V3j"/>
@@ -35,11 +35,11 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Xvg-BJ-G71" firstAttribute="leading" secondItem="vrE-gd-gie" secondAttribute="trailing" constant="8" id="6C2-7j-1XJ"/>
                     <constraint firstItem="vrE-gd-gie" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="3" id="VBR-jG-qLj"/>
                     <constraint firstItem="vrE-gd-gie" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="WE4-c1-A16"/>
                     <constraint firstItem="vrE-gd-gie" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="20" id="X4d-w9-xFm"/>
                     <constraint firstItem="vrE-gd-gie" firstAttribute="baseline" secondItem="Xvg-BJ-G71" secondAttribute="baseline" id="cFH-N4-Mvc"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Xvg-BJ-G71" secondAttribute="trailing" id="hxG-xd-NNO"/>
                     <constraint firstItem="vrE-gd-gie" firstAttribute="top" secondItem="Xvg-BJ-G71" secondAttribute="top" id="xNu-6q-daB"/>
                 </constraints>
             </tableViewCellContentView>
