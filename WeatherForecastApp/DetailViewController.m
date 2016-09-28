@@ -78,11 +78,12 @@
     [self.favoriteButton setImage:[UIImage imageNamed:@"AddFavorite"] forState:UIControlStateSelected];
     
     // 読み込み中暗転用ビュー
-    loadingView = [[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-50, self.view.center.y-50, 100, 100)];
+    loadingView = [[UIView alloc] initWithFrame:self.view.bounds];
+    //CGRectMake(self.view.center.x-50, self.view.center.y-50, 100, 100)];
     loadingView.backgroundColor = [UIColor blackColor];
     loadingView.alpha = 0.5f;
-    loadingView.layer.cornerRadius = 5;
-    loadingView.clipsToBounds = YES;
+//    loadingView.layer.cornerRadius = 5;
+//    loadingView.clipsToBounds = YES;
     
     currentWeatherData = [CurrentWeatherData getInstance];
     
