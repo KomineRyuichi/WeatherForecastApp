@@ -23,10 +23,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *temperatureLabel;
 @property (weak, nonatomic) IBOutlet UIButton *cellExpansionButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *cellIndicator;
 
-- (void)startLoad;
-- (void)stopLoad;
 @end
 
 @implementation WeatherSummaryCell
@@ -46,16 +43,6 @@
     [self.cellExpansionButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateSelected];
 }
 
-- (void)startLoad {
-    [self.cellIndicator startAnimating];
-    [self addSubview:cellLoadingView];
-    [self bringSubviewToFront:_cellIndicator];
-}
-
-- (void)stopLoad {
-    [self.cellIndicator stopAnimating];
-    [cellLoadingView removeFromSuperview];
-}
 
 @end
 
@@ -384,7 +371,6 @@
         [forecastData removeAllObjects];
         double latitude = [[[favoritePlaces objectAtIndex:selectedCellIndexPath.row] objectForKey:@"placeLatitude"] doubleValue];
         double longitude = [[[favoritePlaces objectAtIndex:selectedCellIndexPath.row] objectForKey:@"placeLongitude"]doubleValue];
-        //[cell startLoad];
         // インジケーターくるくるスタート
         [self.indicator startAnimating];
         [self.view addSubview:loadingView];
@@ -395,7 +381,7 @@
         [apiCommunication startAPICommunication:@"forecast" :latitude :longitude :^(NSDictionary *result, BOOL networkOfflineFlag, BOOL apiRegulationFlag){
         
             if(networkOfflineFlag || apiRegulationFlag) {
-                [cell stopLoad];
+                [self stopIndicator];
                 if(networkOfflineFlag) {
                     [self alertNetworkError];
                 } else if (apiRegulationFlag) {
@@ -406,7 +392,6 @@
                     [forecastData addObject:[[result objectForKey:@"list"] objectAtIndex:i]];
                 }
                 [self.tableView reloadData];
-               // [cell stopLoad];
                 [self stopIndicator];
             }
         }];
