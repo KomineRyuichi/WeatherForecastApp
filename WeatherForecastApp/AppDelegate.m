@@ -12,6 +12,7 @@
 
 @interface AppDelegate ()
 {
+    NSTimer *timer;
     BOOL firstBool;
     BOOL flag;
 }
@@ -21,8 +22,18 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     firstBool = NO;
     flag = NO;
+    
+    // アプリ起動中は3時間ごとにキャッシュ削除(3時間ごとに予報が更新されるため)
+    timer = [NSTimer scheduledTimerWithTimeInterval:10800.0f repeats:YES block:^(NSTimer *timer){
+        // キャッシュを削除
+        [NSURLCache sharedURLCache].memoryCapacity = 0;
+        [NSURLCache sharedURLCache].diskCapacity = 0;
+        NSLog(@"タイマー：キャッシュ削除");
+    }];
+    [timer fire];
     return YES;
 }
 
@@ -63,6 +74,8 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
+    
+    [timer invalidate];
     [self saveContext];
 }
 

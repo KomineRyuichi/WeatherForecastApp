@@ -13,22 +13,48 @@
 #import "FavoritePlaces.h"
 #import "APICommunication.h"
 #import "CurrentWeatherData.h"
+#import <QuartzCore/QuartzCore.h>
 
-@interface WeatherSummaryCell : UITableViewCell
+@interface WeatherSummaryCell : UITableViewCell {
+    UIView *cellLoadingView;
+}
 @property (weak, nonatomic) IBOutlet UIImageView *todayWeatherIconImage;
 @property (weak, nonatomic) IBOutlet UILabel *placeNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *temperatureLabel;
 @property (weak, nonatomic) IBOutlet UIButton *cellExpansionButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *cellIndicator;
+
+- (void)startLoad;
+- (void)stopLoad;
 @end
 
 @implementation WeatherSummaryCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    
+    // ロード時の暗転処理用のview
+    cellLoadingView = [[UIView alloc] initWithFrame:CGRectMake(self.scrollView.center.x-25, self.scrollView.center.y-25, 50, 50)];
+    cellLoadingView.backgroundColor = [UIColor blackColor];
+    cellLoadingView.alpha = 0.5f;
+    cellLoadingView.layer.cornerRadius = 5;
+    cellLoadingView.clipsToBounds = YES;
+
     self.temperatureLabel.text = @"　℃";
     [self.cellExpansionButton setImage:[UIImage imageNamed:@"open"] forState:UIControlStateNormal];
     [self.cellExpansionButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateSelected];
+}
+
+- (void)startLoad {
+    [self.cellIndicator startAnimating];
+    [self addSubview:cellLoadingView];
+    [self bringSubviewToFront:_cellIndicator];
+}
+
+- (void)stopLoad {
+    [self.cellIndicator stopAnimating];
+    [cellLoadingView removeFromSuperview];
 }
 
 @end
@@ -107,9 +133,11 @@
     [apiAlertController addAction:action];
     
     // ロード時の暗転処理用のview
-    loadingView = [[UIView alloc] initWithFrame:self.view.bounds];
+    loadingView = [[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-50, self.view.center.y-50, 100, 100)];
     loadingView.backgroundColor = [UIColor blackColor];
     loadingView.alpha = 0.5f;
+    loadingView.layer.cornerRadius = 5;
+    loadingView.clipsToBounds = YES;
     
     apiCommunication = [[APICommunication alloc] init];
     currentWeatherData = [CurrentWeatherData getInstance];
@@ -317,12 +345,10 @@
 
 // 編集スタイル
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     return self.tableView.editing ? UITableViewCellEditingStyleDelete : UITableViewCellEditingStyleNone;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    //WeatherSummaryCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     float height = [[cellHeightData objectAtIndex:indexPath.row] floatValue];
     
     [cellHeightData replaceObjectAtIndex:indexPath.row withObject:@(height)];
@@ -358,6 +384,8 @@
         [forecastData removeAllObjects];
         double latitude = [[[favoritePlaces objectAtIndex:selectedCellIndexPath.row] objectForKey:@"placeLatitude"] doubleValue];
         double longitude = [[[favoritePlaces objectAtIndex:selectedCellIndexPath.row] objectForKey:@"placeLongitude"]doubleValue];
+        //[cell startLoad];
+        // インジケーターくるくるスタート
         [self.indicator startAnimating];
         [self.view addSubview:loadingView];
         [self.view bringSubviewToFront:_indicator];
@@ -367,7 +395,7 @@
         [apiCommunication startAPICommunication:@"forecast" :latitude :longitude :^(NSDictionary *result, BOOL networkOfflineFlag, BOOL apiRegulationFlag){
         
             if(networkOfflineFlag || apiRegulationFlag) {
-                [self stopIndicator];
+                [cell stopLoad];
                 if(networkOfflineFlag) {
                     [self alertNetworkError];
                 } else if (apiRegulationFlag) {
@@ -378,6 +406,7 @@
                     [forecastData addObject:[[result objectForKey:@"list"] objectAtIndex:i]];
                 }
                 [self.tableView reloadData];
+               // [cell stopLoad];
                 [self stopIndicator];
             }
         }];

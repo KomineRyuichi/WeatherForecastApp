@@ -67,6 +67,7 @@
             handler(jsonData, networkOfflineFlag, apiRegulationsFlag);
         }
     }];
+    
     // タスクの実行
     [dataTask resume];
 }
