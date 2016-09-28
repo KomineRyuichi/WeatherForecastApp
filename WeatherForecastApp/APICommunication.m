@@ -11,6 +11,8 @@
 
 
 @implementation APICommunication {
+    NSMutableArray *dataTasks;
+    NSURLSessionDataTask *dataTask;
     NSDictionary *jsonData;
     BOOL networkOfflineFlag;
     BOOL apiRegulationsFlag;
@@ -19,6 +21,8 @@
 // 初期化メソッド
 - (instancetype)init {
     self = [super init];
+    
+    dataTasks = [NSMutableArray array];
     return self;
 }
 
@@ -33,17 +37,18 @@
     // Requestの設定
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
-    [request setCachePolicy:NSURLRequestReturnCacheDataElseLoad];
-    [request setTimeoutInterval:60];
+//    [request setCachePolicy:NSURLRequestReturnCacheDataElseLoad];
+    [request setTimeoutInterval:15];
     
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     
     // DataTaskの生成
-    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+    dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
         
         // エラー処理
-        if(error) {
+        if(error!=nil) {
+            NSLog(@"%@", error);
             networkOfflineFlag = YES;
         } else {
             networkOfflineFlag = NO;
@@ -68,8 +73,16 @@
         }
     }];
     
+    [dataTasks addObject:dataTask];
     // タスクの実行
     [dataTask resume];
+}
+
+- (void)stopAPICommunication {
+    
+    for(NSURLSessionDataTask *task in dataTasks) {
+        [task cancel];
+    }
 }
 
 @end

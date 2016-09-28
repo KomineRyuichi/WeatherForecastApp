@@ -113,7 +113,9 @@
     apiAlertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"API規制です。" preferredStyle:UIAlertControllerStyleAlert];
     
     //アラート時のアクションの設定
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {}];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self dismissViewControllerAnimated:YES completion:^{}];
+    }];
     
     // アラートにアクションを追加
     [networkAlertController addAction:action];
@@ -182,6 +184,7 @@
         [apiCommunication startAPICommunication:@"weather" :latitude :longitude :^(NSDictionary *result, BOOL networkOfflineFlag, BOOL apiRegulationFlag){
     
             if((networkOfflineFlag || apiRegulationFlag) && i == 0) {
+                [apiCommunication stopAPICommunication];
                 [self stopIndicator];
                 if(networkOfflineFlag) {
                     [self alertNetworkError];
@@ -205,11 +208,13 @@
 // 画面が消えた直後に呼ばれるメソッド
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    
+    NSLog(@"diddisapearですぞ〜〜〜");
     // 各配列の要素を削除
     [weatherData removeAllObjects];
     [forecastData removeAllObjects];
     [favoritePlaces removeAllObjects];
+    
+    //[apiCommunication stopAPICommunication];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -18,4 +18,6 @@ typedef void (^CallBackHandler)(NSDictionary *result, BOOL offlineFlag, BOOL api
 #if NS_BLOCKS_AVAILABLE
 - (void)startAPICommunication :(NSString *)resource :(double)latitude :(double)longitude :(CallBackHandler)handler;
 #endif
+
+- (void)stopAPICommunication;
 @end
