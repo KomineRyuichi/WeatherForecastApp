@@ -1,5 +1,5 @@
 //
-//  ClosePickerView.h
+//  CloseView.h
 //  WeatherForecastApp
 //
 //  Created by PCK-135-087 on 2016/09/28.
@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ClosePickerView : UIView
+@interface CloseView : UIView
 
 @property(nonatomic, weak) id target;
 @property(nonatomic, assign) SEL action;
-@end
 
+@end

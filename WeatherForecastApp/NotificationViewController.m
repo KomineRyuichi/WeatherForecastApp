@@ -7,7 +7,7 @@
 //
 
 #import "NotificationViewController.h"
-#import "ClosePickerView.h"
+#import "CloseView.h"
 #import "SwitchTableViewCell.h"
 #import "PlaceNameTableViewCell.h"
 #import "TimeTableViewCell.h"
@@ -36,7 +36,7 @@
     // ツールバー
     UIToolbar *toolBar;
 }
-@property (nonatomic) ClosePickerView *closePickerView;
+@property (nonatomic) CloseView *closeView;
 @end
 
 @implementation NotificationViewController
@@ -56,6 +56,9 @@
     
     // DatePickerの設定
     datePicker = [[UIDatePicker alloc]init];
+    // localeに日本を指定して、AM/PMから24h表示にする
+    NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"ja_JP"];
+    datePicker.locale = locale;
     [datePicker setDatePickerMode:UIDatePickerModeTime];
     [datePicker addTarget:self action:@selector(updateTextField:) forControlEvents:UIControlEventValueChanged];
     
@@ -76,12 +79,12 @@
     
     
     // Pickerを閉じるためのView作成
-    self.closePickerView = [[ClosePickerView alloc]initWithFrame:CGRectZero];
-    self.closePickerView.target = self;
-    self.closePickerView.action = @selector(hidePicker);
-    self.closePickerView.backgroundColor = [UIColor blackColor];
-    self.closePickerView.alpha = 0.1;
-    [self.view addSubview:self.closePickerView];
+    self.closeView = [[CloseView alloc]initWithFrame:CGRectZero];
+    self.closeView.target = self;
+    self.closeView.action = @selector(hidePicker);
+    self.closeView.backgroundColor = [UIColor blackColor];
+    self.closeView.alpha = 0.1;
+    [self.view addSubview:self.closeView];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -179,6 +182,8 @@
             [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             }]];
             [self presentViewController:alertController animated:YES completion:nil];
+            // アラートを出した場合はOFFのまま
+            switchParts.on = NO;
         }else{
             //UserDefaults
             [self saveData:@"switch"];
@@ -201,11 +206,19 @@
 #pragma mark - TextField
 -(BOOL)textFieldShouldBeginEditing:(UITextView *)textView{
     // closePickerViewを画面サイズに広げる
-    self.closePickerView.frame = [[UIScreen mainScreen] bounds];
+    self.closeView.frame = [[UIScreen mainScreen] bounds];
+    // datepickerを開いたとき、初期値を前回の設定値にする（UserDefaultsにデータがない場合はデフォルトの現在時刻を表示）
+    if([self readData:@"time"]!=nil){
+        datePicker.date = [self readData:@"time"];
+    }
     return YES;
 }
 -(void)updateTextField:(id)sender {
-    //picker = (UIDatePicker *)sender;
+    UIDatePicker *picker = (UIDatePicker *)sender;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    NSString *dateStr = [formatter stringFromDate:picker.date];
+    timeCell.timeTextField.text = dateStr;
 }
 -(void)pickerDoneClicked {
     UIDatePicker *picker = datePicker;
@@ -219,13 +232,18 @@
     [self saveData:@"time"];
     [self switchChanged:onOffCell.onOffSwitch];
     // closePickerViewのサイズをゼロにする
-    self.closePickerView.frame = CGRectZero;
+    self.closeView.frame = CGRectZero;
     // pickerを消す
     [timeCell.timeTextField resignFirstResponder];
 }
 -(void)hidePicker{
+    // 完了ボタン以外をタップしてPickerを閉じたとき,値は前回の設定値から変更しない
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    NSString *dateStr = [formatter stringFromDate:[self readData:@"time"]];
+    timeCell.timeTextField.text = dateStr;
     // closePickerViewのサイズをゼロにする
-    self.closePickerView.frame = CGRectZero;
+    self.closeView.frame = CGRectZero;
     // pickerを消す
     [timeCell.timeTextField resignFirstResponder];
 }

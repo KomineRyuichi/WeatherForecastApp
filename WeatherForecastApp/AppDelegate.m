@@ -169,7 +169,8 @@
         flag = YES;
     }
     // 通常、削除の処理を行う
-    [[UIApplication sharedApplication] cancelLocalNotification:notification];
+    // スイッチがオンの間は繰り返し通知を行う(?)ため、通知の削除はswitchChanged:内とcreateSchedule内でのみ行う
+    //[[UIApplication sharedApplication] cancelLocalNotification:notification];
 }
 
 
