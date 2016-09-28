@@ -7,22 +7,21 @@
 //
 
 #import "NotificationViewController.h"
+#import "ClosePickerView.h"
 #import "SwitchTableViewCell.h"
 #import "PlaceNameTableViewCell.h"
 #import "TimeTableViewCell.h"
-#import "DatePickerViewController.h"
 #import "PlaceNameViewController.h"
 
-
-@interface NotificationViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface NotificationViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 {
     UILocalNotification *notificationObject;
-    BOOL screenTransitionFlag;
     NSString *placeName;
     NSNumber *placeLatitude;
     NSNumber *placeLongitude;
     NSDate *notificationDate;
     
+    // セル
     UITableViewCell *cell;
     SwitchTableViewCell *onOffCell;
     PlaceNameTableViewCell *placeNameCell;
@@ -30,7 +29,14 @@
     
     //UserDefaultsにスイッチの状態を知らせるための変数
     BOOL notificationSwitch;
+    
+    //UIDatePicker
+    UIDatePicker *datePicker;
+    
+    // ツールバー
+    UIToolbar *toolBar;
 }
+@property (nonatomic) ClosePickerView *closePickerView;
 @end
 
 @implementation NotificationViewController
@@ -47,6 +53,35 @@
     [self.notificationTableView registerNib:nib2 forCellReuseIdentifier:@"notificationTableCell2"];
     UINib *nib3 = [UINib nibWithNibName:@"TimeTableViewCell" bundle:nil];
     [self.notificationTableView registerNib:nib3 forCellReuseIdentifier:@"notificationTableCell3"];
+    
+    // DatePickerの設定
+    datePicker = [[UIDatePicker alloc]init];
+    [datePicker setDatePickerMode:UIDatePickerModeTime];
+    [datePicker addTarget:self action:@selector(updateTextField:) forControlEvents:UIControlEventValueChanged];
+    
+    // ツールバー作成
+    toolBar = [[UIToolbar alloc]init];
+    toolBar.barStyle = UIBarStyleDefault;
+    toolBar.translucent = YES;
+    toolBar.tintColor = nil;
+    [toolBar sizeToFit];
+    
+    //完了ボタン、spacer作成
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]initWithTitle:@"完了" style:UIBarButtonItemStylePlain target:self action:@selector(pickerDoneClicked)];
+    UIBarButtonItem *spacer1 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *spacer2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    //ツールバーにボタンをセット
+    [toolBar setItems:[NSArray arrayWithObjects:spacer1, spacer2, doneButton, nil]];
+    
+    
+    // Pickerを閉じるためのView作成
+    self.closePickerView = [[ClosePickerView alloc]initWithFrame:CGRectZero];
+    self.closePickerView.target = self;
+    self.closePickerView.action = @selector(hidePicker);
+    self.closePickerView.backgroundColor = [UIColor blackColor];
+    self.closePickerView.alpha = 0.1;
+    [self.view addSubview:self.closePickerView];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -60,6 +95,7 @@
             onOffCell.onOffSwitch.on = [[self readData:@"switch"] boolValue];
             onOffCell.textLabel.font = [UIFont fontWithName:@"Arial" size:24];
             [onOffCell.onOffSwitch addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
+            onOffCell.selectionStyle = UITableViewCellSelectionStyleNone;
             return onOffCell;
             break;
         }
@@ -88,9 +124,14 @@
             if(timeText==nil){
                 timeText = @"未設定";
             }
-            timeCell.timeLabel.text = timeText;
-            timeCell.textLabel.font = [UIFont fontWithName:@"Arial" size:24];
-            timeCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            timeCell.timeTextField.text = timeText;
+            // inputViewにDatePickerをセット
+            timeCell.timeTextField.inputView = datePicker;
+            // toolBarをセット
+            timeCell.timeTextField.inputAccessoryView = toolBar;
+            timeCell.timeTextField.delegate = self;
+            timeCell.timeTextField.font = [UIFont fontWithName:@"Arial" size:24];
+            timeCell.selectionStyle = UITableViewCellSelectionStyleNone;
             return timeCell;
             break;
         }
@@ -105,19 +146,15 @@
         case 0:
             break;
         case 1:
-            screenTransitionFlag = YES;
             [self performSegueWithIdentifier:@"toPlaceNameView" sender:self];
             break;
         case 2:
-            screenTransitionFlag = NO;
-            [self performSegueWithIdentifier:@"toDatePickerView" sender:self];
             break;
     }
 }
 
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if(screenTransitionFlag){
         PlaceNameViewController *placeNameViewController = segue.destinationViewController;
         placeNameViewController.dataBlocks = ^(NSString *text,NSNumber *latitude,NSNumber *longitude){
             placeNameCell.placeNameLabel.text = text;
@@ -129,22 +166,7 @@
             [self saveData:@"place"];
             [self switchChanged:onOffCell.onOffSwitch];
         };
-    }else{
-        DatePickerViewController *datePickerViewController = segue.destinationViewController;
-        datePickerViewController.pickerBlocks = ^(NSDate *date){
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateFormat:@"HH:mm"];
-            NSString *dateStr = [formatter stringFromDate:date];
-            timeCell.timeLabel.text = dateStr;
-            //UserDefaultsでの保存に使用
-            notificationDate = date;
-            //UserDefaults
-            [self saveData:@"time"];
-            [self switchChanged:onOffCell.onOffSwitch];
-        };
-    }
 }
-
 #pragma mark - ON/OFF Switch
 //地点、時間が未設定の時はアラート？
 - (void)switchChanged:(UISwitch *)switchParts{
@@ -173,6 +195,39 @@
         // 通知のリセット
         [[UIApplication sharedApplication] cancelLocalNotification:notificationObject];
     }
+}
+
+
+#pragma mark - TextField
+-(BOOL)textFieldShouldBeginEditing:(UITextView *)textView{
+    // closePickerViewを画面サイズに広げる
+    self.closePickerView.frame = [[UIScreen mainScreen] bounds];
+    return YES;
+}
+-(void)updateTextField:(id)sender {
+    //picker = (UIDatePicker *)sender;
+}
+-(void)pickerDoneClicked {
+    UIDatePicker *picker = datePicker;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    NSString *dateStr = [formatter stringFromDate:picker.date];
+    timeCell.timeTextField.text = dateStr;
+    //UserDefaultsでの保存に使用
+    notificationDate = picker.date;
+    //UserDefaults
+    [self saveData:@"time"];
+    [self switchChanged:onOffCell.onOffSwitch];
+    // closePickerViewのサイズをゼロにする
+    self.closePickerView.frame = CGRectZero;
+    // pickerを消す
+    [timeCell.timeTextField resignFirstResponder];
+}
+-(void)hidePicker{
+    // closePickerViewのサイズをゼロにする
+    self.closePickerView.frame = CGRectZero;
+    // pickerを消す
+    [timeCell.timeTextField resignFirstResponder];
 }
 
 

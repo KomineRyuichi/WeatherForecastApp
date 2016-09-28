@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NotificationViewController : UIViewController
+@interface NotificationViewController : UIViewController<UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *notificationTableView;
 
 -(id)readData:(NSString *)flag;
