@@ -6,6 +6,7 @@
 //  Copyright © 2016年 PCK-135-089. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import "MapViewController.h"
 #import "CustomAnnotation.h"
 #import "DetailViewController.h"
@@ -38,6 +39,13 @@
     BOOL off;
     //各アラート
     UIAlertController *alertController;
+    
+    // キャッシュ削除フラグ
+    BOOL cacheDeletedFlag;
+    // AppDelegateからキャッシュ削除フラグを受け取るためのインスタンス
+    AppDelegate *appDelegate;
+    // 通信の件数をカウント
+    int numberOfCommunication;
 }
 @end
 
@@ -47,22 +55,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"お天気マップ";
+    
+    // searchbarの設定
     _searchBar.delegate = self;
     _searchBar.keyboardType = UIKeyboardTypeURL;
     
     // Delegate をセット
     _mapView.delegate = self;
+    
     // 表示する画面の中心の緯度・軽度を設定
     location.latitude = 37.68154;
     location.longitude = 137.2754;
     [self.mapView setCenterCoordinate:location animated:YES];
+    
     // 縮尺を設定
     region = self.mapView.region;
     region.center = location;
+    
     //Deltaは緯度・経度の絶対値の差
     region.span.latitudeDelta = 15;
     region.span.longitudeDelta = 8;
     [self.mapView setRegion:region animated:YES];
+    
     // viewに追加
     [self.view addSubview:self.mapView];
     
@@ -71,6 +85,10 @@
     [self.view bringSubviewToFront:_zoomOutButton];
     [self.view bringSubviewToFront:_zoomInButton];
     
+    // キャッシュ削除済みフラグを受け取るためにAppDelegateのインスタンスを取得
+    appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+    
+    // 初回通信
     [self getScaleAndLocation];
 }
 - (void)viewWillAppear:(BOOL)animated {
@@ -79,7 +97,7 @@
     //一度オフラインで呼ばれた後、オンライン状態で再び呼ばれた場合にもアイコンを表示するために通信
     //初回起動時は実行しない（viewDidLoadでもgetScaleAndLocationを呼ぶのでアラートが2回出ちゃうから）
     if(!first){
-        [self deleteIcon];
+        //[self deleteIcon];
         [self getScaleAndLocation];
     }
     first = NO;
@@ -212,6 +230,11 @@
     }
     [db close];
     
+    //通信前にAppDelegateからフラグを取得
+    cacheDeletedFlag = appDelegate.cacheDeletedFlag;
+    // 通信開始前に回数のカウントをリセット
+    numberOfCommunication = 0;
+    // resultArrayの件数分通信する
     [resultArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL* stop) {
         [self doCommunication:resultArray count:idx];
     }];
@@ -223,8 +246,9 @@
     double resultlon = [[NSString stringWithFormat:@"%@",[array[count] objectForKey:@"lon"]] doubleValue];
     //通信
     APICommunication *apiCommunication = [[APICommunication alloc] init];
-    [apiCommunication startAPICommunication:@"weather" :resultlat :resultlon :^(NSDictionary *jsonData, BOOL networkOfflineFlag, BOOL apiRegulationsFlag) {
+    [apiCommunication startAPICommunication:@"weather" :resultlat :resultlon :^(NSDictionary *jsonData, BOOL networkOfflineFlag, BOOL apiRegulationsFlag){
         if(networkOfflineFlag){
+            // オフラインの場合
             //ボタン操作による拡大縮小の場合のみアラートを表示
             if(pushButton){
                 //オフライン状態を示すフラグをオン
@@ -237,15 +261,41 @@
                 pushButton = NO;
             }
         }else{
+            // オンラインの場合
             if(apiRegulationsFlag){
+                // API規制中の場合
                 alertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"API規制です。" preferredStyle:UIAlertControllerStyleAlert];
                 [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 }]];
                 [self presentViewController:alertController animated:YES completion:nil];
             }else{
+                // API規制中でない場合
                 //オフライン状態を示すフラグをオフ
                 off = NO;
-                [self doParseData:jsonData Place:placeName Lat:resultlat Lon:resultlon];
+                NSLog(@"arrayの件数：%lu件",(unsigned long)[array count]);
+                NSLog(@"キャッシュ削除フラグ：%d",cacheDeletedFlag);
+                if(cacheDeletedFlag){
+                    // キャッシュ削除済みの場合
+                    if(numberOfCommunication==0){
+                        // 最初の通信の前にアイコン全消し
+                        NSLog(@"アイコン全消し");
+                        [self deleteIcon];
+                    }
+                    [self doParseData:jsonData Place:placeName Lat:resultlat Lon:resultlon];
+                    NSLog(@"キャッシュ削除済みなので通信");
+                    // カウントを増やす
+                    numberOfCommunication ++;
+                    NSLog(@"numberOfCommunication：%d回目完了",numberOfCommunication);
+                    if([array count] == numberOfCommunication){
+                        // 読み込んだデータの件数分通信をしたらMapViewControllerとAppDelegateキャッシュ削除済みフラグOFF
+                        appDelegate.cacheDeletedFlag = NO;
+                        cacheDeletedFlag = NO;
+                        NSLog(@"cacheDeletedFlagオフ");
+                    }
+                }else if(!cacheDeletedFlag){
+                    // キャッシュが残っている場合
+                    NSLog(@"キャッシュが残ってるので通信しない");
+                }
             }
         }
     }];
@@ -339,8 +389,8 @@
 #pragma mark - regionDidChange
 //地図の表示領域が変更された時に呼ばれる
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
-    // 天気アイコン全消し
-    [self deleteIcon];
+//    // 天気アイコン全消し
+//    [self deleteIcon];
     [self getScaleAndLocation];
 }
 

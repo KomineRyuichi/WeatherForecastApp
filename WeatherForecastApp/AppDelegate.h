@@ -11,6 +11,8 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
+@property (nonatomic) BOOL cacheDeletedFlag;
+
 @property (strong, nonatomic) UIWindow *window;
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
