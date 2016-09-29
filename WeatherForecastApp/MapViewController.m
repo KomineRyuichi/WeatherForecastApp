@@ -207,16 +207,21 @@
     }
     //データベースのパス
     FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
-    //データベース内のテーブルから表示したいカラムを選ぶ
-    NSString *selectSql;
-    //rangeを満たし、画面内に入っている地点を呼び出すsql文
-    selectSql = [NSString stringWithFormat:@"SELECT MAP_JAPANESE_NAME,MAP_LATITUDE,MAP_LONGITUDE FROM location WHERE MAP_DISPLAY_PERMISSION_RANGE = %@ AND (MAP_LATITUDE BETWEEN %f AND %f) AND (MAP_LONGITUDE BETWEEN %f AND %f)",range,seCoord.latitude,nwCoord.latitude,nwCoord.longitude,seCoord.longitude];
+    
     //デルタ値で県を読み込むか市を読み込むかを判断
     if(zoomRegion.span.latitudeDelta < 5.66){
         range = @"100";
     }else{
         range = @"500";
     }
+    
+    //データベース内のテーブルから表示したいカラムを選ぶ
+    
+//    //rangeを満たし、画面内に入っている地点を呼び出すsql文
+//    NSString *selectSql = [NSString stringWithFormat:@"SELECT MAP_JAPANESE_NAME,MAP_LATITUDE,MAP_LONGITUDE FROM location WHERE MAP_DISPLAY_PERMISSION_RANGE = %@ AND (MAP_LATITUDE BETWEEN %f AND %f) AND (MAP_LONGITUDE BETWEEN %f AND %f)",range,seCoord.latitude,nwCoord.latitude,nwCoord.longitude,seCoord.longitude];
+    
+    //rangeを満たしている地点を呼び出すsql文
+    NSString *selectSql = [NSString stringWithFormat:@"SELECT MAP_JAPANESE_NAME,MAP_LATITUDE,MAP_LONGITUDE FROM location WHERE MAP_DISPLAY_PERMISSION_RANGE = %@",range];
     
     //DBからの読み込み処理
     [db open];
@@ -368,9 +373,16 @@
     gesture = @"pushButton";
     pushButton = YES;
     [self getScaleAndLocation];
-    //取得したデルタ値を広げることで地図を縮小
-    zoomRegion.span.latitudeDelta += 2;
-    zoomRegion.span.longitudeDelta += 2;
+    if(zoomRegion.span.latitudeDelta<29){
+        //取得したデルタ値を広げることで地図を縮小
+        zoomRegion.span.latitudeDelta += 2;
+        zoomRegion.span.longitudeDelta += 2;
+    }else{
+        alertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"これ以上縮小できません。" preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        }]];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
     [self.mapView setRegion:zoomRegion animated:YES];
 }
 //「＋」ボタン
@@ -378,9 +390,16 @@
     gesture = @"pushButton";
     pushButton = YES;
     [self getScaleAndLocation];
-    //取得したデルタ値を縮めることで地図を拡大
-    zoomRegion.span.latitudeDelta -= 2;
-    zoomRegion.span.longitudeDelta -= 2;
+    if(zoomRegion.span.latitudeDelta>2){
+        //取得したデルタ値を縮めることで地図を拡大
+        zoomRegion.span.latitudeDelta -= 2;
+        zoomRegion.span.longitudeDelta -= 2;
+    }else{
+        alertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"これ以上拡大できません。" preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        }]];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
     [self.mapView setRegion:zoomRegion animated:YES];
 }
 

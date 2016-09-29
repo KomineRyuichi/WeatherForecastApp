@@ -24,6 +24,8 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    NSInteger diskCapacity = [NSURLCache sharedURLCache].diskCapacity;
+    NSInteger memoryCapasity = [NSURLCache sharedURLCache].memoryCapacity;
     firstBool = NO;
     flag = NO;
     
@@ -31,8 +33,8 @@
 //    timer = [NSTimer scheduledTimerWithTimeInterval:10800.0f repeats:YES block:^(NSTimer *timer){
     timer = [NSTimer scheduledTimerWithTimeInterval:60.0f repeats:YES block:^(NSTimer *timer){
         // キャッシュを削除
-        [NSURLCache sharedURLCache].memoryCapacity = 0;
-        [NSURLCache sharedURLCache].diskCapacity = 0;
+        [NSURLCache sharedURLCache].diskCapacity = diskCapacity;
+        [NSURLCache sharedURLCache].memoryCapacity = memoryCapasity;
         
         // キャッシュが削除されたことを知らせるためのフラグ
         _cacheDeletedFlag = YES;
@@ -64,7 +66,7 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
     if(flag){
-        //UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         DetailViewController *detailController = [storyboard instantiateViewControllerWithIdentifier:@"DetailViewController"];
         NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
         detailController.placeName = [ud objectForKey:@"KEY_place"];
