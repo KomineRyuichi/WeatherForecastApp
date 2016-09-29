@@ -22,15 +22,19 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
+    NSInteger diskCapacity = [NSURLCache sharedURLCache].diskCapacity;
+    NSInteger memoryCapacity = [NSURLCache sharedURLCache].memoryCapacity;
+    NSLog(@"disk : %ld, memory : %ld", diskCapacity, memoryCapacity);
     firstBool = NO;
     flag = NO;
     
     // アプリ起動中は3時間ごとにキャッシュ削除(3時間ごとに予報が更新されるため)
-    timer = [NSTimer scheduledTimerWithTimeInterval:10800.0f repeats:YES block:^(NSTimer *timer){
+    timer = [NSTimer scheduledTimerWithTimeInterval:30.0f repeats:YES block:^(NSTimer *timer){
         // キャッシュを削除
-        [NSURLCache sharedURLCache].memoryCapacity = 0;
-        [NSURLCache sharedURLCache].diskCapacity = 0;
+        [NSURLCache sharedURLCache].memoryCapacity = memoryCapacity;
+        [NSURLCache sharedURLCache].diskCapacity = diskCapacity;
+        NSLog(@"キャッシュ消したんごwwwwww");
+        NSLog(@"disk : %ld, memory : %ld", [NSURLCache sharedURLCache].diskCapacity, [NSURLCache sharedURLCache].memoryCapacity);
     }];
     [timer fire];
     return YES;

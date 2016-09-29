@@ -16,6 +16,8 @@
     NSDictionary *jsonData;
     BOOL networkOfflineFlag;
     BOOL apiRegulationsFlag;
+    double oldLatitude;
+    double oldLongitude;
 }
 
 // 初期化メソッド
@@ -37,7 +39,7 @@
     // Requestの設定
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
-//    [request setCachePolicy:NSURLRequestReturnCacheDataElseLoad];
+    [request setCachePolicy:NSURLRequestReturnCacheDataElseLoad];
     [request setTimeoutInterval:15];
     
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -48,7 +50,6 @@
         
         // エラー処理
         if(error!=nil) {
-            //NSLog(@"%@", error);
             if(error.code == NSURLErrorTimedOut) {
                 NSLog(@"タイムアウト");
             } else if(error.code == NSURLErrorNotConnectedToInternet ){
@@ -90,6 +91,7 @@
     for(NSURLSessionDataTask *task in dataTasks) {
         [task cancel];
     }
+    [dataTasks removeAllObjects];
 }
 
 @end

@@ -215,7 +215,10 @@
             } else if ((networkOfflineFlag || apiRegulationFlag) && i > 0) {
                 return;
             } else {
-                [weatherData replaceObjectAtIndex:i withObject:result];
+                if(weatherData != nil) {
+                    [weatherData removeObjectAtIndex:i];
+                    [weatherData insertObject:result atIndex:i];
+                }
                 [self.tableView reloadData];
                 if(i == [favoritePlaces count] -1) {
                     [self stopIndicator];
