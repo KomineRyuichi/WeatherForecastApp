@@ -48,8 +48,15 @@
         
         // エラー処理
         if(error!=nil) {
-            NSLog(@"%@", error);
-            networkOfflineFlag = YES;
+            //NSLog(@"%@", error);
+            if(error.code == NSURLErrorTimedOut) {
+                NSLog(@"タイムアウト");
+            } else if(error.code == NSURLErrorNotConnectedToInternet ){
+                NSLog(@"%@", error);
+                networkOfflineFlag = YES;
+            } else if(error.code == NSURLErrorCancelled){
+                networkOfflineFlag = NO;
+            }
         } else {
             networkOfflineFlag = NO;
             NSError *jsonError;
