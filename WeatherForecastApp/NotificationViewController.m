@@ -237,11 +237,17 @@
     [timeCell.timeTextField resignFirstResponder];
 }
 -(void)hidePicker{
-    // 完了ボタン以外をタップしてPickerを閉じたとき,値は前回の設定値から変更しない
+    // 完了ボタン以外をタップしてPickerを閉じた場合も時刻を取得
+    UIDatePicker *picker = datePicker;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"HH:mm"];
-    NSString *dateStr = [formatter stringFromDate:[self readData:@"time"]];
+    NSString *dateStr = [formatter stringFromDate:picker.date];
     timeCell.timeTextField.text = dateStr;
+    //UserDefaultsでの保存に使用
+    notificationDate = picker.date;
+    //UserDefaults
+    [self saveData:@"time"];
+    [self switchChanged:onOffCell.onOffSwitch];
     // closePickerViewのサイズをゼロにする
     self.closeView.frame = CGRectZero;
     // pickerを消す
