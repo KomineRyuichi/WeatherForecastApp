@@ -150,7 +150,7 @@
 //    loadingView.layer.cornerRadius = 5;
 //    loadingView.clipsToBounds = YES;
     
-    apiCommunication = [[APICommunication alloc] init];
+    apiCommunication = [APICommunication getInstance]; //[[APICommunication alloc] init];
     currentWeatherData = [CurrentWeatherData getInstance];
     
     selectedCellIndexPath = nil;

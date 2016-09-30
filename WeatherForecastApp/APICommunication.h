@@ -20,4 +20,8 @@ typedef void (^CallBackHandler)(NSDictionary *result, BOOL offlineFlag, BOOL api
 #endif
 
 - (void)stopAPICommunication;
+
++ (APICommunication *)getInstance;
+
+- (void)removeCache;
 @end

@@ -201,13 +201,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WeatherForecastApp/FavoriteTabViewController.m"
-            timestampString = "496830034.954311"
+            filePath = "WeatherForecastApp/DetailViewController.m"
+            timestampString = "496893193.888186"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "218"
-            endingLineNumber = "218"
-            landmarkName = "-viewDidAppear:"
+            startingLineNumber = "237"
+            endingLineNumber = "237"
+            landmarkName = "-setForecasts:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

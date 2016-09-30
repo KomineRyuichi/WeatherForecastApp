@@ -114,7 +114,7 @@
     _view3.layer.borderColor = [UIColor blackColor].CGColor;
     _view3.layer.borderWidth = 0.5f;
     
-    apiCommunication = [[APICommunication alloc] init];
+    apiCommunication = [APICommunication getInstance];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -153,19 +153,25 @@
         } else {
             [currentWeatherData setJsonData:result];
             [self setDetailData];
-            [apiCommunication startAPICommunication:@"forecast" :_detailLatitude :_detailLongitude :^(NSDictionary *result, BOOL networkOfflineFlag, BOOL apiRegulationFlag) {
-                if(networkOfflineFlag || apiRegulationFlag) {
-                    if(networkOfflineFlag) {
-                        [self alertNetworkError];
-                    } else if (apiRegulationFlag) {
-                        [self alertAPIError];
-                    }
-                } else {
-                    [self setForecasts:result];
-                }
-            }];
         }
     }];
+    [apiCommunication startAPICommunication:@"forecast" :_detailLatitude :_detailLongitude :^(NSDictionary *result, BOOL networkOfflineFlag, BOOL apiRegulationFlag) {
+            if(networkOfflineFlag || apiRegulationFlag) {
+                if(networkOfflineFlag) {
+                    [self alertNetworkError];
+                } else if (apiRegulationFlag) {
+                    [self alertAPIError];
+                }
+            } else {
+                [self setForecasts:result];
+            }
+    }];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    [apiCommunication stopAPICommunication];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -226,6 +232,7 @@
     double humidity;
     double precipitation;
     
+    NSLog(@"%@", [forecastData objectForKey:@"cnt"]);
     // ページ数分ループ
     for(int i=0, j=10; i<4; i++, j=j+8) {
         NSArray *list = [NSArray arrayWithArray:[forecastData objectForKey:@"list"]];

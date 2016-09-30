@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "DetailViewController.h"
+#import "APICommunication.h"
 
 
 @interface AppDelegate ()
@@ -25,16 +26,17 @@
     NSInteger diskCapacity = [NSURLCache sharedURLCache].diskCapacity;
     NSInteger memoryCapacity = [NSURLCache sharedURLCache].memoryCapacity;
     NSLog(@"disk : %ld, memory : %ld", diskCapacity, memoryCapacity);
+    
+    APICommunication *apiCommunication = [APICommunication getInstance];
     firstBool = NO;
     flag = NO;
     
     // アプリ起動中は3時間ごとにキャッシュ削除(3時間ごとに予報が更新されるため)
-    timer = [NSTimer scheduledTimerWithTimeInterval:30.0f repeats:YES block:^(NSTimer *timer){
+    timer = [NSTimer scheduledTimerWithTimeInterval:60.0f repeats:YES block:^(NSTimer *timer){
         // キャッシュを削除
-        [NSURLCache sharedURLCache].memoryCapacity = memoryCapacity;
-        [NSURLCache sharedURLCache].diskCapacity = diskCapacity;
-        NSLog(@"キャッシュ消したんごwwwwww");
-        NSLog(@"disk : %ld, memory : %ld", [NSURLCache sharedURLCache].diskCapacity, [NSURLCache sharedURLCache].memoryCapacity);
+        [apiCommunication removeCache];
+        NSLog(@"Log : キャッシュ消したんごwwwwww");
+
     }];
     [timer fire];
     return YES;

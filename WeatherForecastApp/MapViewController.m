@@ -38,6 +38,9 @@
     BOOL off;
     //各アラート
     UIAlertController *alertController;
+    // 通信クラス
+    APICommunication *apiCommunication;
+    
 }
 @end
 
@@ -85,6 +88,11 @@
     first = NO;
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    [apiCommunication stopAPICommunication];
+}
 
 
 #pragma mark - 	screen transition
@@ -222,7 +230,7 @@
     double resultlat = [[NSString stringWithFormat:@"%@",[array[count] objectForKey:@"lat"]] doubleValue];
     double resultlon = [[NSString stringWithFormat:@"%@",[array[count] objectForKey:@"lon"]] doubleValue];
     //通信
-    APICommunication *apiCommunication = [[APICommunication alloc] init];
+    apiCommunication = [APICommunication getInstance];
     [apiCommunication startAPICommunication:@"weather" :resultlat :resultlon :^(NSDictionary *jsonData, BOOL networkOfflineFlag, BOOL apiRegulationsFlag) {
         if(networkOfflineFlag){
             //ボタン操作による拡大縮小の場合のみアラートを表示
