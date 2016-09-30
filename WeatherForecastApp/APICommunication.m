@@ -53,7 +53,9 @@ static APICommunication *apiCommunication = nil;
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setCachePolicy:NSURLRequestReturnCacheDataElseLoad];
-    //[request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
+    if([resource isEqualToString:@"forecast"]) {
+        [request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
+    }
     [request setTimeoutInterval:60];
     
     [requests addObject:request];
@@ -67,9 +69,8 @@ static APICommunication *apiCommunication = nil;
         // エラー処理
         if(error!=nil) {
             if(error.code == NSURLErrorTimedOut) {
-                NSLog(@"タイムアウト");
+                networkOfflineFlag = YES;
             } else if(error.code == NSURLErrorNotConnectedToInternet ){
-                NSLog(@"%@", error);
                 networkOfflineFlag = YES;
             } else if(error.code == NSURLErrorCancelled){
                 networkOfflineFlag = NO;

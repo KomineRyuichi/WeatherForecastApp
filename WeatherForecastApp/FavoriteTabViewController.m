@@ -87,6 +87,7 @@
     APICommunication *apiCommunication;
     CurrentWeatherData *currentWeatherData;
     BOOL cellExpansinOpenFlag;
+    AppDelegate *appDelegate;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *addPlaceButton;
@@ -126,7 +127,7 @@
     cellHeightData = [NSMutableArray array];
     
     // contextの設定
-    AppDelegate *appDelegate = (AppDelegate *)[UIApplication.sharedApplication delegate];
+    appDelegate = (AppDelegate *)[UIApplication.sharedApplication delegate];
     self.context = [appDelegate managedObjectContext];
     
     //アラートの設定
@@ -185,7 +186,7 @@
         [self.view sendSubviewToBack:_addPlaceButton];
     }
     
-    if([favoritePlaces count] > 0) {
+    if([favoritePlaces count] > 0 && appDelegate.cacheDeletedFlag) {
         // インジケーターくるくるスタート
         [self.indicator startAnimating];
         [self.view addSubview:loadingView];
@@ -230,9 +231,8 @@
 }
 
 // 画面が消えた直後に呼ばれるメソッド
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    NSLog(@"diddisapearですぞ〜〜〜");
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     // 各配列の要素を削除
     [weatherData removeAllObjects];
     [forecastData removeAllObjects];

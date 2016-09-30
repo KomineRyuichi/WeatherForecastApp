@@ -62,14 +62,6 @@
     _searchBar.delegate = self;
     _searchBar.keyboardType = UIKeyboardTypeURL;
     
-//    // KeyBoardを閉じるためのView作成
-//    self.closeView = [[CloseView alloc]initWithFrame:CGRectZero];
-//    self.closeView.target = self;
-//    self.closeView.action = @selector(hideKeyboard);
-//    self.closeView.backgroundColor = [UIColor blackColor];
-//    self.closeView.alpha = 0.1;
-//    [self.view addSubview:self.closeView];
-    
     // Delegate をセット
     _mapView.delegate = self;
     
@@ -317,29 +309,20 @@
                 // API規制中でない場合
                 //オフライン状態を示すフラグをオフ
                 off = NO;
-                NSLog(@"arrayの件数：%lu件",(unsigned long)[array count]);
-                NSLog(@"キャッシュ削除フラグ：%d",cacheDeletedFlag);
                 if(cacheDeletedFlag){
                     // キャッシュ削除済みの場合
                     if(numberOfCommunication==0){
                         // 最初の通信の前にアイコン全消し
-                        NSLog(@"アイコン全消し");
                         [self deleteIcon];
                     }
                     [self doParseData:jsonData Place:placeName Lat:resultlat Lon:resultlon];
-                    NSLog(@"キャッシュ削除済みなので通信");
                     // カウントを増やす
                     numberOfCommunication ++;
-                    NSLog(@"numberOfCommunication：%d回目完了",numberOfCommunication);
                     if([array count] == numberOfCommunication){
                         // 読み込んだデータの件数分通信をしたらMapViewControllerとAppDelegateキャッシュ削除済みフラグOFF
                         appDelegate.cacheDeletedFlag = NO;
                         cacheDeletedFlag = NO;
-                        NSLog(@"cacheDeletedFlagオフ");
                     }
-                }else if(!cacheDeletedFlag){
-                    // キャッシュが残っている場合
-                    NSLog(@"キャッシュが残ってるので通信しない");
                 }
             }
         }
@@ -417,13 +400,8 @@
         // 取得したデルタ値を広げることで地図を縮小
         zoomRegion.span.latitudeDelta += 2;
         zoomRegion.span.longitudeDelta += 2;
-    }else{
-//        // 最小倍率でアラート表示
-//        alertController = [UIAlertController alertControllerWithTitle:@"" message:@"これ以上縮小できません。" preferredStyle:UIAlertControllerStyleAlert];
-//        [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-//        }]];
-//        [self presentViewController:alertController animated:YES completion:nil];
     }
+
     [self.mapView setRegion:zoomRegion animated:YES];
 }
 //「＋」ボタン
@@ -435,12 +413,6 @@
         // 取得したデルタ値を縮めることで地図を拡大
         zoomRegion.span.latitudeDelta -= 2;
         zoomRegion.span.longitudeDelta -= 2;
-    }else{
-//        // 最大倍率でアラート表示
-//        alertController = [UIAlertController alertControllerWithTitle:@"" message:@"これ以上拡大できません。" preferredStyle:UIAlertControllerStyleAlert];
-//        [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-//        }]];
-//        [self presentViewController:alertController animated:YES completion:nil];
     }
     [self.mapView setRegion:zoomRegion animated:YES];
 }
@@ -450,8 +422,7 @@
 #pragma mark - regionDidChange
 //地図の表示領域が変更された時に呼ばれる
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
-//    // 天気アイコン全消し
-//    [self deleteIcon];
+
     [self getScaleAndLocation];
 }
 

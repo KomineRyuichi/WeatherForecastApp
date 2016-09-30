@@ -30,17 +30,13 @@
     flag = NO;
     
     // アプリ起動中は3時間ごとにキャッシュ削除(3時間ごとに予報が更新されるため)
-//    timer = [NSTimer scheduledTimerWithTimeInterval:10800.0f repeats:YES block:^(NSTimer *timer){
-    timer = [NSTimer scheduledTimerWithTimeInterval:60.0f repeats:YES block:^(NSTimer *timer){
+    timer = [NSTimer scheduledTimerWithTimeInterval:10800.0f repeats:YES block:^(NSTimer *timer){
         
         // キャッシュが削除されたことを知らせるためのフラグ
         _cacheDeletedFlag = YES;
-        NSLog(@"キャッシュ削除しますた");
-        NSLog(@"cacheDeletedFlag：%d",_cacheDeletedFlag);
 
         // キャッシュを削除
         [apiCommunication removeCache];
-        NSLog(@"Log : キャッシュ消したんごwwwwww");
 
     }];
     [timer fire];
