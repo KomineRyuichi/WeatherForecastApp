@@ -17,7 +17,6 @@
     NSTimer *timer;
     BOOL firstBool;
     BOOL flag;
-    UIStoryboard *storyboard;
 }
 @end
 
@@ -25,37 +24,24 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    NSInteger diskCapacity = [NSURLCache sharedURLCache].diskCapacity;
-<<<<<<< HEAD
-    NSInteger memoryCapasity = [NSURLCache sharedURLCache].memoryCapacity;
-=======
-    NSInteger memoryCapacity = [NSURLCache sharedURLCache].memoryCapacity;
-    NSLog(@"disk : %ld, memory : %ld", diskCapacity, memoryCapacity);
     
     APICommunication *apiCommunication = [APICommunication getInstance];
->>>>>>> komine
     firstBool = NO;
     flag = NO;
     
     // アプリ起動中は3時間ごとにキャッシュ削除(3時間ごとに予報が更新されるため)
-<<<<<<< HEAD
 //    timer = [NSTimer scheduledTimerWithTimeInterval:10800.0f repeats:YES block:^(NSTimer *timer){
     timer = [NSTimer scheduledTimerWithTimeInterval:60.0f repeats:YES block:^(NSTimer *timer){
-        // キャッシュを削除
-        [NSURLCache sharedURLCache].diskCapacity = diskCapacity;
-        [NSURLCache sharedURLCache].memoryCapacity = memoryCapasity;
         
         // キャッシュが削除されたことを知らせるためのフラグ
         _cacheDeletedFlag = YES;
         NSLog(@"キャッシュ削除しますた");
         NSLog(@"cacheDeletedFlag：%d",_cacheDeletedFlag);
-=======
-    timer = [NSTimer scheduledTimerWithTimeInterval:60.0f repeats:YES block:^(NSTimer *timer){
+
         // キャッシュを削除
         [apiCommunication removeCache];
         NSLog(@"Log : キャッシュ消したんごwwwwww");
 
->>>>>>> komine
     }];
     [timer fire];
     return YES;
