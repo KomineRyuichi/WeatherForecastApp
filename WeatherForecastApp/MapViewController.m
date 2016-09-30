@@ -65,7 +65,7 @@
     
     // 表示する画面の中心の緯度・軽度を設定
     location.latitude = 37.68154;
-    location.longitude = 137.2754;
+    location.longitude = 135.2754;
     [self.mapView setCenterCoordinate:location animated:YES];
     
     // 縮尺を設定
@@ -90,6 +90,9 @@
     
     // 初回通信
     [self getScaleAndLocation];
+    // 初期位置を「縮尺を戻す」ボタンに合わせる
+    [self.mapView setCenterCoordinate:location animated:YES];
+    [self.mapView setRegion:region animated:YES];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -374,14 +377,15 @@
     pushButton = YES;
     [self getScaleAndLocation];
     if(zoomRegion.span.latitudeDelta<29){
-        //取得したデルタ値を広げることで地図を縮小
+        // 取得したデルタ値を広げることで地図を縮小
         zoomRegion.span.latitudeDelta += 2;
         zoomRegion.span.longitudeDelta += 2;
     }else{
-        alertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"これ以上縮小できません。" preferredStyle:UIAlertControllerStyleAlert];
-        [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        }]];
-        [self presentViewController:alertController animated:YES completion:nil];
+//        // 最小倍率でアラート表示
+//        alertController = [UIAlertController alertControllerWithTitle:@"" message:@"これ以上縮小できません。" preferredStyle:UIAlertControllerStyleAlert];
+//        [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//        }]];
+//        [self presentViewController:alertController animated:YES completion:nil];
     }
     [self.mapView setRegion:zoomRegion animated:YES];
 }
@@ -391,14 +395,15 @@
     pushButton = YES;
     [self getScaleAndLocation];
     if(zoomRegion.span.latitudeDelta>2){
-        //取得したデルタ値を縮めることで地図を拡大
+        // 取得したデルタ値を縮めることで地図を拡大
         zoomRegion.span.latitudeDelta -= 2;
         zoomRegion.span.longitudeDelta -= 2;
     }else{
-        alertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"これ以上拡大できません。" preferredStyle:UIAlertControllerStyleAlert];
-        [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        }]];
-        [self presentViewController:alertController animated:YES completion:nil];
+//        // 最大倍率でアラート表示
+//        alertController = [UIAlertController alertControllerWithTitle:@"" message:@"これ以上拡大できません。" preferredStyle:UIAlertControllerStyleAlert];
+//        [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//        }]];
+//        [self presentViewController:alertController animated:YES completion:nil];
     }
     [self.mapView setRegion:zoomRegion animated:YES];
 }
