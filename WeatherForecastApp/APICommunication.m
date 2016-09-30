@@ -11,14 +11,33 @@
 
 
 @implementation APICommunication {
+    NSMutableArray *requests;
+    NSMutableArray *dataTasks;
+    NSURLSessionDataTask *dataTask;
     NSDictionary *jsonData;
     BOOL networkOfflineFlag;
     BOOL apiRegulationsFlag;
+    double oldLatitude;
+    double oldLongitude;
+}
+
+static APICommunication *apiCommunication = nil;
+
++ (APICommunication *)getInstance {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        apiCommunication = [[APICommunication alloc] init];
+    });
+    
+    return  apiCommunication;
 }
 
 // 初期化メソッド
 - (instancetype)init {
     self = [super init];
+    
+    dataTasks = [NSMutableArray array];
+    requests = [NSMutableArray array];
     return self;
 }
 
@@ -34,17 +53,27 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setCachePolicy:NSURLRequestReturnCacheDataElseLoad];
+    //[request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
     [request setTimeoutInterval:60];
+    
+    [requests addObject:request];
     
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     
     // DataTaskの生成
-    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
-        
+    dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+
         // エラー処理
-        if(error) {
-            networkOfflineFlag = YES;
+        if(error!=nil) {
+            if(error.code == NSURLErrorTimedOut) {
+                NSLog(@"タイムアウト");
+            } else if(error.code == NSURLErrorNotConnectedToInternet ){
+                NSLog(@"%@", error);
+                networkOfflineFlag = YES;
+            } else if(error.code == NSURLErrorCancelled){
+                networkOfflineFlag = NO;
+            }
         } else {
             networkOfflineFlag = NO;
             NSError *jsonError;
@@ -68,8 +97,29 @@
         }
     }];
     
+    [dataTasks addObject:dataTask];
     // タスクの実行
     [dataTask resume];
+}
+
+- (void)stopAPICommunication {
+    
+    for(NSURLSessionDataTask *task in dataTasks) {
+        [task cancel];
+    }
+    [dataTasks removeAllObjects];
+}
+
+- (void)removeCache {
+//    
+//    if([requests count] > 0) {
+//        for(NSURLRequest *request in requests) {
+//            [[NSURLCache sharedURLCache] removeCachedResponseForRequest:request];
+//        }
+//        [requests removeAllObjects];
+//        
+//    }
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
 }
 
 @end

@@ -17,12 +17,16 @@
 
 @interface WeatherSummaryCell : UITableViewCell {
     UIView *cellLoadingView;
+    UIActivityIndicatorView *indicator;
 }
 @property (weak, nonatomic) IBOutlet UIImageView *todayWeatherIconImage;
 @property (weak, nonatomic) IBOutlet UILabel *placeNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *temperatureLabel;
 @property (weak, nonatomic) IBOutlet UIButton *cellExpansionButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
+- (void)startIndicator;
+- (void)stopIndicator;
 
 @end
 
@@ -39,8 +43,27 @@
     cellLoadingView.clipsToBounds = YES;
 
     self.temperatureLabel.text = @"　℃";
+    
+    indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [indicator setFrame:CGRectMake(self.scrollView.center.x-20, self.scrollView.center.y-20, 40, 40)];
+    [indicator sizeToFit];
+    [indicator setHidesWhenStopped:YES];
+    
+    self.scrollView.frame = CGRectMake(self.scrollView.frame.origin.x, self.scrollView.frame.origin.y, self.frame.size.width, 0);
+    
     [self.cellExpansionButton setImage:[UIImage imageNamed:@"open"] forState:UIControlStateNormal];
     [self.cellExpansionButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateSelected];
+}
+
+- (void)startIndicator {
+    [indicator startAnimating];
+    [self addSubview:cellLoadingView];
+    [self bringSubviewToFront:indicator];
+}
+
+- (void)stopIndicator {
+    [self sendSubviewToBack:cellLoadingView];
+    [indicator stopAnimating];
 }
 
 
@@ -94,9 +117,7 @@
     _tableView.dataSource = self;
     
     // セルの高さ設定
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.tableView.estimatedRowHeight = 200.0f;
-    cellHeight = self.tableView.estimatedRowHeight;
+    cellHeight = 73.0f;
     
     // 配列の初期化
     weatherData = [NSMutableArray array];
@@ -113,7 +134,9 @@
     apiAlertController = [UIAlertController alertControllerWithTitle:@"ERROR" message:@"API規制です。" preferredStyle:UIAlertControllerStyleAlert];
     
     //アラート時のアクションの設定
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {}];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self dismissViewControllerAnimated:YES completion:^{}];
+    }];
     
     // アラートにアクションを追加
     [networkAlertController addAction:action];
@@ -127,7 +150,7 @@
 //    loadingView.layer.cornerRadius = 5;
 //    loadingView.clipsToBounds = YES;
     
-    apiCommunication = [[APICommunication alloc] init];
+    apiCommunication = [APICommunication getInstance]; //[[APICommunication alloc] init];
     currentWeatherData = [CurrentWeatherData getInstance];
     
     selectedCellIndexPath = nil;
@@ -182,6 +205,7 @@
         [apiCommunication startAPICommunication:@"weather" :latitude :longitude :^(NSDictionary *result, BOOL networkOfflineFlag, BOOL apiRegulationFlag){
     
             if((networkOfflineFlag || apiRegulationFlag) && i == 0) {
+                [apiCommunication stopAPICommunication];
                 [self stopIndicator];
                 if(networkOfflineFlag) {
                     [self alertNetworkError];
@@ -191,7 +215,10 @@
             } else if ((networkOfflineFlag || apiRegulationFlag) && i > 0) {
                 return;
             } else {
-                [weatherData replaceObjectAtIndex:i withObject:result];
+                if(weatherData != nil) {
+                    [weatherData removeObjectAtIndex:i];
+                    [weatherData insertObject:result atIndex:i];
+                }
                 [self.tableView reloadData];
                 if(i == [favoritePlaces count] -1) {
                     [self stopIndicator];
@@ -205,11 +232,13 @@
 // 画面が消えた直後に呼ばれるメソッド
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    
+    NSLog(@"diddisapearですぞ〜〜〜");
     // 各配列の要素を削除
     [weatherData removeAllObjects];
     [forecastData removeAllObjects];
     [favoritePlaces removeAllObjects];
+    
+    [apiCommunication stopAPICommunication];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -252,7 +281,7 @@
     }
     
     if([forecastData count] > 0 && indexPath.row == selectedCellIndexPath.row) {
-        cell.scrollView.hidden = NO;
+        //cell.scrollView.hidden = NO;
         cell.cellExpansionButton.selected = YES;
         // 3時間ごとの天気予報
         int fromTime = 0.0f;
@@ -274,7 +303,7 @@
         }
     } else {
         cell.cellExpansionButton.selected = NO;
-        cell.scrollView.hidden = YES;
+        //cell.scrollView.hidden = YES;
     }
     
     cell.placeNameLabel.text = [[favoritePlaces objectAtIndex:indexPath.row] objectForKey:@"placeName"];
@@ -339,21 +368,12 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     float height = [[cellHeightData objectAtIndex:indexPath.row] floatValue];
     
-    [cellHeightData replaceObjectAtIndex:indexPath.row withObject:@(height)];
-    return height;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //float height = 200.0f;
-
-    float height = [[cellHeightData objectAtIndex:indexPath.row] floatValue];
-    
     if (cellExpansinOpenFlag && indexPath.row == selectedCellIndexPath.row) {
         height = 200.0f;
     } else {
         height = 73.0f;
     }
+    
     [cellHeightData replaceObjectAtIndex:indexPath.row withObject:@(height)];
     return height;
 }
@@ -364,7 +384,7 @@
 - (void)pushCellExpansionButton:(UIButton *)sender event:(UIEvent *)event {
     selectedCellIndexPath = [self indexPathForControlEvent:event];
     WeatherSummaryCell *cell = [self.tableView cellForRowAtIndexPath:selectedCellIndexPath];
-    
+
     cell.cellExpansionButton.selected = !cell.cellExpansionButton.selected;
     cellExpansinOpenFlag = cell.cellExpansionButton.selected;
     
@@ -372,17 +392,17 @@
         [forecastData removeAllObjects];
         double latitude = [[[favoritePlaces objectAtIndex:selectedCellIndexPath.row] objectForKey:@"placeLatitude"] doubleValue];
         double longitude = [[[favoritePlaces objectAtIndex:selectedCellIndexPath.row] objectForKey:@"placeLongitude"]doubleValue];
-        // インジケーターくるくるスタート
-        [self.indicator startAnimating];
-        [self.view addSubview:loadingView];
-        [self.view bringSubviewToFront:_indicator];
+//        // インジケーターくるくるスタート
+//        [self.indicator startAnimating];
+//        [self.view addSubview:loadingView];
+//        [self.view bringSubviewToFront:_indicator];
         for (UIView *subview in cell.scrollView.subviews) {
             [subview removeFromSuperview];
         }
         [apiCommunication startAPICommunication:@"forecast" :latitude :longitude :^(NSDictionary *result, BOOL networkOfflineFlag, BOOL apiRegulationFlag){
         
             if(networkOfflineFlag || apiRegulationFlag) {
-                [self stopIndicator];
+                //[self stopIndicator];
                 if(networkOfflineFlag) {
                     [self alertNetworkError];
                 } else if (apiRegulationFlag) {
@@ -392,17 +412,33 @@
                 for(int i=0; i<pageCount; i++)  {
                     [forecastData addObject:[[result objectForKey:@"list"] objectAtIndex:i]];
                 }
-                [self.tableView reloadData];
                 [self stopIndicator];
+                [self.tableView reloadData];
+                [UIView animateWithDuration:0.5 delay:0.1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                    cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, self.view.frame.size.width, 200);
+                    cell.scrollView.frame = CGRectMake(cell.scrollView.frame.origin.x,cell.scrollView.frame.origin.y, self.view.frame.size.width, 120);
+                } completion:^(BOOL finished) {
+                    [self reloadTableData:cell];
+                }];
             }
         }];
     } else {
         [forecastData removeAllObjects];
-        for (UIView *subview in cell.scrollView.subviews) {
-            [subview removeFromSuperview];
-        }
-        [self.tableView reloadData];
+        [UIView animateWithDuration:0.5 delay:0.1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            cell.scrollView.frame = CGRectMake(cell.scrollView.frame.origin.x,cell.scrollView.frame.origin.y, self.view.frame.size.width, 0);
+            cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, self.view.frame.size.width, 73);
+        } completion:^(BOOL finished) {
+            [self.tableView reloadData];
+            for (UIView *subview in cell.scrollView.subviews) {
+                [subview removeFromSuperview];
+            }
+        }];
     }
+}
+
+- (void)reloadTableData:(WeatherSummaryCell *)cell {
+    [self.tableView reloadData];
+    [cell stopIndicator];
 }
 
 // 編集モード切り替え
@@ -424,7 +460,7 @@
 
 // 「お気に入りを追加」のボタンタップ時のアクション
 - (IBAction)addFavoritePlaceButton:(id)sender {
-    // タブ切り替え 0:お気に入り画面、1:地図画面
+    // タブ切り替え 0:お気に入り画面、1:地図画面、2:その他画面
     self.tabBarController.selectedIndex = 1;
 }
 
