@@ -205,7 +205,7 @@
 
 #pragma mark - TextField
 -(BOOL)textFieldShouldBeginEditing:(UITextView *)textView{
-    // closePickerViewを画面サイズに広げる
+    // closeViewを画面サイズに広げる
     self.closeView.frame = [[UIScreen mainScreen] bounds];
     // datepickerを開いたとき、初期値を前回の設定値にする（UserDefaultsにデータがない場合はデフォルトの現在時刻を表示）
     if([self readData:@"time"]!=nil){

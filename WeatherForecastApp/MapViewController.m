@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "CloseView.h"
 #import "MapViewController.h"
 #import "CustomAnnotation.h"
 #import "DetailViewController.h"
@@ -47,6 +48,7 @@
     // 通信の件数をカウント
     int numberOfCommunication;
 }
+@property (nonatomic) CloseView *closeView;
 @end
 
 @implementation MapViewController
@@ -59,6 +61,14 @@
     // searchbarの設定
     _searchBar.delegate = self;
     _searchBar.keyboardType = UIKeyboardTypeURL;
+    
+//    // KeyBoardを閉じるためのView作成
+//    self.closeView = [[CloseView alloc]initWithFrame:CGRectZero];
+//    self.closeView.target = self;
+//    self.closeView.action = @selector(hideKeyboard);
+//    self.closeView.backgroundColor = [UIColor blackColor];
+//    self.closeView.alpha = 0.1;
+//    [self.view addSubview:self.closeView];
     
     // Delegate をセット
     _mapView.delegate = self;
@@ -84,6 +94,14 @@
     [self.view bringSubviewToFront:_resetScaleButton];
     [self.view bringSubviewToFront:_zoomOutButton];
     [self.view bringSubviewToFront:_zoomInButton];
+    
+    // KeyBoardを閉じるためのView作成
+    self.closeView = [[CloseView alloc]initWithFrame:CGRectZero];
+    self.closeView.target = self;
+    self.closeView.action = @selector(hideKeyboard);
+    self.closeView.backgroundColor = [UIColor blackColor];
+    self.closeView.alpha = 0.1;
+    [self.view addSubview:self.closeView];
     
     // キャッシュ削除済みフラグを受け取るためにAppDelegateのインスタンスを取得
     appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
@@ -120,10 +138,15 @@
 }
 
 
+#pragma mark - SearchBar
+-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+    // closeViewのframeをmapViewに合わせ、mapViewの上に被せる
+    self.closeView.frame = self.mapView.frame;
 
-#pragma mark - icon
+}
 //検索を行う(キーボードの検索ボタンタップ時に呼ばれる)
 -(void)searchBarSearchButtonClicked:(UISearchBar*)searchBar{
+    // リクエストの設定
     MKLocalSearchRequest *request = [[MKLocalSearchRequest alloc] init];
     request.naturalLanguageQuery = _searchBar.text;
     request.region = _mapView.region;
@@ -161,7 +184,21 @@
              [self.mapView setRegion:searchRegion animated:YES];
          }
      }];
+    // closePickerViewのサイズをゼロにする
+    self.closeView.frame = CGRectZero;
+    // キーボードを閉じる
+    [searchBar resignFirstResponder];
 }
+-(void)hideKeyboard{
+    _searchBar.text = nil;
+    // closePickerViewのサイズをゼロにする
+    self.closeView.frame = CGRectZero;
+    // キーボードを閉じる
+    [_searchBar resignFirstResponder];
+}
+
+
+#pragma mark - icon
 //縮尺と画面左上・右下の緯度・経度を取得する
 -(void)getScaleAndLocation{
     //縮尺を取得
