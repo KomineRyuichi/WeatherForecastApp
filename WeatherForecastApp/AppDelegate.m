@@ -25,20 +25,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    APICommunication *apiCommunication = [APICommunication getInstance];
     firstBool = NO;
     flag = NO;
     
     // アプリ起動中は3時間ごとにキャッシュ削除(3時間ごとに予報が更新されるため)
-    timer = [NSTimer scheduledTimerWithTimeInterval:10800.0f repeats:YES block:^(NSTimer *timer){
-        
-        // キャッシュが削除されたことを知らせるためのフラグ
-        _cacheDeletedFlag = YES;
-
-        // キャッシュを削除
-        [apiCommunication removeCache];
-
-    }];
+    timer = [NSTimer scheduledTimerWithTimeInterval:10800.f target:self selector:@selector(deleteCache) userInfo:nil repeats:YES];
     [timer fire];
     return YES;
 }
@@ -180,5 +171,14 @@
     //[[UIApplication sharedApplication] cancelLocalNotification:notification];
 }
 
+- (void)deleteCache {
+    APICommunication *apiCommunication = [APICommunication getInstance];
+    
+    // キャッシュが削除されたことを知らせるためのフラグ
+    _cacheDeletedFlag = YES;
+    
+    // キャッシュを削除
+    [apiCommunication removeCache];
+}
 
 @end
