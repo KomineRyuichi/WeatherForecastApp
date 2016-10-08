@@ -232,44 +232,46 @@
     double humidity;
     double precipitation;
 
-    // ページ数分ループ
-    for(int i=0, j=10; i<4; i++, j=j+8) {
-        NSArray *list = [NSArray arrayWithArray:[forecastData objectForKey:@"list"]];
-        NSDictionary *weatherData = [NSDictionary dictionaryWithDictionary:[list objectAtIndex:j]];
-        DailyForecastView *forecastView = [[DailyForecastView alloc] init];
-        //viewに枠線を設定
-        forecastView.view4.layer.borderColor = [UIColor blackColor].CGColor;
-        forecastView.view4.layer.borderWidth = 0.5f;
-        forecastView.view5.layer.borderColor = [UIColor blackColor].CGColor;
-        forecastView.view5.layer.borderWidth = 0.5f;
-        forecastView.view6.layer.borderColor = [UIColor blackColor].CGColor;
-        forecastView.view6.layer.borderWidth = 0.5f;
-        // フレームサイズ
-        forecastView.frame = CGRectMake(170*i, 0.0, 170, self.dailyForecasts.frame.size.height);
-        // 日付
-        NSString *forecastDate = [[weatherData objectForKey:@"dt_txt"] substringWithRange:NSMakeRange(5, 5)];
-        forecastView.dateLabel.text = [forecastDate stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
-        // 天気アイコン
-        forecastView.weatherIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", [[[weatherData objectForKey:@"weather"] objectAtIndex:0] objectForKey:@"icon" ]]];
-        // 気温
-        temperature = [[[weatherData objectForKey:@"main"] objectForKey:@"temp"] doubleValue];
-        forecastView.temperatureLabel.text = [NSString stringWithFormat:@"%2.1f℃", temperature];
-        // 気温アイコン
-        forecastView.temperatureIcon.image = [UIImage imageNamed:@"temperature"];
-        // 降水量
-        precipitation = [[[weatherData objectForKey:@"rain"] objectForKey:@"3h" ] doubleValue];
-        forecastView.precipitationLabel.text = [NSString stringWithFormat:@"%1.0fml", precipitation];
-        // 降水量アイコン
-        forecastView.precipitationIcon.image = [UIImage imageNamed:@"precipitation"];
-        // 湿度
-        humidity = [[[weatherData objectForKey:@"main"] objectForKey:@"humidity"] doubleValue];
-        forecastView.humidityLabel.text = [NSString stringWithFormat:@"%2.1f%%", humidity];
-        // 湿度アイコン
-        forecastView.humidityIcon.image = [UIImage imageNamed:@"humidity"];
-        // スクロールビューに追加
-        [self.dailyForecasts addSubview:forecastView];
-        // 参照破棄
-        forecastView = nil;
+    if([forecastData objectForKey:@"list"] != nil) {
+        // ページ数分ループ
+        for(int i=0, j=10; i<4; i++, j=j+8) {
+            NSArray *list = [NSArray arrayWithArray:[forecastData objectForKey:@"list"]];
+            NSDictionary *weatherData = [NSDictionary dictionaryWithDictionary:[list objectAtIndex:j]];
+            DailyForecastView *forecastView = [[DailyForecastView alloc] init];
+            //viewに枠線を設定
+            forecastView.view4.layer.borderColor = [UIColor blackColor].CGColor;
+            forecastView.view4.layer.borderWidth = 0.5f;
+            forecastView.view5.layer.borderColor = [UIColor blackColor].CGColor;
+            forecastView.view5.layer.borderWidth = 0.5f;
+            forecastView.view6.layer.borderColor = [UIColor blackColor].CGColor;
+            forecastView.view6.layer.borderWidth = 0.5f;
+            // フレームサイズ
+            forecastView.frame = CGRectMake(250*i, 0.0, 250, self.dailyForecasts.frame.size.height);
+            // 日付
+            NSString *forecastDate = [[weatherData objectForKey:@"dt_txt"] substringWithRange:NSMakeRange(5, 5)];
+            forecastView.dateLabel.text = [forecastDate stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
+            // 天気アイコン
+            forecastView.weatherIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", [[[weatherData objectForKey:@"weather"] objectAtIndex:0] objectForKey:@"icon" ]]];
+            // 気温
+            temperature = [[[weatherData objectForKey:@"main"] objectForKey:@"temp"] doubleValue];
+            forecastView.temperatureLabel.text = [NSString stringWithFormat:@"%2.1f℃", temperature];
+            // 気温アイコン
+            forecastView.temperatureIcon.image = [UIImage imageNamed:@"temperature"];
+            // 降水量
+            precipitation = [[[weatherData objectForKey:@"rain"] objectForKey:@"3h" ] doubleValue];
+            forecastView.precipitationLabel.text = [NSString stringWithFormat:@"%1.0fml", precipitation];
+            // 降水量アイコン
+            forecastView.precipitationIcon.image = [UIImage imageNamed:@"precipitation"];
+            // 湿度
+            humidity = [[[weatherData objectForKey:@"main"] objectForKey:@"humidity"] doubleValue];
+            forecastView.humidityLabel.text = [NSString stringWithFormat:@"%2.1f%%", humidity];
+            // 湿度アイコン
+            forecastView.humidityIcon.image = [UIImage imageNamed:@"humidity"];
+            // スクロールビューに追加
+            [self.dailyForecasts addSubview:forecastView];
+            // 参照破棄
+            forecastView = nil;
+        }
     }
     [self stopIndicator];
 }
